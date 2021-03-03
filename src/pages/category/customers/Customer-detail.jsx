@@ -1,11 +1,14 @@
 import React from "react";
-import { useSelector } from "react-redux";
-// import { useParams } from "react-router-dom";
+import DetailCustomer from "../../../modules/customers/components/detail-customer";
+
 function CustomerDetail() {
-  // const { id } = useParams();
-  const detail = useSelector(state => state.customers.data);
-  console.log(detail);
-  return <div>hihi</div>;
+  return (
+    <div className=" flex-1">
+      <div className=" w-11/12 flex flex-col mx-auto my-5">
+        <DetailCustomer />
+      </div>
+    </div>
+  );
 }
 
 export default CustomerDetail;

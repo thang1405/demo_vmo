@@ -1,31 +1,31 @@
 import * as CONSTANTS from "./customers.constants";
 
 // get info table
-export const getInfoAllCustomerSuccess = data => {
+export const getAllCustomerSuccess = data => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_CUSTOMER_SUCCESS,
+    type: CONSTANTS.GET_ALL_CUSTOMER_SUCCESS,
     payload: data,
   };
 };
 
-export const getInfoAllCustomerError = error => {
+export const getAllCustomerError = error => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_CUSTOMER_ERROR,
+    type: CONSTANTS.GET_ALL_CUSTOMER_ERROR,
     error: error,
   };
 };
 
 //get info detail
-export const getInfoCustomerSuccess = data => {
+export const getCustomerDetailSuccess = data => {
   return {
-    type: CONSTANTS.GET_INFO_CUSTOMER_SUCCESS,
+    type: CONSTANTS.GET_CUSTOMER_DETAIL_SUCCESS,
     payload: data,
   };
 };
 
-export const getInfoCustomerError = error => {
+export const getCustomerDetailError = error => {
   return {
-    type: CONSTANTS.GET_INFO_CUSTOMER_ERROR,
+    type: CONSTANTS.GET_CUSTOMER_DETAIL_ERROR,
     error: error,
   };
 };
@@ -44,6 +44,22 @@ export const createCustomerError = error => {
     error: error,
   };
 };
+
+// edit detail customer
+export const editCustomerDetailSuccess = data => {
+  return {
+    type: CONSTANTS.EDIT_CUSTOMER_DETAIL_SUCCESS,
+    payload: data,
+  };
+};
+
+export const editCustomerDetailError = error => {
+  return {
+    type: CONSTANTS.EDIT_CUSTOMER_DETAIL_ERROR,
+    error: error,
+  };
+};
+
 // deleta Customer
 export const deleteCustomerSuccess = customerId => {
   return {

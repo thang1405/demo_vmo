@@ -1,27 +1,22 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getInfoAll } from "../../../services/get-info";
-import { getInfoAllProjectTypeError, getInfoAllProjectTypeSuccess } from "../project-type.action";
-import { TABLE_NAME } from "../project-type.constants";
+import { useHistory } from "react-router-dom";
+import { getTable } from "../../../services/api";
+import { getAllProjectType } from "../project-type.services";
+import { TABLE_NAME, PATH_NAME } from "../project-type.constants";
 
 function TableProjectType() {
-  const listProjectType = useSelector(state => state.projectType.data);
+  const listProjectStatus = useSelector(state => state.projectTypes.data);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    console.log(TABLE_NAME);
-    const data = getInfoAll(TABLE_NAME);
-    if (data) {
-      dispatch(getInfoAllProjectTypeSuccess(data));
-    } else {
-      dispatch(getInfoAllProjectTypeError("null"));
-    }
+    const data = getTable(TABLE_NAME);
+    dispatch(getAllProjectType(data));
   }, []);
 
-  const handleRowClick = id => {
-    history.push(`/${TABLE_NAME}/${id}`);
+  const handleClick = item => {
+    history.push(`${PATH_NAME}/${item.id}`);
   };
 
   return (
@@ -30,16 +25,14 @@ function TableProjectType() {
         <tr>
           <th className="p-3">Name</th>
           <th className="p-3">Description</th>
-          <th className="p-3">Priority</th>
           <th className="p-3">Status</th>
         </tr>
       </thead>
       <tbody>
-        {listProjectType.map((item, index) => (
-          <tr key={index} onClick={() => handleRowClick(index)}>
+        {listProjectStatus.map((item, index) => (
+          <tr key={index} onClick={() => handleClick(item)}>
             <td className="p-3 border-b border-gray-100">{item.name}</td>
             <td className="p-3 border-b border-gray-100">{item.description}</td>
-            <td className="p-3 border-b border-gray-100">{item.priority}</td>
             <td className="p-3 border-b border-gray-100">{item.status}</td>
           </tr>
         ))}

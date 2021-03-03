@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Modal from "../../../components/modal";
-import { createProjectStatus } from "../project-status.services";
+import { createTechStack } from "../tech-stack.services";
 import { useDispatch } from "react-redux";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
 import { randomId } from "../../../utils/arrayReducer";
 
-const CreateNewProjectStatus = () => {
+const CreateNewTechStack = () => {
   const [show, setShow] = useState(false);
 
   const [name, setName] = useState({
@@ -100,7 +100,7 @@ const CreateNewProjectStatus = () => {
         status: status.value,
         id: randomId(),
       };
-      dispatch(createProjectStatus(data));
+      dispatch(createTechStack(data));
       onClose();
     } else {
       console.log("submit error");
@@ -158,4 +158,4 @@ const CreateNewProjectStatus = () => {
   );
 };
 
-export default CreateNewProjectStatus;
+export default CreateNewTechStack;

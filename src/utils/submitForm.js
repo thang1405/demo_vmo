@@ -1,6 +1,8 @@
-// export const isValidSubmit = (formData) => {
-//   formData.forEach(item => {
-//     if(!item.value || !item.isInputValid) return false;
-//   });
-//   return true;
-// };
+export const isValidSubmit = (formData = []) => {
+  for (const element of formData) {
+    if (!element.value || !element.isInputValid) {
+      return false;
+    }
+  }
+  return true;
+};

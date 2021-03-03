@@ -1,24 +1,23 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getInfoAll } from "../../../services/get-info";
-import {
-  getInfoAllProjectStatusError,
-  getInfoAllProjectStatusSuccess,
-} from "../project-status.action";
-import { TABLE_NAME } from "../project-status.constants";
+import { useHistory } from "react-router-dom";
+import { getTable } from "../../../services/api";
+import { getAllProjectStatus } from "../project-status.services";
+import { TABLE_NAME, PATH_NAME } from "../project-status.constants";
 
 function TableProjectStatus() {
   const listProjectStatus = useSelector(state => state.projectStatus.data);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
-    const data = getInfoAll(TABLE_NAME);
-    if (data) {
-      dispatch(getInfoAllProjectStatusSuccess(data));
-    } else {
-      dispatch(getInfoAllProjectStatusError("null"));
-    }
+    const data = getTable(TABLE_NAME);
+    dispatch(getAllProjectStatus(data));
   }, []);
+
+  const handleClick = item => {
+    history.push(`${PATH_NAME}/${item.id}`);
+  };
 
   return (
     <table className=" text-sm w-full text-left border-l border-r border-b border-gray-100 rounded-md">
@@ -31,7 +30,7 @@ function TableProjectStatus() {
       </thead>
       <tbody>
         {listProjectStatus.map((item, index) => (
-          <tr key={index}>
+          <tr key={index} onClick={() => handleClick(item)}>
             <td className="p-3 border-b border-gray-100">{item.name}</td>
             <td className="p-3 border-b border-gray-100">{item.description}</td>
             <td className="p-3 border-b border-gray-100">{item.status}</td>

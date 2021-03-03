@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getTable } from "../../../services/api";
-import { getAllCustomer } from "../customers.services";
-import { TABLE_NAME, PATH_NAME } from "../customers.constants";
+import { getAllTechStack } from "../tech-stack.services";
+import { TABLE_NAME, PATH_NAME } from "../tech-stack.constants";
 
-function TableCustomer() {
-  const listCustomer = useSelector(state => state.customers.data);
+function TableTechStack() {
+  const listTechStack = useSelector(state => state.techStacks.data);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     const data = getTable(TABLE_NAME);
-    dispatch(getAllCustomer(data));
+    dispatch(getAllTechStack(data));
   }, []);
 
   const handleClick = item => {
@@ -25,16 +25,14 @@ function TableCustomer() {
         <tr>
           <th className="p-3">Name</th>
           <th className="p-3">Description</th>
-          <th className="p-3">Priority</th>
           <th className="p-3">Status</th>
         </tr>
       </thead>
       <tbody>
-        {listCustomer.map((item, index) => (
+        {listTechStack.map((item, index) => (
           <tr key={index} onClick={() => handleClick(item)}>
             <td className="p-3 border-b border-gray-100">{item.name}</td>
             <td className="p-3 border-b border-gray-100">{item.description}</td>
-            <td className="p-3 border-b border-gray-100">{item.priority}</td>
             <td className="p-3 border-b border-gray-100">{item.status}</td>
           </tr>
         ))}
@@ -43,4 +41,4 @@ function TableCustomer() {
   );
 }
 
-export default TableCustomer;
+export default TableTechStack;

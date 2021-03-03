@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Modal from "../../../components/modal";
-import { createProjectStatus } from "../project-status.services";
+import { createDepartment } from "../departments.services";
 import { useDispatch } from "react-redux";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
 import { randomId } from "../../../utils/arrayReducer";
 
-const CreateNewProjectStatus = () => {
+const CreateNewDepartment = () => {
   const [show, setShow] = useState(false);
 
   const [name, setName] = useState({
@@ -15,11 +15,6 @@ const CreateNewProjectStatus = () => {
     isInputValid: true,
   });
   const [description, setDescription] = useState({
-    value: "",
-    errorMessage: "",
-    isInputValid: true,
-  });
-  const [status, setStatus] = useState({
     value: "",
     errorMessage: "",
     isInputValid: true,
@@ -46,16 +41,6 @@ const CreateNewProjectStatus = () => {
     });
   };
 
-  const handleChangeStatus = e => {
-    const { name, value } = e.target;
-    const { isInputValid, errorMessage } = validateInput(name, value);
-    setStatus({
-      value: value.trim(),
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
-  };
-
   const onClose = () => {
     const initState = {
       value: "",
@@ -65,13 +50,11 @@ const CreateNewProjectStatus = () => {
     setShow(false);
     setName(initState);
     setDescription(initState);
-    setStatus(initState);
   };
 
   const checkForm = () => {
     const validName = validateInput("name", name.value);
     const validDescription = validateInput("description", description.value);
-    const validStatus = validateInput("status", status.value);
     setName({
       ...name,
       errorMessage: validName.errorMessage,
@@ -82,25 +65,19 @@ const CreateNewProjectStatus = () => {
       errorMessage: validDescription.errorMessage,
       isInputValid: validDescription.isInputValid,
     });
-    setStatus({
-      ...status,
-      errorMessage: validStatus.errorMessage,
-      isInputValid: validStatus.isInputValid,
-    });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description, status];
+    let formData = [name, description];
     if (isValidSubmit(formData)) {
       let data = {
         name: name.value,
         description: description.value,
-        status: status.value,
         id: randomId(),
       };
-      dispatch(createProjectStatus(data));
+      dispatch(createDepartment(data));
       onClose();
     } else {
       console.log("submit error");
@@ -112,7 +89,7 @@ const CreateNewProjectStatus = () => {
       <button className="py-1 px-3 border rounded-sm border-gray-500" onClick={() => setShow(true)}>
         Add
       </button>
-      <Modal title="Create Customer" onClose={() => onClose()} show={show}>
+      <Modal title="Create Department" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
           <label className="block">Name:</label>
           <input
@@ -133,17 +110,6 @@ const CreateNewProjectStatus = () => {
           <div className=" text-red-500">
             {description.isInputValid ? "" : description.errorMessage}
           </div>
-          <label className="block">Status:</label>
-          <select
-            className=" w-full p-1 border my-1 border-gray-300"
-            name="status"
-            value={status.value}
-            onChange={handleChangeStatus}
-          >
-            <option value="">Select...</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
           <div className=" text-red-500">{status.isInputValid ? "" : status.errorMessage}</div>
           <div className="p-3 flex justify-end">
             <input
@@ -158,4 +124,4 @@ const CreateNewProjectStatus = () => {
   );
 };
 
-export default CreateNewProjectStatus;
+export default CreateNewDepartment;

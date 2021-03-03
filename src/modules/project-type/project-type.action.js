@@ -1,31 +1,31 @@
 import * as CONSTANTS from "./project-type.constants";
 
 // get info table
-export const getInfoAllProjectTypeSuccess = data => {
+export const getAllProjectTypeSuccess = data => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_PROJECT_TYPE_SUCCESS,
+    type: CONSTANTS.GET_ALL_PROJECT_TYPE_SUCCESS,
     payload: data,
   };
 };
 
-export const getInfoAllProjectTypeError = error => {
+export const getAllProjectTypeError = error => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_PROJECT_TYPE_ERROR,
+    type: CONSTANTS.GET_ALL_PROJECT_TYPE_ERROR,
     error: error,
   };
 };
 
-//get info detail ProjectType
-export const getInfoProjectTypeSuccess = data => {
+//get info detail
+export const getProjectTypeDetailSuccess = data => {
   return {
-    type: CONSTANTS.GET_INFO_PROJECT_TYPE_ERROR,
+    type: CONSTANTS.GET_PROJECT_TYPE_DETAIL_SUCCESS,
     payload: data,
   };
 };
 
-export const getInfoProjectTypeError = error => {
+export const getProjectTypeDetailError = error => {
   return {
-    type: CONSTANTS.GET_INFO_PROJECT_TYPE_ERROR,
+    type: CONSTANTS.GET_PROJECT_TYPE_DETAIL_ERROR,
     error: error,
   };
 };
@@ -44,6 +44,22 @@ export const createProjectTypeError = error => {
     error: error,
   };
 };
+
+// edit detail ProjectType
+export const editProjectTypeDetailSuccess = data => {
+  return {
+    type: CONSTANTS.EDIT_PROJECT_TYPE_DETAIL_SUCCESS,
+    payload: data,
+  };
+};
+
+export const editProjectTypeDetailError = error => {
+  return {
+    type: CONSTANTS.EDIT_PROJECT_TYPE_DETAIL_ERROR,
+    error: error,
+  };
+};
+
 // deleta ProjectType
 export const deleteProjectTypeSuccess = ProjectTypeId => {
   return {

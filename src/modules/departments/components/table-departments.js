@@ -2,21 +2,22 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getTable } from "../../../services/api";
-import { getAllCustomer } from "../customers.services";
-import { TABLE_NAME, PATH_NAME } from "../customers.constants";
+import { getAllDepartment } from "../departments.services";
+import { TABLE_NAME } from "../departments.constants";
 
-function TableCustomer() {
-  const listCustomer = useSelector(state => state.customers.data);
+function TableDepartment() {
+  const listDepartment = useSelector(state => state.departments.data);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     const data = getTable(TABLE_NAME);
-    dispatch(getAllCustomer(data));
+    console.log(data);
+    dispatch(getAllDepartment(data));
   }, []);
 
   const handleClick = item => {
-    history.push(`${PATH_NAME}/${item.id}`);
+    history.push(`${TABLE_NAME}/${item.id}`);
   };
 
   return (
@@ -25,17 +26,15 @@ function TableCustomer() {
         <tr>
           <th className="p-3">Name</th>
           <th className="p-3">Description</th>
-          <th className="p-3">Priority</th>
-          <th className="p-3">Status</th>
+          <th className="p-3">Tech stack</th>
         </tr>
       </thead>
       <tbody>
-        {listCustomer.map((item, index) => (
+        {listDepartment.map((item, index) => (
           <tr key={index} onClick={() => handleClick(item)}>
             <td className="p-3 border-b border-gray-100">{item.name}</td>
             <td className="p-3 border-b border-gray-100">{item.description}</td>
-            <td className="p-3 border-b border-gray-100">{item.priority}</td>
-            <td className="p-3 border-b border-gray-100">{item.status}</td>
+            <td className="p-3 border-b border-gray-100">{item.techStack}</td>
           </tr>
         ))}
       </tbody>
@@ -43,4 +42,4 @@ function TableCustomer() {
   );
 }
 
-export default TableCustomer;
+export default TableDepartment;

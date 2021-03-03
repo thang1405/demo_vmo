@@ -1,31 +1,31 @@
 import * as CONSTANTS from "./project-status.constants";
 
 // get info table
-export const getInfoAllProjectStatusSuccess = data => {
+export const getAllProjectStatusSuccess = data => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_PROJECT_STATUS_SUCCESS,
+    type: CONSTANTS.GET_ALL_PROJECT_STATUS_SUCCESS,
     payload: data,
   };
 };
 
-export const getInfoAllProjectStatusError = error => {
+export const getAllProjectStatusError = error => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_PROJECT_STATUS_ERROR,
+    type: CONSTANTS.GET_ALL_PROJECT_STATUS_ERROR,
     error: error,
   };
 };
 
 //get info detail
-export const getInfoProjectStatusSuccess = data => {
+export const getProjectStatusDetailSuccess = data => {
   return {
-    type: CONSTANTS.GET_INFO_PROJECT_STATUS_ERROR,
+    type: CONSTANTS.GET_PROJECT_STATUS_DETAIL_SUCCESS,
     payload: data,
   };
 };
 
-export const getInfoProjectStatusError = error => {
+export const getProjectStatusDetailError = error => {
   return {
-    type: CONSTANTS.GET_INFO_PROJECT_STATUS_ERROR,
+    type: CONSTANTS.GET_PROJECT_STATUS_DETAIL_ERROR,
     error: error,
   };
 };
@@ -44,6 +44,22 @@ export const createProjectStatusError = error => {
     error: error,
   };
 };
+
+// edit detail ProjectStatus
+export const editProjectStatusDetailSuccess = data => {
+  return {
+    type: CONSTANTS.EDIT_PROJECT_STATUS_DETAIL_SUCCESS,
+    payload: data,
+  };
+};
+
+export const editProjectStatusDetailError = error => {
+  return {
+    type: CONSTANTS.EDIT_PROJECT_STATUS_DETAIL_ERROR,
+    error: error,
+  };
+};
+
 // deleta ProjectStatus
 export const deleteProjectStatusSuccess = ProjectStatusId => {
   return {
