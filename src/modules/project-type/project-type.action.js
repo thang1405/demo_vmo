@@ -74,3 +74,16 @@ export const deleteProjectTypeError = error => {
     payload: error,
   };
 };
+
+// pagination
+export const moveToNextPage = () => {
+  return {
+    type: CONSTANTS.MOVE_TO_NEXT_PAGE,
+  };
+};
+
+export const moveToPreviousPage = () => {
+  return {
+    type: CONSTANTS.MOVE_TO_PREVIOUS_PAGE,
+  };
+};

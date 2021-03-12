@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import Modal from "../../../components/modal";
-import { createDepartment } from "../departments.services";
 import { useDispatch } from "react-redux";
+
+import { createDepartment } from "../departments.services";
+
+import Modal from "../../../components/modal";
+import MultiSelectTechStack from "../../../components/multi-select-tech-stack";
+import MultiSelectProject from "../../../components/multi-select-project";
+import MultiSelectStaff from "../../../components/multi-select-staff";
+
+import { randomId } from "../../../utils/api";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
-import { randomId } from "../../../utils/arrayReducer";
 
 const CreateNewDepartment = () => {
   const [show, setShow] = useState(false);
@@ -19,13 +25,32 @@ const CreateNewDepartment = () => {
     errorMessage: "",
     isInputValid: true,
   });
+
+  const [techStack, setTechStack] = useState({
+    value: "",
+    errorMessage: "",
+    isInputValid: true,
+  });
+
+  const [project, setProject] = useState({
+    value: "",
+    errorMessage: "",
+    isInputValid: true,
+  });
+
+  const [staff, setStaff] = useState({
+    value: "",
+    errorMessage: "",
+    isInputValid: true,
+  });
+
   const dispatch = useDispatch();
 
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setName({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -35,10 +60,22 @@ const CreateNewDepartment = () => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setDescription({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
+  };
+
+  const handleChangeTechStack = data => {
+    setTechStack({ ...techStack, value: data });
+  };
+
+  const handleChangeProject = data => {
+    setProject({ ...project, value: data });
+  };
+
+  const handleChangeStaff = data => {
+    setStaff({ ...staff, value: data });
   };
 
   const onClose = () => {
@@ -50,18 +87,21 @@ const CreateNewDepartment = () => {
     setShow(false);
     setName(initState);
     setDescription(initState);
+    setTechStack(initState);
+    setProject(initState);
+    setStaff(initState);
   };
 
   const checkForm = () => {
     const validName = validateInput("name", name.value);
     const validDescription = validateInput("description", description.value);
     setName({
-      ...name,
+      value: name.value.trim(),
       errorMessage: validName.errorMessage,
       isInputValid: validName.isInputValid,
     });
     setDescription({
-      ...description,
+      value: description.value.trim(),
       errorMessage: validDescription.errorMessage,
       isInputValid: validDescription.isInputValid,
     });
@@ -75,6 +115,9 @@ const CreateNewDepartment = () => {
       let data = {
         name: name.value,
         description: description.value,
+        techStack: techStack.value,
+        project: project.value,
+        staff: staff.value,
         id: randomId(),
       };
       dispatch(createDepartment(data));
@@ -110,7 +153,17 @@ const CreateNewDepartment = () => {
           <div className=" text-red-500">
             {description.isInputValid ? "" : description.errorMessage}
           </div>
-          <div className=" text-red-500">{status.isInputValid ? "" : status.errorMessage}</div>
+          <label className="block">Tech :</label>
+          <MultiSelectTechStack valueData={techStack.value} callBackData={handleChangeTechStack} />
+          <div className=" text-red-500">
+            {techStack.isInputValid ? "" : techStack.errorMessage}
+          </div>
+          <label className="block">Project :</label>
+          <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+          <div className=" text-red-500">{project.isInputValid ? "" : project.errorMessage}</div>
+          <label className="block">Staff :</label>
+          <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+          <div className=" text-red-500">{staff.isInputValid ? "" : staff.errorMessage}</div>
           <div className="p-3 flex justify-end">
             <input
               className="px-3 py-1 mt-2 bg-indigo-500 text-white rounded-sm"

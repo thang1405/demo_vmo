@@ -74,3 +74,15 @@ export const deleteProjectStatusError = error => {
     payload: error,
   };
 };
+
+export const moveToNextPage = () => {
+  return {
+    type: CONSTANTS.MOVE_TO_NEXT_PAGE,
+  };
+};
+
+export const moveToPreviousPage = () => {
+  return {
+    type: CONSTANTS.MOVE_TO_PREVIOUS_PAGE,
+  };
+};

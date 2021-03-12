@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
 import { editCustomerDetail } from "../customers.services";
+import Button from "../../../components/button";
 
 export default function EditCustomer({ detail, onClose }) {
   const [name, setName] = useState({
@@ -136,8 +137,8 @@ export default function EditCustomer({ detail, onClose }) {
   }, []);
 
   return (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl">
-      <div className=" p-5 border-b border-gray-300 bg-gray-100 rounded-t-2xl text-lg">
+    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
+      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
         Edit detail
       </div>
       <div className="p-5">
@@ -186,18 +187,8 @@ export default function EditCustomer({ detail, onClose }) {
         <div className=" text-red-500">{status.isInputValid ? "" : status.errorMessage}</div>
         <div className="flex justify-end py-4 px-1">
           <div className="flex flex-row float-right justify-end">
-            <button
-              className=" focus:outline-none py-2 px-5 mx-2 text-white bg-red-600 border rounded-md border-gray-500"
-              onClick={onClose}
-            >
-              Cancel
-            </button>
-            <button
-              className=" focus:outline-none py-2 px-5 text-white bg-green-600 border rounded-md border-gray-500"
-              onClick={handleSubmit}
-            >
-              Update
-            </button>
+            <Button onClick={onClose} name="Cancel" color="red" />
+            <Button onClick={handleSubmit} name="Update" color="green" />
           </div>
         </div>
       </div>

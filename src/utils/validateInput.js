@@ -8,7 +8,7 @@ export function validateInput(type, checkingText) {
   };
 
   const errorMessage = {
-    name: "Chỉ chứa các kí tự anphabel và không để trống",
+    name: "Chỉ chứa các kí tự anphabel",
     phoneNumber: "Số điện thoại phải có 10 - 11 chữ số.",
     priority: "Chỉ chứa các kí tự số và không để trống",
   };
@@ -17,10 +17,15 @@ export function validateInput(type, checkingText) {
     const checkingResult = regexp[type].exec(checkingText);
 
     if (checkingResult !== null) {
-      return {
-        isInputValid: true,
-        errorMessage: "",
-      };
+      return checkingText.trim()
+        ? {
+            isInputValid: true,
+            errorMessage: "",
+          }
+        : {
+            isInputValid: false,
+            errorMessage: "Không được để trống",
+          };
     } else {
       return {
         isInputValid: false,
@@ -39,3 +44,17 @@ export function validateInput(type, checkingText) {
         };
   }
 }
+
+export const validateMultiSelect = data => {
+  if (data) {
+    return {
+      isInputValid: true,
+      errorMessage: "",
+    };
+  } else {
+    return {
+      isInputValid: false,
+      errorMessage: "Không được để trống",
+    };
+  }
+};

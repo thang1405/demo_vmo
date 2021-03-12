@@ -13,8 +13,11 @@ export const DELETE_CUSTOMER_ERROR = "DELETE_CUSTOMER_ERROR ";
 export const EDIT_CUSTOMER_DETAIL_SUCCESS = "EDIT_CUSTOMER_DETAIL_SUCCESS ";
 export const EDIT_CUSTOMER_DETAIL_ERROR = "EDIT_CUSTOMER_DETAIL_ERROR ";
 
+export const MOVE_TO_NEXT_PAGE = "MOVE_TO_NEXT_PAGE";
+export const MOVE_TO_PREVIOUS_PAGE = "MOVE_TO_PREVIOUS_PAGE";
+
 export const LIMIT_CUSTOMER = 5;
 
-export const PATH_NAME = "customers";
+export const PATH_NAME = "customer";
 
 export const TABLE_NAME = "customers";

@@ -8,14 +8,14 @@ const Modal = props => {
       }`}
       onClick={props.onClose}
     >
-      <div className="bg-white w-96 mt-24" onClick={e => e.stopPropagation()}>
+      <div className="bg-white w-100 mt-24 rounded-md" onClick={e => e.stopPropagation()}>
         <div className="p-3 flex justify-between">
           <h4 className="m-0 text-lg">{props.title}</h4>
-          <button className="text-lg" onClick={props.onClose}>
+          <button className=" text-xl focus:outline-none" onClick={props.onClose}>
             <i className="fas fa-times"></i>
           </button>
         </div>
-        <div className="p-3 border-t border-b border-gray-200">{props.children}</div>
+        <div className=" px-5 py-3 border-t border-b border-gray-200">{props.children}</div>
       </div>
     </div>
   );

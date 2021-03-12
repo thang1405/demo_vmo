@@ -4,8 +4,8 @@ import { createProjectType } from "../project-type.services";
 import { useDispatch } from "react-redux";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
-import { randomId } from "../../../utils/arrayReducer";
-
+import { randomId } from "../../../utils/api";
+import CreateButton from "../../../components/create-button";
 const CreateNewProjectType = () => {
   const [show, setShow] = useState(false);
 
@@ -30,7 +30,7 @@ const CreateNewProjectType = () => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setName({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -40,7 +40,7 @@ const CreateNewProjectType = () => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setDescription({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -50,7 +50,7 @@ const CreateNewProjectType = () => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setStatus({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -73,17 +73,17 @@ const CreateNewProjectType = () => {
     const validDescription = validateInput("description", description.value);
     const validStatus = validateInput("status", status.value);
     setName({
-      ...name,
+      value: name.value.trim(),
       errorMessage: validName.errorMessage,
       isInputValid: validName.isInputValid,
     });
     setDescription({
-      ...description,
+      value: description.value.trim(),
       errorMessage: validDescription.errorMessage,
       isInputValid: validDescription.isInputValid,
     });
     setStatus({
-      ...status,
+      value: status.value.trim(),
       errorMessage: validStatus.errorMessage,
       isInputValid: validStatus.isInputValid,
     });
@@ -109,10 +109,9 @@ const CreateNewProjectType = () => {
 
   return (
     <div className="my-3 flex flex-row justify-end">
-      <button className="py-1 px-3 border rounded-sm border-gray-500" onClick={() => setShow(true)}>
-        Add
-      </button>
-      <Modal title="Create Customer" onClose={() => onClose()} show={show}>
+      <CreateButton onClick={() => setShow(true)} />
+
+      <Modal title="Create project type" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
           <label className="block">Name:</label>
           <input

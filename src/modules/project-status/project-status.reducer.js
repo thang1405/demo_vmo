@@ -1,17 +1,21 @@
 import { produce } from "immer";
 import * as CONSTANTS from "./project-status.constants";
+import { totalPage } from "../../utils/pagination";
+import { deleteApi } from "../../utils/api";
 
 const initState = {
   page: 1,
   data: [],
-  limit: CONSTANTS.LIMIT_PROJECT_STATUS,
+  totalPage: 1,
 };
+
 export const projectStatusReducer = (state = initState, action) => {
   return produce(state, draft => {
     switch (action.type) {
       // get table
       case CONSTANTS.GET_ALL_PROJECT_STATUS_SUCCESS:
         draft.data = action.payload;
+        draft.totalPage = totalPage(draft.data, CONSTANTS.LIMIT_PROJECT_STATUS);
         break;
       case CONSTANTS.GET_ALL_PROJECT_STATUS_ERROR:
         console.log(action.error);
@@ -25,12 +29,16 @@ export const projectStatusReducer = (state = initState, action) => {
       // create new
       case CONSTANTS.CREATE_PROJECT_STATUS_SUCCESS:
         draft.data.push(action.payload);
+        draft.totalPage = totalPage(draft.data, CONSTANTS.LIMIT_PROJECT_STATUS);
         break;
       case CONSTANTS.CREATE_PROJECT_STATUS_ERROR:
         console.log(action.error);
         break;
       // delete customer
       case CONSTANTS.DELETE_PROJECT_STATUS_SUCCESS:
+        draft.data = deleteApi(draft.data, action.payload);
+        draft.totalPage = totalPage(draft.data, CONSTANTS.LIMIT_PROJECT_STATUS);
+        draft.page = draft.totalPage < draft.page ? draft.page - 1 : draft.page;
         break;
       case CONSTANTS.DELETE_PROJECT_STATUS_ERROR:
         console.log(action.error);
@@ -40,6 +48,13 @@ export const projectStatusReducer = (state = initState, action) => {
         break;
       case CONSTANTS.EDIT_PROJECT_STATUS_DETAIL_ERROR:
         console.log(action.error);
+        break;
+      // pagination
+      case CONSTANTS.MOVE_TO_NEXT_PAGE:
+        draft.page = draft.page >= draft.totalPage ? draft.page : ++draft.page;
+        break;
+      case CONSTANTS.MOVE_TO_PREVIOUS_PAGE:
+        draft.page = draft.page <= 1 ? draft.page : --draft.page;
         break;
       default:
         return state;

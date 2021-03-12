@@ -1,44 +1,60 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import { getTable } from "../../../services/api";
+
 import { getAllDepartment } from "../departments.services";
-import { TABLE_NAME } from "../departments.constants";
+import { moveToNextPage, moveToPreviousPage } from "../departments.action";
+
+import { LIMIT_DEPARTMENT } from "../departments.constants";
+import { TABLE_NAME, PATH_NAME } from "../departments.constants";
+import Pagination from "../../../components/pagination";
 
 function TableDepartment() {
   const listDepartment = useSelector(state => state.departments.data);
+  const { page, totalPage } = useSelector(state => state.departments);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     const data = getTable(TABLE_NAME);
-    console.log(data);
     dispatch(getAllDepartment(data));
-  }, []);
+  }, [totalPage]);
 
   const handleClick = item => {
-    history.push(`${TABLE_NAME}/${item.id}`);
+    history.push(`${PATH_NAME}/${item.id}`);
+  };
+
+  const getList = () => {
+    return listDepartment.slice(LIMIT_DEPARTMENT * (page - 1), LIMIT_DEPARTMENT * page);
   };
 
   return (
-    <table className=" text-sm w-full text-left border-l border-r border-b border-gray-100 rounded-md">
-      <thead className=" border border-gray-200 bg-gray-100 ">
-        <tr>
-          <th className="p-3">Name</th>
-          <th className="p-3">Description</th>
-          <th className="p-3">Tech stack</th>
-        </tr>
-      </thead>
-      <tbody>
-        {listDepartment.map((item, index) => (
-          <tr key={index} onClick={() => handleClick(item)}>
-            <td className="p-3 border-b border-gray-100">{item.name}</td>
-            <td className="p-3 border-b border-gray-100">{item.description}</td>
-            <td className="p-3 border-b border-gray-100">{item.techStack}</td>
+    <div className="">
+      <table className=" text-sm w-full text-left border-l border-r border-b border-gray-100 rounded-md bg-white">
+        <thead className=" border border-gray-200 bg-gray-200 ">
+          <tr>
+            <th className="p-3">Name</th>
+            <th className="p-3">Description</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {getList().map((item, index) => (
+            <tr key={index} onClick={() => handleClick(item)} className="hover:bg-gray-100">
+              <td className="p-3 border-b border-gray-100">{item.name}</td>
+              <td className="p-3 border-b border-gray-100">{item.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Pagination
+        onNext={() => dispatch(moveToNextPage())}
+        onPrevious={() => dispatch(moveToPreviousPage())}
+        page={page}
+        totalPage={totalPage}
+      />
+    </div>
   );
 }
 

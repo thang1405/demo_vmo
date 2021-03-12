@@ -1,4 +1,4 @@
-import { editApi, deleteApi } from "../utils/arrayReducer";
+import { editApi, deleteApi } from "../utils/api";
 
 export const getTable = table => {
   const data = localStorage.getItem(table);

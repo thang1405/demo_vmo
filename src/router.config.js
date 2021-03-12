@@ -11,14 +11,18 @@ import TechStack from "../src/pages/category/tech-stack/Tech-stack";
 import TechStackDetail from "../src/pages/category/tech-stack/Tech-stack-detail";
 
 import Departments from "../src/pages/manager/departments/Departments";
-import Personnel from "../src/pages/manager/personnel/Personnel";
-import Projects from "../src/pages/manager/projects/Projects";
+import DepartmentDetail from "../src/pages/manager/departments/Department-detail";
 
+import Staffs from "./pages/manager/staffs/Staffs";
+import StaffDetail from "../src/pages/manager/staffs/Staff-detail";
+
+import Projects from "../src/pages/manager/projects/Projects";
+import ProjectDetail from "../src/pages/manager/projects/Project-detail";
 import Login from "../src/pages/login/Login";
 
 export const routers = [
-  { path: "/customers", exact: true, component: Customers },
-  { path: "/customers/:id", exact: true, component: CustomerDetail },
+  { path: "/customer", exact: true, component: Customers },
+  { path: "/customer/:id", exact: true, component: CustomerDetail },
   { path: "/project-status", exact: true, component: ProjectStatus },
   { path: "/project-status/:id", exact: true, component: ProjectStatusDetail },
   { path: "/project-type", exact: true, component: ProjectType },
@@ -26,7 +30,10 @@ export const routers = [
   { path: "/tech-stack", exact: true, component: TechStack },
   { path: "/tech-stack/:id", exact: true, component: TechStackDetail },
   { path: "/department", exact: true, component: Departments },
-  { path: "/personnel", exact: true, component: Personnel },
-  { path: "/projects", exact: true, component: Projects },
+  { path: "/department/:id", exact: true, component: DepartmentDetail },
+  { path: "/staff", exact: true, component: Staffs },
+  { path: "/staff/:id", exact: true, component: StaffDetail },
+  { path: "/project", exact: true, component: Projects },
+  { path: "/project/:id", exact: true, component: ProjectDetail },
   { path: "/login", exact: true, component: Login },
 ];

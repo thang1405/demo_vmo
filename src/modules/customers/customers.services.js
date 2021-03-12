@@ -1,4 +1,4 @@
-import { setDetail, deleteById, getTable, setTable } from "../../services/api";
+import { setDetail, getDetail, deleteById, getTable, setTable } from "../../services/api";
 import { TABLE_NAME } from "./customers.constants";
 import {
   createCustomerSuccess,
@@ -24,7 +24,8 @@ export const createCustomer = newData => dispatch => {
   }
 };
 
-export const getAllCustomer = data => dispatch => {
+export const getAllCustomer = () => dispatch => {
+  const data = getTable(TABLE_NAME);
   if (data) {
     return dispatch(getAllCustomerSuccess(data));
   } else {
@@ -32,7 +33,8 @@ export const getAllCustomer = data => dispatch => {
   }
 };
 
-export const getCustomerDetail = data => dispatch => {
+export const getCustomerDetail = id => dispatch => {
+  const data = getDetail(TABLE_NAME, id);
   if (data) {
     return dispatch(getCustomerDetailSuccess(data));
   } else {

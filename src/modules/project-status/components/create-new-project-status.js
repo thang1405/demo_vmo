@@ -4,7 +4,7 @@ import { createProjectStatus } from "../project-status.services";
 import { useDispatch } from "react-redux";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
-import { randomId } from "../../../utils/arrayReducer";
+import { randomId } from "../../../utils/api";
 
 const CreateNewProjectStatus = () => {
   const [show, setShow] = useState(false);
@@ -30,7 +30,7 @@ const CreateNewProjectStatus = () => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setName({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -40,7 +40,7 @@ const CreateNewProjectStatus = () => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setDescription({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -50,7 +50,7 @@ const CreateNewProjectStatus = () => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setStatus({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -112,7 +112,7 @@ const CreateNewProjectStatus = () => {
       <button className="py-1 px-3 border rounded-sm border-gray-500" onClick={() => setShow(true)}>
         Add
       </button>
-      <Modal title="Create Customer" onClose={() => onClose()} show={show}>
+      <Modal title="Create project status" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
           <label className="block">Name:</label>
           <input
