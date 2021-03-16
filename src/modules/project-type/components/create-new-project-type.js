@@ -113,42 +113,53 @@ const CreateNewProjectType = () => {
 
       <Modal title="Create project type" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
-          <label className="block">Name:</label>
-          <input
-            className=" w-full p-1 border my-1 border-gray-300"
-            type="text"
-            name="name"
-            value={name.value}
-            onChange={handleChangeName}
-          />
-          <div className=" text-red-500">{name.isInputValid ? "" : name.errorMessage}</div>
-          <label className="block">Description:</label>
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <input
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  name.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={name.value}
+                onChange={handleChangeName}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <select
+                className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  status.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                name="status"
+                value={status.value}
+                onChange={handleChangeStatus}
+              >
+                <option value="">Choose status...</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <div className="text-red-500 text-sm h-5 px-3">{status.errorMessage}</div>
+            </div>
+          </div>
+
           <textarea
-            className=" w-full p-1 border my-1 border-gray-300"
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              description.value.length ? " border-gray-outlineFocus" : ""
+            }`}
             name="description"
+            placeholder="Description"
             value={description.value}
             onChange={handleChangeDescription}
           />
-          <div className=" text-red-500">
-            {description.isInputValid ? "" : description.errorMessage}
-          </div>
-          <label className="block">Status:</label>
-          <select
-            className=" w-full p-1 border my-1 border-gray-300"
-            name="status"
-            value={status.value}
-            onChange={handleChangeStatus}
-          >
-            <option value="">Select...</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-          <div className=" text-red-500">{status.isInputValid ? "" : status.errorMessage}</div>
-          <div className="p-3 flex justify-end">
+          <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
+
+          <div className="">
             <input
-              className="px-3 py-1 mt-2 bg-indigo-500 text-white rounded-sm"
+              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl"
               type="submit"
-              value="Submit"
+              value="Create"
             />
           </div>
         </form>

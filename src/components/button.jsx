@@ -1,16 +1,9 @@
 import React from "react";
 
-export default function Button({ onClick, name, color }) {
-  const colors = {
-    red: "bg-red-600",
-    green: "bg-green-600",
-  };
-
+export default function Button({ onClick, name }) {
   return (
     <button
-      className={`focus:outline-none py-2 px-5 mx-2 text-base font-medium text-white rounded-2xl ${
-        color ? colors[color] : colors["green"]
-      }`}
+      className="focus:outline-none py-2 bg-white border border-gray-outline px-4 mx-2 text-base-nl font-normal rounded-lg shadow"
       onClick={onClick}
     >
       {name}

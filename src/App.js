@@ -1,15 +1,12 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { routers } from "../src/router.config";
-import LeftSideBar from "./components/left-side-bar";
-import Header from "./components/header";
-function App() {
-  const RouterList = () => {
-    return routers.map((route, index) => (
-      <Route exact={route.exact} key={index} path={route.path} component={route.component} />
-    ));
-  };
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Login from "./pages/login/Login";
+import Home from "./pages/home/Home";
 
+function App() {
+  const { isLogin } = useSelector(state => state.login);
+  console.log(isLogin);
   return (
     <Router>
       <link
@@ -18,13 +15,14 @@ function App() {
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
         crossOrigin="anonymous"
       />
-      <div className="flex flex-row bg-gray-primary">
-        <LeftSideBar />
-        <div className="flex-1 flex-col py-5">
-          <Header />
-          <Switch>{RouterList()}</Switch>
-        </div>
-      </div>
+      <Switch>
+        {isLogin ? (
+          <Route path="/" component={Home} />
+        ) : (
+          <Route path="/login" exact component={Login} />
+        )}
+        {!isLogin ? <Redirect to="/login" /> : null}
+      </Switch>
     </Router>
   );
 }

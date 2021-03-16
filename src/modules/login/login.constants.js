@@ -1,2 +1,9 @@
-export const GET_ALL_DEPARTMENT_SUCCESS = "GET_ALL_DEPARTMENT_SUCCESS";
-export const GET_ALL_DEPARTMENT_ERROR = "GET_ALL_DEPARTMENT_ERROR";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAILED = "LOGOUT_FAILED";
+
+export const PATH_NAME = "login";
+
+export const TOKEN = "lnw9z4bp1klamvifbn8rkg";

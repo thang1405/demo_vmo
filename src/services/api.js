@@ -25,3 +25,12 @@ export const deleteById = (table, id) => {
   data = deleteApi(data, id);
   localStorage.setItem(table, JSON.stringify(data));
 };
+
+export const checkToken = token => {
+  let data = JSON.parse(localStorage.getItem("token"));
+  return data == token;
+};
+
+export const setToken = token => {
+  localStorage.setItem("token", JSON.stringify(token));
+};

@@ -18,7 +18,6 @@ import StaffDetail from "../src/pages/manager/staffs/Staff-detail";
 
 import Projects from "../src/pages/manager/projects/Projects";
 import ProjectDetail from "../src/pages/manager/projects/Project-detail";
-import Login from "../src/pages/login/Login";
 
 export const routers = [
   { path: "/customer", exact: true, component: Customers },
@@ -35,5 +34,4 @@ export const routers = [
   { path: "/staff/:id", exact: true, component: StaffDetail },
   { path: "/project", exact: true, component: Projects },
   { path: "/project/:id", exact: true, component: ProjectDetail },
-  { path: "/login", exact: true, component: Login },
 ];

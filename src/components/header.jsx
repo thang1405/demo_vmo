@@ -1,19 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { imgURL } from "../constants/image";
+import { logout } from "../modules/login/login.service";
 
 export default function Header() {
   const [show, setShow] = useState(false);
-
+  const dispatch = useDispatch();
   const handleShow = () => {
     setShow(!show);
   };
 
   return (
     <div className="w-full">
-      <div
-        className=" w-11/12  flex-col mx-auto my-0 flex bg-white rounded-2xl"
-        onBlur={() => setShow(false)}
-      >
+      <div className=" w-11/12  flex-col mx-auto my-0 flex bg-white rounded-2xl">
         <div className=" flex justify-end  mx-2 cursor-default ">
           <div className="flex relative items-center ">
             <button
@@ -32,7 +31,12 @@ export default function Header() {
                   </div>
                 </div>
                 <div className="my-auto mx-2">
-                  <div className="  text-white py-1 bg-indigo-700 px-3 rounded-full ">Log out</div>
+                  <div
+                    className="  text-white py-1 bg-indigo-700 px-3 rounded-full "
+                    onClick={() => dispatch(logout())}
+                  >
+                    Log out
+                  </div>
                 </div>
               </div>
             ) : null}
