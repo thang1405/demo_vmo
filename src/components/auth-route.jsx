@@ -1,13 +1,11 @@
 import React from "react";
 import { Redirect, Route } from "react-router";
+import { checkToken } from "../services/api";
 
 export default function AuthRoute(props) {
-  const { isLogin } = props;
-  if (isLogin) {
-    return (
-      <Route exact={props.exact} key={props.index} path={props.path} component={props.component} />
-    );
-  } else {
+  const { isLogin, token } = props;
+  if (!isLogin || !checkToken(token)) {
     return <Redirect to="/login" />;
   }
+  return <Route {...props} />;
 }

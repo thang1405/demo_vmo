@@ -1,12 +1,30 @@
 import "./App.css";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+
 import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { routers } from "../src/router.config";
+
+import LeftSideBar from "./components/left-side-bar";
+import Header from "./components/header";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
+import AuthRoute from "./components/auth-route";
 
 function App() {
-  const { isLogin } = useSelector(state => state.login);
-  console.log(isLogin);
+  const { login } = useSelector(state => state);
+
+  const RouterList = () => {
+    return routers.map((route, index) => (
+      <AuthRoute
+        exact={route.exact}
+        key={index}
+        path={route.path}
+        component={route.component}
+        {...login}
+      />
+    ));
+  };
+
   return (
     <Router>
       <link
@@ -16,12 +34,21 @@ function App() {
         crossOrigin="anonymous"
       />
       <Switch>
-        {isLogin ? (
-          <Route path="/" component={Home} />
-        ) : (
-          <Route path="/login" exact component={Login} />
-        )}
-        {!isLogin ? <Redirect to="/login" /> : null}
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Home} />
+        <Route
+          render={({ location }) => {
+            return (
+              <div className="flex flex-row bg-gray-primary">
+                <LeftSideBar />
+                <div className="flex-1 flex-col py-5 ml-28 lg:ml-80 h-screen">
+                  <Header />
+                  <Switch location={location}>{RouterList()}</Switch>
+                </div>
+              </div>
+            );
+          }}
+        />
       </Switch>
     </Router>
   );

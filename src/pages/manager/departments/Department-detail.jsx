@@ -4,7 +4,7 @@ import DetailDepartment from "../../../modules/departments/components/detail-dep
 function DepartmentDetail() {
   return (
     <div className=" flex-1">
-      <div className=" w-11/12 flex flex-col mx-auto my-5">
+      <div className=" w-10/12 flex flex-col mx-auto my-5">
         <DetailDepartment />
       </div>
     </div>

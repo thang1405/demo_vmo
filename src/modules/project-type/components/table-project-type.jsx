@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import { getTable } from "../../../services/api";
 import { getAllProjectType } from "../project-type.services";
 import { TABLE_NAME, PATH_NAME, LIMIT_PROJECT_TYPE } from "../project-type.constants";
@@ -31,7 +32,7 @@ function TableProjectType() {
 
   return (
     <div className=" ">
-      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100 rounded-md">
+      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100">
         <thead className=" border border-gray-100 bg-white">
           <tr>
             <th className="p-2 px-4 border-r border-gray-100">Name</th>
@@ -46,10 +47,10 @@ function TableProjectType() {
             <td className="p-1 px-4 "></td>
           </tr>
           {getList().map((item, index) => (
-            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-primary">
-              <td className="p-2 px-4 border-r  border-b border-gray-100">{item.name}</td>
-              <td className="p-2 px-4 border-r  border-b border-gray-100">{item.description}</td>
-              <td className="p-2 px-4 border-r  border-b border-gray-100">
+            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-50">
+              <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
+              <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
+              <td className="p-2 px-4 border-r border-b border-gray-100">
                 <TagStatus value={item.status} />
               </td>
             </tr>

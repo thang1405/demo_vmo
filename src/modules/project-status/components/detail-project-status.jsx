@@ -9,6 +9,7 @@ import EditProjectStatus from "./edit-project-status";
 import TagStatus from "../../../components/tag-status";
 import Button from "../../../components/button";
 import Loader from "../../../components/loader";
+import ButtonBack from "../../../components/button-back";
 
 export default function DetailProjectStatus() {
   const { id } = useParams();
@@ -42,21 +43,32 @@ export default function DetailProjectStatus() {
     return <Loader />;
   }
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   return edit ? (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        ProjectStatus Detail
-      </div>
-      <div className=" p-5">
-        <p className="py-2 ">Name: {detail.name}</p>
-        <p className="py-2 ">Description: {detail.description}</p>
-        <div className="py-2 ">
-          Status: <TagStatus value={detail.status} />
+    <div className="rounded-xl">
+      <ButtonBack onClick={handleBack} />
+      <div className="bg-white flex flex-col rounded-xl shadow">
+        <div className=" border-b border-gray-bgTag flex justify-between">
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project status : {detail.name}</p>
+
+          <div className="flex flex-row float-right justify-end  p-5">
+            <Button onClick={handleDelete} name="Delete" color="red" />
+            <Button onClick={handleEdit} name="Edit" color="blue" />
+          </div>
         </div>
-      </div>
-      <div className="flex flex-row float-right justify-end  p-5">
-        <Button onClick={handleDelete} name="Delete" color="red" />
-        <Button onClick={handleEdit} name="Edit" color="green" />
+        <div className="flex p-5 px-8">
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600">Description:</label>
+            <div className=" text-lg">{detail.description}</div>
+          </div>
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600 block">Status :</label>
+            <TagStatus value={detail.status} />
+          </div>
+        </div>
       </div>
     </div>
   ) : (

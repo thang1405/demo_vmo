@@ -27,10 +27,10 @@ export const deleteById = (table, id) => {
 };
 
 export const checkToken = token => {
-  let data = JSON.parse(localStorage.getItem("token"));
-  return data == token;
+  let data = localStorage.getItem("token");
+  return data && data == token ? true : false;
 };
 
 export const setToken = token => {
-  localStorage.setItem("token", JSON.stringify(token));
+  localStorage.setItem("token", token);
 };

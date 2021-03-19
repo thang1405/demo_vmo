@@ -9,10 +9,11 @@ import { createStaff } from "../staff.services";
 import { randomId } from "../../../utils/api";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
+import CreateButton from "../../../components/create-button";
 
 const CreateNewStaff = () => {
   const [show, setShow] = useState(false);
-
+  const dispatch = useDispatch();
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -35,8 +36,21 @@ const CreateNewStaff = () => {
     errorMessage: "",
     isInputValid: true,
   });
+  const [dateBirth, setDateBirth] = useState({
+    value: "",
+    errorMessage: "",
+    isInputValid: true,
+  });
 
-  const dispatch = useDispatch();
+  const handleChangeDateBirth = e => {
+    const { name, value } = e.target;
+    const { isInputValid, errorMessage } = validateInput(name, value);
+    setDateBirth({
+      value: value,
+      errorMessage: errorMessage,
+      isInputValid: isInputValid,
+    });
+  };
 
   const handleChangeName = e => {
     const { name, value } = e.target;
@@ -76,6 +90,7 @@ const CreateNewStaff = () => {
     setDescription(initState);
     setTechStack(initState);
     setProject(initState);
+    setDateBirth(initState);
   };
 
   const checkForm = () => {
@@ -103,6 +118,7 @@ const CreateNewStaff = () => {
         description: description.value,
         techStack: techStack.value,
         project: project.value,
+        dateBirth: dateBirth.value,
         id: randomId(),
       };
       dispatch(createStaff(data));
@@ -114,39 +130,71 @@ const CreateNewStaff = () => {
 
   return (
     <div className="my-3 flex flex-row justify-end">
-      <button className="py-1 px-3 border rounded-sm border-gray-500" onClick={() => setShow(true)}>
-        Add
-      </button>
+      <CreateButton onClick={() => setShow(true)} />
       <Modal title="Create Staff" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
-          <label className="block">Name:</label>
-          <input
-            className=" w-full p-1 border my-1 border-gray-300"
-            type="text"
-            name="name"
-            value={name.value}
-            onChange={handleChangeName}
-          />
-          <div className=" text-red-500">{name.isInputValid ? "" : name.errorMessage}</div>
-          <label className="block">Description:</label>
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <input
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  name.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={name.value}
+                onChange={handleChangeName}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3 ">
+              <div className="flex flex-row items-center">
+                <div className="pr-3 ">Date of birth : </div>
+                <input
+                  className={`flex-1 p-2 border-2 my-1 h-11 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                    dateBirth.value.length ? " border-gray-outlineFocus" : ""
+                  }`}
+                  type="date"
+                  name="date"
+                  placeholder="Date of Birth"
+                  value={dateBirth.value}
+                  onChange={handleChangeDateBirth}
+                />
+              </div>
+
+              <div className="text-red-500 text-sm h-5 px-3">{dateBirth.errorMessage}</div>
+            </div>
+          </div>
+
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <MultiSelectTechStack
+                valueData={techStack.value}
+                callBackData={handleChangeTechStack}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
+            </div>
+          </div>
+
           <textarea
-            className=" w-full p-1 border my-1 border-gray-300"
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              description.value.length ? " border-gray-outlineFocus" : ""
+            }`}
             name="description"
+            placeholder="Description"
             value={description.value}
             onChange={handleChangeDescription}
           />
-          <div className=" text-red-500">
-            {description.isInputValid ? "" : description.errorMessage}
-          </div>
-          <label className="block">Tech :</label>
-          <MultiSelectTechStack valueData={techStack.value} callBackData={handleChangeTechStack} />
-          <label className="block">Project :</label>
-          <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
-          <div className="p-3 flex justify-end">
+          <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
+          <div className="">
             <input
-              className="px-3 py-1 mt-2 bg-indigo-500 text-white rounded-sm"
+              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl focus:outline-none"
               type="submit"
-              value="Submit"
+              value="Create"
             />
           </div>
         </form>

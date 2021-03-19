@@ -130,51 +130,72 @@ export default function EditDepartment({ detail, onClose }) {
   }, []);
 
   return (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        Edit detail
+    <div className="rounded-xl">
+      <div
+        className="mb-3 bg-white flex h-10 w-10 justify-center items-center rounded-xl shadow"
+        onClick={onClose}
+      >
+        <i className="fas fa-arrow-left"></i>
       </div>
-      <div className="p-5">
-        <label className="block">Name:</label>
-        <input
-          className=" w-full p-1 border my-1 border-gray-300"
-          type="text"
-          name="name"
-          value={name.value}
-          onChange={handleChangeName}
-        />
-        <div className=" text-red-500">{name.isInputValid ? "" : name.errorMessage}</div>
-        <label className="block">Description:</label>
-        <textarea
-          className=" w-full p-1 border my-1 border-gray-300"
-          name="description"
-          value={description.value}
-          onChange={handleChangeDescription}
-        />
-        <div className=" text-red-500">
-          {description.isInputValid ? "" : description.errorMessage}
+      <div className="bg-white flex flex-col rounded-xl shadow">
+        <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
+          Department edit
         </div>
-
-        <div className="flex">
-          <div className="flex-1 mr-1">
-            <label className="block">Tech :</label>
-            <MultiSelectTechStack
-              valueData={techStack.value}
-              callBackData={handleChangeTechStack}
-            />
-            <label className="block">Project :</label>
-            <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+        <div className="p-5 px-8">
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <label className="block">Name:</label>
+              <input
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  name.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={name.value}
+                onChange={handleChangeName}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <label className="block">Staffs:</label>
+              <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+              <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
+            </div>
           </div>
-          <div className="flex-1 ml-1">
-            <label className="block">Staff :</label>
-            <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <label className="block">Tech stacks:</label>
+              <MultiSelectTechStack
+                valueData={techStack.value}
+                callBackData={handleChangeTechStack}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <label className="block">Projects:</label>
+              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
+            </div>
           </div>
-        </div>
+          <label className="block">Description:</label>
+          <textarea
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              description.value.length ? " border-gray-outlineFocus" : ""
+            }`}
+            name="description"
+            placeholder="Description"
+            value={description.value}
+            onChange={handleChangeDescription}
+          />
 
-        <div className="flex justify-end py-4 px-1">
-          <div className="flex flex-row float-right justify-end">
-            <Button onClick={onClose} name="Cancel" color="red" />
-            <Button onClick={handleSubmit} name="Update" color="green" />
+          <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
+
+          <div className="flex justify-start py-4">
+            <div className="flex flex-row float-right justify-end">
+              <Button onClick={handleSubmit} name="Update" color="blue" />
+              <Button onClick={onClose} name="Cancel" color="red" />
+            </div>
           </div>
         </div>
       </div>

@@ -3,10 +3,13 @@ import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 import { TABLE_NAME, PATH_NAME } from "../departments.constants";
+import * as PATHS from "../../../constants/pathName";
 import { deleteDepartment } from "../departments.services";
 import { getDetail } from "../../../services/api";
 import EditDepartment from "./edit-department";
 import Button from "../../../components/button";
+import Loader from "../../../components/loader";
+import ListRoute from "../../../components/list-route";
 
 export default function DetailDepartment() {
   const { id } = useParams();
@@ -35,47 +38,50 @@ export default function DetailDepartment() {
     setEdit(false);
   };
 
-  return edit ? (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        Department detail
-      </div>
-      <div className=" p-5 flex-row flex">
-        <div className=" flex-1 mx-1">
-          <div className="py-1 ">Name: {detail.name}</div>
-          <div className="py-1 ">Description: {detail.description}</div>
-          <div className="py-1 ">
-            Project:
-            {detail.project
-              ? detail.project.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-        </div>
-        <div className=" flex-1 mx-1">
-          <div className="py-1 ">
-            Staff:
-            {detail.staff
-              ? detail.staff.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-          <div className="py-1 ">
-            Tech Stack:
-            {detail.techStack
-              ? detail.techStack.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-        </div>
-      </div>
+  const handleBack = () => {
+    history.goBack();
+  };
 
-      <div className="flex flex-row float-right justify-end  p-5">
-        <Button onClick={handleDelete} name="Delete" color="red" />
-        <Button onClick={handleEdit} name="Edit" color="green" />
+  if (!detail.name) {
+    return <Loader />;
+  }
+  return edit ? (
+    <div className="rounded-xl ">
+      <div
+        className="mb-3 bg-white flex h-10 w-10 justify-center items-center rounded-xl hover:text-orange shadow"
+        onClick={handleBack}
+      >
+        <i className="fas fa-arrow-left "></i>
+      </div>
+      <div className="bg-white flex flex-col rounded-xl shadow">
+        <div className=" border-b border-gray-bgTag flex justify-between">
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Department : {detail.name}</p>
+
+          <div className="flex flex-row float-right justify-end  p-5">
+            <Button onClick={handleDelete} name="Delete" color="red" />
+            <Button onClick={handleEdit} name="Edit" color="blue" />
+          </div>
+        </div>
+        <div className="flex p-5 px-8">
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600">Description:</label>
+            <div className=" text-lg">{detail.description}</div>
+            <label className=" text-sm font-normal text-gray-600 block">Staffs :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_STAFF} dataList={detail.staff} />
+            </div>
+          </div>
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600 block">Tech stacks :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_TECH_STACK} dataList={detail.techStack} />
+            </div>
+            <label className=" text-sm font-normal text-gray-600 block">Projects :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_PROJECT} dataList={detail.project} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   ) : (

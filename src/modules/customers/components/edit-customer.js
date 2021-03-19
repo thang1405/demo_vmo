@@ -4,6 +4,7 @@ import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
 import { editCustomerDetail } from "../customers.services";
 import Button from "../../../components/button";
+import ButtonBack from "../../../components/button-back";
 
 export default function EditCustomer({ detail, onClose }) {
   const [name, setName] = useState({
@@ -32,7 +33,7 @@ export default function EditCustomer({ detail, onClose }) {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setName({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -42,7 +43,7 @@ export default function EditCustomer({ detail, onClose }) {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setDescription({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -52,7 +53,7 @@ export default function EditCustomer({ detail, onClose }) {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setPriority({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -62,7 +63,7 @@ export default function EditCustomer({ detail, onClose }) {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
     setStatus({
-      value: value.trim(),
+      value: value,
       errorMessage: errorMessage,
       isInputValid: isInputValid,
     });
@@ -74,17 +75,17 @@ export default function EditCustomer({ detail, onClose }) {
     const validDescription = validateInput("description", description.value);
     const validStatus = validateInput("status", status.value);
     setName({
-      ...name,
+      value: name.value.trim(),
       errorMessage: validName.errorMessage,
       isInputValid: validName.isInputValid,
     });
     setDescription({
-      ...description,
+      value: description.value.trim(),
       errorMessage: validDescription.errorMessage,
       isInputValid: validDescription.isInputValid,
     });
     setPriority({
-      ...priority,
+      value: priority.value.trim(),
       errorMessage: validPriority.errorMessage,
       isInputValid: validPriority.isInputValid,
     });
@@ -137,58 +138,78 @@ export default function EditCustomer({ detail, onClose }) {
   }, []);
 
   return (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        Edit detail
-      </div>
-      <div className="p-5">
-        <label className="block">Name:</label>
-        <input
-          className=" w-full p-1 border my-1 border-gray-300"
-          type="text"
-          name="name"
-          value={name.value}
-          onChange={handleChangeName}
-        />
-        <div className=" text-red-500">{name.isInputValid ? "" : name.errorMessage}</div>
-        <label className="block">Description:</label>
-        <textarea
-          className=" w-full p-1 border my-1 border-gray-300"
-          name="description"
-          value={description.value}
-          onChange={handleChangeDescription}
-        />
-        <div className=" text-red-500">
-          {description.isInputValid ? "" : description.errorMessage}
+    <div className="rounded-xl">
+      <ButtonBack onClick={onClose} />
+      <div className="bg-white flex flex-col rounded-xl">
+        <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
+          Customer edit
         </div>
-        <label className="block">Priority:</label>
-        <select
-          className=" w-full p-1 border my-1 border-gray-300"
-          name="priority"
-          value={priority.value}
-          onChange={handleChangePriority}
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-        <div className=" text-red-500">{priority.isInputValid ? "" : priority.errorMessage}</div>
-        <label className="block">Status:</label>
-        <select
-          className=" w-full p-1 border my-1 border-gray-300"
-          name="status"
-          value={status.value}
-          onChange={handleChangeStatus}
-        >
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
-        <div className=" text-red-500">{status.isInputValid ? "" : status.errorMessage}</div>
-        <div className="flex justify-end py-4 px-1">
-          <div className="flex flex-row float-right justify-end">
-            <Button onClick={onClose} name="Cancel" color="red" />
-            <Button onClick={handleSubmit} name="Update" color="green" />
+        <div className="p-5 px-8">
+          <div className="flex flex-row">
+            <div className="flex-1 mr-3">
+              <label className="block">Name:</label>
+              <input
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  name.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={name.value}
+                onChange={handleChangeName}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
+            </div>
+            <div className="flex-1 ml-3">
+              <label className="block">Status:</label>
+              <select
+                className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  status.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                name="status"
+                value={status.value}
+                onChange={handleChangeStatus}
+              >
+                <option value="">Choose status...</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <div className="text-red-500 text-sm h-5 px-3">{status.errorMessage}</div>
+            </div>
+          </div>
+          <label className="block">Description:</label>
+          <textarea
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              description.value.length ? " border-gray-outlineFocus" : ""
+            }`}
+            name="description"
+            placeholder="Description"
+            value={description.value}
+            onChange={handleChangeDescription}
+          />
+          <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
+
+          <label className="block">Priority:</label>
+          <select
+            className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              priority.value.length ? " border-gray-outlineFocus" : ""
+            }`}
+            name="priority"
+            value={priority.value}
+            onChange={handleChangePriority}
+          >
+            <option value="">Choose priority...</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+          <div className="text-red-500 text-sm h-5 px-3">{priority.errorMessage}</div>
+          <div className="flex justify-start py-4">
+            <div className="flex flex-row float-right justify-end">
+              <Button onClick={handleSubmit} name="Update" color="blue" />
+              <Button onClick={onClose} name="Cancel" color="red" />
+            </div>
           </div>
         </div>
       </div>

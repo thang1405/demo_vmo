@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 export default function DropdownMenuBar({ title, focus }) {
   return (
     <div className="">
-      <p className="px-3 py-2 sm:hidden lg:block pl-4 text-lg text-gray-800 font-semibold">
-        {title}
-      </p>
+      <p className="px-3 py-2 hidden lg:block pl-4 text-lg text-gray-800 font-semibold">{title}</p>
       <ul>
         {routerMenu[title].map(item => (
           <li
@@ -20,7 +18,7 @@ export default function DropdownMenuBar({ title, focus }) {
           >
             <Link to={item.path} className="text-sm py-3 pl-8 flex">
               <span className="pr-4  text-xl-nl ">{item.icon}</span>
-              <span className=" text-sm font-medium sm:hidden lg:block">{item.name}</span>
+              <span className=" text-sm font-medium hidden lg:block">{item.name}</span>
             </Link>
           </li>
         ))}

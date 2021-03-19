@@ -13,10 +13,10 @@ function LeftSideBar() {
   }, [location.pathname]);
 
   return (
-    <div className="sm:w-28 lg:w-72 h-screen py-5 pl-5">
+    <div className="w-28 lg:w-80 fixed h-screen py-5 pl-5">
       <div className="bg-white rounded-3xl h-full shadow-lg">
-        <div className=" pt-7 pb-3 flex justify-center text-4xl">
-          <i className="fab fa-500px"></i>
+        <div className=" pt-7 pb-3 flex justify-center text-5xl">
+          <i className="fab fa-500px text-orange"></i>
         </div>
         <DropdownMenuBar title="Category" focus={focus} />
         <DropdownMenuBar title="Manage" focus={focus} />

@@ -79,13 +79,11 @@ const MultiSelectProjectType = ({ valueData, callBackData }) => {
   const { selected, data } = select;
 
   return (
-    <div className="w-full relative py-0.5 my-1" ref={wrapperRef}>
+    <div className="w-full relative  my-1" ref={wrapperRef}>
       <div
-        className={`border flex-wrap flex ${
-          show
-            ? "border-t border-l border-r border-indigo-500 rounded-t "
-            : " border-gray-500 rounded"
-        }`}
+        className={`border-2 flex-wrap flex py-0.5 ${
+          show ? "border-2 border-gray-outlineFocus rounded-md " : " border-gray-outline rounded"
+        } ${selected.length ? " border-gray-outlineFocus" : ""}`}
         onClick={handleShow}
       >
         {selected.length ? (
@@ -93,33 +91,41 @@ const MultiSelectProjectType = ({ valueData, callBackData }) => {
             return (
               <div
                 key={index}
-                className="border bg-indigo-200 text-blue-600 py-0.5 px-1 m-0.5 ml-1"
+                className="border text-md bg-indigo-200 inline-block text-blue-600 mx-1 p-1.25 rounded-md"
               >
                 {item.name}
-                <span className="px-1" onClick={event => handleDelete(event, item)}>
+                <div className="px-1 inline-block " onClick={event => handleDelete(event, item)}>
                   <i className="fas fa-times"></i>
-                </span>
+                </div>
               </div>
             );
           })
         ) : (
-          <div className="p-1 pl-2 border border-transparent">{"Select ..."}</div>
+          <div className="text-md-nl pl-2 p-1.5 text-gray-secondary rounded-md">
+            {"Select project types ..."}
+          </div>
         )}
       </div>
       {show ? (
-        <ul className=" rounded-b scroll_hidden absolute overflow-scroll overflow-x-hidden max-h-32 z-20 bg-white w-full max-w-xs border border-indigo-400">
-          {data.map((item, index) => (
-            <li
-              className={`p-1 pl-3 border-b border-t border-gray-300 ${
-                isSelected(item) ? "bg-indigo-200 text-blue-600 border-indigo-300" : ""
-              }`}
-              onClick={() => handleSelect(item)}
-              key={index}
-            >
-              {item.name}
-            </li>
-          ))}
-        </ul>
+        data.length ? (
+          <ul className="max-h-32 z-10 w-full max-w-xs overflow-scroll overflow-x-hidden absolute rounded-md bg-white border-2">
+            {data.map((item, index) => (
+              <li
+                className={`p-2 pl-3 border-b border-gray-300 ${
+                  isSelected(item) ? "bg-indigo-200 border-blue-300 text-blue-600" : ""
+                }`}
+                onClick={() => handleSelect(item)}
+                key={index}
+              >
+                {item.name}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className=" z-10 w-full p-3  max-w-xs absolute rounded-md bg-white border-2">
+            no data
+          </div>
+        )
       ) : null}
     </div>
   );

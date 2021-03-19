@@ -5,7 +5,7 @@ import CreateNewTechStack from "../../../modules/tech-stack/components/create-ne
 function TechStack() {
   return (
     <div className=" flex-1">
-      <div className=" w-11/12 flex flex-col mx-auto my-0">
+      <div className=" w-10/12 flex flex-col mx-auto my-0">
         <CreateNewTechStack />
         <TableTechStack />
       </div>

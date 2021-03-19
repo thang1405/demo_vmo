@@ -10,6 +10,7 @@ import MultiSelectDepartment from "../../../components/multi-select-department";
 import MultiSelectProjectType from "../../../components/multi-select-project-type";
 import MultiSelectProjectStatus from "../../../components/multi-select-project-status";
 import Button from "../../../components/button";
+import ButtonBack from "../../../components/button-back";
 
 export default function EditProject({ detail, onClose }) {
   const [name, setName] = useState({
@@ -153,66 +154,89 @@ export default function EditProject({ detail, onClose }) {
       setProjectType({ ...projectType, value: detail.projectType });
     }
   }, []);
-
   return (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        Edit detail
-      </div>
-      <div className="p-5">
-        <label className="block">Name:</label>
-        <input
-          className=" w-full p-1 border my-1 border-gray-300"
-          type="text"
-          name="name"
-          value={name.value}
-          onChange={handleChangeName}
-        />
-        <div className=" text-red-500">{name.isInputValid ? "" : name.errorMessage}</div>
-        <label className="block">Description:</label>
-        <textarea
-          className=" w-full p-1 border my-1 border-gray-300"
-          name="description"
-          value={description.value}
-          onChange={handleChangeDescription}
-        />
-        <div className=" text-red-500">
-          {description.isInputValid ? "" : description.errorMessage}
+    <div className="rounded-xl">
+      <ButtonBack onClick={onClose} />
+      <div className="bg-white flex flex-col rounded-xl shadow">
+        <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
+          Project edit
         </div>
-
-        <div className="flex">
-          <div className="flex-1 mr-1">
-            <label className="block">Tech :</label>
-            <MultiSelectTechStack
-              valueData={techStack.value}
-              callBackData={handleChangeTechStack}
-            />
-            <label className="block">Staff :</label>
-            <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
-            <label className="block">Department :</label>
-            <MultiSelectDepartment
-              valueData={department.value}
-              callBackData={handleChangeDepartment}
-            />
+        <div className="p-5 px-8">
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <label className="block">Name:</label>
+              <input
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  name.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={name.value}
+                onChange={handleChangeName}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <label className="block">Status:</label>
+              <MultiSelectProjectStatus
+                valueData={projectStatus.value}
+                callBackData={handleChangeProjectStatus}
+              />
+            </div>
           </div>
-          <div className="flex-1 ml-1">
-            <label className="block">Project Type :</label>
-            <MultiSelectProjectType
-              valueData={projectType.value}
-              callBackData={handleChangeProjectType}
-            />
-            <label className="block">Project Status :</label>
-            <MultiSelectProjectStatus
-              valueData={projectStatus.value}
-              callBackData={handleChangeProjectStatus}
-            />
-          </div>
-        </div>
 
-        <div className="flex justify-end py-4 px-1">
-          <div className="flex flex-row float-right justify-end">
-            <Button onClick={onClose} name="Cancel" color="red" />
-            <Button onClick={handleSubmit} name="Update" color="green" />
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <label className="block">Tech stacks:</label>
+              <MultiSelectTechStack
+                valueData={techStack.value}
+                callBackData={handleChangeTechStack}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <label className="block">Staffs:</label>
+              <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+              <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
+            </div>
+          </div>
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <label className="block">Departments:</label>
+              <MultiSelectDepartment
+                valueData={department.value}
+                callBackData={handleChangeDepartment}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{department.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <label className="block">Project types:</label>
+              <MultiSelectProjectType
+                valueData={projectType.value}
+                callBackData={handleChangeProjectType}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{projectType.errorMessage}</div>
+            </div>
+          </div>
+          <label className="block">Description:</label>
+          <textarea
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              description.value.length ? " border-gray-outlineFocus" : ""
+            }`}
+            name="description"
+            placeholder="Description"
+            value={description.value}
+            onChange={handleChangeDescription}
+          />
+
+          <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
+
+          <div className="flex justify-start py-4">
+            <div className="flex flex-row float-right justify-end">
+              <Button onClick={handleSubmit} name="Update" color="blue" />
+              <Button onClick={onClose} name="Cancel" color="red" />
+            </div>
           </div>
         </div>
       </div>

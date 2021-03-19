@@ -28,6 +28,7 @@ module.exports = {
       },
       red: {
         ...colors.red,
+        primary: "#f44336",
         tag: "#9B3938",
       },
       yellow: colors.amber,
@@ -39,6 +40,7 @@ module.exports = {
       blue: {
         ...colors.blue,
         primary: "#376AED",
+        secondary: "#524FC0",
       },
       indigo: colors.indigo,
       purple: colors.violet,
@@ -53,6 +55,7 @@ module.exports = {
       0: "0px",
       0.5: "0.125rem",
       1: "0.25rem",
+      1.25: "0.3125rem",
       1.5: "0.375rem",
       2: "0.5rem",
       2.5: "0.625rem",
@@ -88,6 +91,7 @@ module.exports = {
       102: "30rem",
       160: "40rem",
       180: "45rem",
+      200: "50rem",
     },
     animation: {
       none: "none",

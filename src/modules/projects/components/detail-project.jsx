@@ -8,6 +8,10 @@ import { getDetail } from "../../../services/api";
 import EditProject from "./edit-project";
 import Button from "../../../components/button";
 import Loader from "../../../components/loader";
+import ButtonBack from "../../../components/button-back";
+import ListRoute from "../../../components/list-route";
+
+import * as PATHS from "../../../constants/pathName";
 
 export default function DetailProject() {
   const { id } = useParams();
@@ -39,64 +43,49 @@ export default function DetailProject() {
   if (!detail.name) {
     return <Loader />;
   }
-
+  const handleBack = () => {
+    history.goBack();
+  };
   return edit ? (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        Project Detail
-      </div>
-      <div className=" p-5 flex-row flex">
-        <div className=" flex-1 mx-1">
-          <div className="py-1 ">Name: {detail.name}</div>
-          <div className="py-1 ">Description: {detail.description}</div>
-          <div className="py-1 ">
-            Project status:
-            {detail.projectStatus
-              ? detail.projectStatus.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-          <div className="py-1 ">
-            Project type:
-            {detail.projectType
-              ? detail.projectType.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-          <div className="py-1 ">
-            Department:
-            {detail.department
-              ? detail.department.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-        </div>
-        <div className=" flex-1 mx-1">
-          <div className="py-1 ">
-            Staff:
-            {detail.staff
-              ? detail.staff.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-          <div className="py-1 ">
-            Tech Stack:
-            {detail.techStack
-              ? detail.techStack.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-        </div>
-      </div>
+    <div className="rounded-xl">
+      <ButtonBack onClick={handleBack} />
+      <div className="bg-white flex flex-col rounded-xl shadow">
+        <div className=" border-b border-gray-bgTag flex justify-between">
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project : {detail.name}</p>
 
-      <div className="flex flex-row float-right justify-end  p-5">
-        <Button onClick={handleDelete} name="Delete" color="red" />
-        <Button onClick={handleEdit} name="Edit" color="green" />
+          <div className="flex flex-row float-right justify-end  p-5">
+            <Button onClick={handleDelete} name="Delete" color="red" />
+            <Button onClick={handleEdit} name="Edit" color="blue" />
+          </div>
+        </div>
+        <div className="flex p-5 px-8">
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600">Description:</label>
+            <div className=" text-lg">{detail.description}</div>
+            <label className=" text-sm font-normal text-gray-600 block">Project status :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_PROJECT_STATUS} dataList={detail.projectStatus} />
+            </div>
+            <label className=" text-sm font-normal text-gray-600 block">Project types :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_PROJECT_TYPE} dataList={detail.projectType} />
+            </div>
+            <label className=" text-sm font-normal text-gray-600 block">Departments :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_DEPARTMENT} dataList={detail.department} />
+            </div>
+          </div>
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600 block">Staffs :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_STAFF} dataList={detail.staff} />
+            </div>
+            <label className=" text-sm font-normal text-gray-600 block">Tech stacks :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_TECH_STACK} dataList={detail.techStack} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   ) : (

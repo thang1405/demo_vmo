@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <div className="w-full">
-      <div className=" w-11/12  flex-col mx-auto my-0 flex bg-white rounded-2xl">
+      <div className=" w-10/12  flex-col mx-auto my-0 flex bg-white rounded-2xl shadow">
         <div className=" flex justify-end  mx-2 cursor-default ">
           <div className="flex relative items-center ">
             <button
@@ -31,12 +31,14 @@ export default function Header() {
                   </div>
                 </div>
                 <div className="my-auto mx-2">
-                  <div
-                    className="  text-white py-1 bg-indigo-700 px-3 rounded-full "
-                    onClick={() => dispatch(logout())}
+                  <button
+                    className=" text-white py-1 bg-indigo-700 px-3 rounded-full "
+                    onClick={() => {
+                      dispatch(logout());
+                    }}
                   >
                     Log out
-                  </div>
+                  </button>
                 </div>
               </div>
             ) : null}

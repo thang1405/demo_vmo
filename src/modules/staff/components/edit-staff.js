@@ -7,6 +7,7 @@ import { editStaffDetail } from "../staff.services";
 import MultiSelectTechStack from "../../../components/multi-select-tech-stack";
 import MultiSelectProject from "../../../components/multi-select-project";
 import Button from "../../../components/button";
+import ButtonBack from "../../../components/button-back";
 
 export default function EditStaff({ detail, onClose }) {
   const [name, setName] = useState({
@@ -31,6 +32,22 @@ export default function EditStaff({ detail, onClose }) {
     errorMessage: "",
     isInputValid: true,
   });
+
+  const [dateBirth, setDateBirth] = useState({
+    value: "",
+    errorMessage: "",
+    isInputValid: true,
+  });
+
+  const handleChangeDateBirth = e => {
+    const { name, value } = e.target;
+    const { isInputValid, errorMessage } = validateInput(name, value);
+    setDateBirth({
+      value: value,
+      errorMessage: errorMessage,
+      isInputValid: isInputValid,
+    });
+  };
 
   const dispatch = useDispatch();
 
@@ -97,6 +114,7 @@ export default function EditStaff({ detail, onClose }) {
         description: description.value,
         techStack: techStack.value,
         project: project.value,
+        dateBirth: dateBirth.value,
         id: detail.id,
       };
       dispatch(editStaffDetail(data));
@@ -113,53 +131,79 @@ export default function EditStaff({ detail, onClose }) {
       setDescription({ ...description, value: detail.description });
       setProject({ ...project, value: detail.project });
       setTechStack({ ...techStack, value: detail.techStack });
+      setDateBirth({ ...dateBirth, value: detail.dateBirth || "" });
     }
   }, []);
 
   return (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        Edit detail
-      </div>
-      <div className="p-5">
-        <label className="block">Name:</label>
-        <input
-          className=" w-full p-1 border my-1 border-gray-300"
-          type="text"
-          name="name"
-          value={name.value}
-          onChange={handleChangeName}
-        />
-        <div className=" text-red-500">{name.isInputValid ? "" : name.errorMessage}</div>
-        <label className="block">Description:</label>
-        <textarea
-          className=" w-full p-1 border my-1 border-gray-300"
-          name="description"
-          value={description.value}
-          onChange={handleChangeDescription}
-        />
-        <div className=" text-red-500">
-          {description.isInputValid ? "" : description.errorMessage}
-        </div>
-
-        <div className="flex">
-          <div className="flex-1 mr-1">
-            <label className="block">Tech :</label>
-            <MultiSelectTechStack
-              valueData={techStack.value}
-              callBackData={handleChangeTechStack}
-            />
+    <div className="rounded-xl">
+      <ButtonBack onClick={onClose} />
+      <div className="bg-white flex flex-col rounded-xl shadow">
+        <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">Staff edit</div>
+        <div className="p-5 px-8">
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <label className="block">Name:</label>
+              <input
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  name.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={name.value}
+                onChange={handleChangeName}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <label className="block">Date of birth:</label>
+              <input
+                className={`w-full p-2 border-2 text-base h-11 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  dateBirth.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="date"
+                name="date"
+                value={dateBirth.value}
+                onChange={handleChangeDateBirth}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{dateBirth.errorMessage}</div>
+            </div>
           </div>
-          <div className="flex-1 ml-1">
-            <label className="block">Project :</label>
-            <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
-          </div>
-        </div>
 
-        <div className="flex justify-end py-4 px-1">
-          <div className="flex flex-row float-right justify-end">
-            <Button onClick={onClose} name="Cancel" color="red" />
-            <Button onClick={handleSubmit} name="Update" color="green" />
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <label className="block">Tech stacks:</label>
+              <MultiSelectTechStack
+                valueData={techStack.value}
+                callBackData={handleChangeTechStack}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <label className="block">Projects:</label>
+              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
+            </div>
+          </div>
+          <label className="block">Description:</label>
+          <textarea
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              description.value.length ? " border-gray-outlineFocus" : ""
+            }`}
+            name="description"
+            placeholder="Description"
+            value={description.value}
+            onChange={handleChangeDescription}
+          />
+
+          <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
+
+          <div className="flex justify-start py-4">
+            <div className="flex flex-row float-right justify-end">
+              <Button onClick={handleSubmit} name="Update" color="blue" />
+              <Button onClick={onClose} name="Cancel" color="red" />
+            </div>
           </div>
         </div>
       </div>

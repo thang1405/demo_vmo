@@ -1,8 +1,12 @@
 import { produce } from "immer";
 import * as CONSTANTS from "./login.constants";
 import { checkToken } from "../../services/api";
+
+// console.log(checkToken(CONSTANTS.TOKEN), "hihih");
+
 const initState = {
-  isLogin: checkToken(CONSTANTS.TOKEN),
+  isLogin: checkToken(CONSTANTS.TOKEN) || false,
+  token: CONSTANTS.TOKEN,
 };
 
 export const loginReducer = (state = initState, action) => {

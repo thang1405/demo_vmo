@@ -8,6 +8,10 @@ import { getDetail } from "../../../services/api";
 import EditStaff from "./edit-staff";
 import Button from "../../../components/button";
 import Loader from "../../../components/loader";
+import ListRoute from "../../../components/list-route";
+import ButtonBack from "../../../components/button-back";
+
+import * as PATHS from "../../../constants/pathName";
 
 export default function DetailStaff() {
   const { id } = useParams();
@@ -40,37 +44,42 @@ export default function DetailStaff() {
     return <Loader />;
   }
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   return edit ? (
-    <div className="border-gray-300 border h-full flex flex-col rounded-2xl bg-white">
-      <div className=" p-5 border-b border-gray-300 bg-gray-200 rounded-t-2xl font-bold text-2xl">
-        Staff Detail
-      </div>
-      <div className=" p-5 flex-row flex">
-        <div className=" flex-1 mx-1">
-          <div className="py-1 ">Name: {detail.name}</div>
-          <div className="py-1 ">Description: {detail.description}</div>
-          <div className="py-1 ">
-            Project:
-            {detail.project
-              ? detail.project.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
-          </div>
-          <div className="py-1 ">
-            Tech Stack:
-            {detail.techStack
-              ? detail.techStack.map(item => {
-                  return <li key={item.id}>{item.name}</li>;
-                })
-              : null}
+    <div className="rounded-xl">
+      <ButtonBack onClick={handleBack} />
+      <div className="bg-white flex flex-col rounded-xl shadow">
+        <div className=" border-b border-gray-bgTag flex justify-between">
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Staff : {detail.name}</p>
+
+          <div className="flex flex-row float-right justify-end  p-5">
+            <Button onClick={handleDelete} name="Delete" color="red" />
+            <Button onClick={handleEdit} name="Edit" color="blue" />
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-row float-right justify-end  p-5">
-        <Button onClick={handleDelete} name="Delete" color="red" />
-        <Button onClick={handleEdit} name="Edit" color="green" />
+        <div className="flex p-5 px-8">
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600">Description:</label>
+            <div className=" text-lg">{detail.description}</div>
+            <label className=" text-sm font-normal text-gray-600">Date of birth:</label>
+            <div className=" text-lg">
+              {detail.dateBirth ? detail.dateBirth.replaceAll("-", "/") : ""}
+            </div>
+          </div>
+          <div className="flex-1">
+            <label className=" text-sm font-normal text-gray-600 block">Tech stacks :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_TECH_STACK} dataList={detail.techStack} />
+            </div>
+            <label className=" text-sm font-normal text-gray-600 block">Projects :</label>
+            <div className="py-1">
+              <ListRoute path={PATHS.PATH_PROJECT} dataList={detail.project} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   ) : (

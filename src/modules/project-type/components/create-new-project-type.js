@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import Modal from "../../../components/modal";
 import { createProjectType } from "../project-type.services";
-import { useDispatch } from "react-redux";
 import { validateInput } from "../../../utils/validateInput";
 import { isValidSubmit } from "../../../utils/submitForm";
 import { randomId } from "../../../utils/api";
 import CreateButton from "../../../components/create-button";
+
 const CreateNewProjectType = () => {
   const [show, setShow] = useState(false);
 
@@ -157,7 +159,7 @@ const CreateNewProjectType = () => {
 
           <div className="">
             <input
-              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl"
+              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl focus:outline-none"
               type="submit"
               value="Create"
             />

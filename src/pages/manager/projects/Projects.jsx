@@ -4,7 +4,7 @@ import CreateNewProject from "../../../modules/projects/components/create-new-pr
 export default function Project() {
   return (
     <div className=" flex-1">
-      <div className=" w-11/12 flex flex-col mx-auto my-0">
+      <div className=" w-10/12 flex flex-col mx-auto my-0">
         <CreateNewProject />
         <TableProject />
       </div>

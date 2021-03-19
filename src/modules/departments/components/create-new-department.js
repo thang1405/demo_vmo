@@ -7,6 +7,7 @@ import Modal from "../../../components/modal";
 import MultiSelectTechStack from "../../../components/multi-select-tech-stack";
 import MultiSelectProject from "../../../components/multi-select-project";
 import MultiSelectStaff from "../../../components/multi-select-staff";
+import CreateButton from "../../../components/create-button";
 
 import { randomId } from "../../../utils/api";
 import { validateInput } from "../../../utils/validateInput";
@@ -47,8 +48,8 @@ const CreateNewDepartment = () => {
   const dispatch = useDispatch();
 
   const handleChangeName = e => {
-    const { name, value } = e.target;
-    const { isInputValid, errorMessage } = validateInput(name, value);
+    const { value } = e.target;
+    const { isInputValid, errorMessage } = validateInput("", value);
     setName({
       value: value,
       errorMessage: errorMessage,
@@ -129,46 +130,58 @@ const CreateNewDepartment = () => {
 
   return (
     <div className="my-3 flex flex-row justify-end">
-      <button className="py-1 px-3 border rounded-sm border-gray-500" onClick={() => setShow(true)}>
-        Add
-      </button>
+      <CreateButton onClick={() => setShow(true)} />
       <Modal title="Create Department" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
-          <label className="block">Name:</label>
-          <input
-            className=" w-full p-1 border my-1 border-gray-300"
-            type="text"
-            name="name"
-            value={name.value}
-            onChange={handleChangeName}
-          />
-          <div className=" text-red-500">{name.isInputValid ? "" : name.errorMessage}</div>
-          <label className="block">Description:</label>
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <input
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+                  name.value.length ? " border-gray-outlineFocus" : ""
+                }`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={name.value}
+                onChange={handleChangeName}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+              <div className=" text-red-500">{staff.isInputValid ? "" : staff.errorMessage}</div>
+              <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
+            </div>
+          </div>
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex-1 lg:mr-3">
+              <MultiSelectTechStack
+                valueData={techStack.value}
+                callBackData={handleChangeTechStack}
+              />
+              <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
+            </div>
+            <div className="flex-1 lg:ml-3">
+              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
+            </div>
+          </div>
           <textarea
-            className=" w-full p-1 border my-1 border-gray-300"
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
+              description.value.length ? " border-gray-outlineFocus" : ""
+            }`}
             name="description"
+            placeholder="Description"
             value={description.value}
             onChange={handleChangeDescription}
           />
-          <div className=" text-red-500">
-            {description.isInputValid ? "" : description.errorMessage}
-          </div>
-          <label className="block">Tech :</label>
-          <MultiSelectTechStack valueData={techStack.value} callBackData={handleChangeTechStack} />
-          <div className=" text-red-500">
-            {techStack.isInputValid ? "" : techStack.errorMessage}
-          </div>
-          <label className="block">Project :</label>
-          <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
-          <div className=" text-red-500">{project.isInputValid ? "" : project.errorMessage}</div>
-          <label className="block">Staff :</label>
-          <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
-          <div className=" text-red-500">{staff.isInputValid ? "" : staff.errorMessage}</div>
-          <div className="p-3 flex justify-end">
+          <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
+
+          <div className="">
             <input
-              className="px-3 py-1 mt-2 bg-indigo-500 text-white rounded-sm"
+              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl focus:outline-none"
               type="submit"
-              value="Submit"
+              value="Create"
             />
           </div>
         </form>

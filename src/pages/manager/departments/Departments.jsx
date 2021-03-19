@@ -4,7 +4,7 @@ import CreateNewDepartment from "../../../modules/departments/components/create-
 export default function Departments() {
   return (
     <div className=" flex-1">
-      <div className=" w-11/12 flex flex-col mx-auto my-0">
+      <div className=" w-10/12 flex flex-col mx-auto my-0">
         <CreateNewDepartment />
         <TableDepartment />
       </div>

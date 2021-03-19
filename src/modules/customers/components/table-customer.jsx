@@ -31,22 +31,28 @@ function TableCustomer() {
 
   return (
     <div className=" ">
-      <table className=" text-sm w-full text-left border-l border-r border-b border-gray-100 rounded-md bg-white">
-        <thead className=" border border-gray-200 bg-gray-200 rounded-md overflow-hidden">
-          <tr className="rounded-md overflow-hidden">
-            <th className="p-3">Name</th>
-            <th className="p-3">Description</th>
-            <th className="p-3">Priority</th>
-            <th className="p-3">Status</th>
+      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100">
+        <thead className=" border border-gray-100 bg-white">
+          <tr>
+            <th className="p-2 px-4 border-r border-gray-100">Name</th>
+            <th className="p-2 px-4 border-r border-gray-100">Description</th>
+            <th className="p-2 px-4 border-r border-gray-100">Priority</th>
+            <th className="p-2 px-4 border-r border-gray-100">Status</th>
           </tr>
         </thead>
         <tbody>
+          <tr className=" border-b border-gray-100 bg-gray-primary">
+            <td className="p-1 px-4 "></td>
+            <td className="p-1 px-4 "></td>
+            <td className="p-1 px-4 "></td>
+            <td className="p-1 px-4 "></td>
+          </tr>
           {getList().map((item, index) => (
-            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-100">
-              <td className="p-3 border-b border-gray-100">{item.name}</td>
-              <td className="p-3 border-b border-gray-100">{item.description}</td>
-              <td className="p-3 border-b border-gray-100">{item.priority}</td>
-              <td className="p-3 border-b border-gray-100">
+            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-50">
+              <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
+              <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
+              <td className="p-2 px-4 border-r border-b border-gray-100">{item.priority}</td>
+              <td className="p-2 px-4 border-r border-b border-gray-100">
                 <TagStatus value={item.status} />
               </td>
             </tr>
