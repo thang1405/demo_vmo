@@ -1,5 +1,5 @@
 import React from "react";
-import DetailCustomer from "../../../modules/customers/components/detail-customer";
+import DetailCustomer from "modules/customers/components/detail-customer";
 
 function CustomerDetail() {
   return (

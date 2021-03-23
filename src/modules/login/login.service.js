@@ -1,13 +1,12 @@
-// import { PATH_NAME } from "./login.constants";
-import { loginSuccess, logoutSuccess } from "./login.action";
-import { setToken } from "../../services/api";
+import { login, logout } from "./login.action";
+import { setToken } from "services/api";
 
-export const login = data => dispatch => {
+export const loginSevice = data => dispatch => {
   setToken(data);
-  return dispatch(loginSuccess());
+  return dispatch(login());
 };
 
-export const logout = () => dispatch => {
+export const logoutSevice = () => dispatch => {
   localStorage.removeItem("token");
-  return dispatch(logoutSuccess());
+  return dispatch(logout());
 };

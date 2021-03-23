@@ -1,60 +1,35 @@
 import { produce } from "immer";
 import * as CONSTANTS from "./projects.constants";
-import { totalPage } from "../../utils/pagination";
-import { deleteApi } from "../../utils/api";
+import { totalOfPage } from "utils/pagination";
 
 const initState = {
-  page: 1,
   data: [],
   totalPage: 1,
+  total: 0,
 };
 
 export const projectReducer = (state = initState, action) => {
   return produce(state, draft => {
     switch (action.type) {
       // get table
-      case CONSTANTS.GET_ALL_PROJECT_SUCCESS:
+      case CONSTANTS.GET_ALL_PROJECT:
         draft.data = action.payload;
-        draft.totalPage = totalPage(draft.data, CONSTANTS.LIMIT_PROJECT);
-        break;
-      case CONSTANTS.GET_ALL_PROJECT_ERROR:
-        console.log(action.error);
+        draft.total = action.payload.length;
+        draft.totalPage = totalOfPage(draft.total, CONSTANTS.LIMIT_PROJECT);
         break;
       // get info cell
-      case CONSTANTS.GET_PROJECT_DETAIL_SUCCESS:
-        break;
-      case CONSTANTS.GET_PROJECT_DETAIL_ERROR:
-        console.log(action.error);
+      case CONSTANTS.GET_PROJECT_DETAIL:
         break;
       // create new
-      case CONSTANTS.CREATE_PROJECT_SUCCESS:
-        draft.data.push(action.payload);
-        draft.totalPage = totalPage(draft.data, CONSTANTS.LIMIT_PROJECT);
-        break;
-      case CONSTANTS.CREATE_PROJECT_ERROR:
-        console.log(action.error);
+      case CONSTANTS.CREATE_PROJECT:
+        // draft.data.push(action.payload);
+        draft.total++;
+        draft.totalPage = totalOfPage(draft.total, CONSTANTS.LIMIT_PROJECT);
         break;
       // delete customer
-      case CONSTANTS.DELETE_PROJECT_SUCCESS:
-        draft.data = deleteApi(draft.data, action.payload);
-        draft.totalPage = totalPage(draft.data, CONSTANTS.LIMIT_PROJECT);
-        draft.page = draft.totalPage < draft.page ? draft.page - 1 : draft.page;
-        break;
-      case CONSTANTS.DELETE_PROJECT_ERROR:
-        console.log(action.error);
-        break;
-      // edit detail
-      case CONSTANTS.EDIT_PROJECT_DETAIL_SUCCESS:
-        break;
-      case CONSTANTS.EDIT_PROJECT_DETAIL_ERROR:
-        console.log(action.error);
-        break;
-      // pagination
-      case CONSTANTS.MOVE_TO_NEXT_PAGE:
-        draft.page = draft.page >= draft.totalPage ? draft.page : ++draft.page;
-        break;
-      case CONSTANTS.MOVE_TO_PREVIOUS_PAGE:
-        draft.page = draft.page <= 1 ? draft.page : --draft.page;
+      case CONSTANTS.DELETE_PROJECT:
+        draft.total--;
+        draft.totalPage = totalOfPage(draft.total, CONSTANTS.LIMIT_PROJECT);
         break;
       default:
         return state;

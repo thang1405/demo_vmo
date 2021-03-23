@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { TABLE_NAME, PATH_NAME } from "../project-status.constants";
-import { getProjectStatusDetail, deleteProjectStatus } from "../project-status.services";
-import { getDetail } from "../../../services/api";
+import {
+  getProjectStatusDetailSevice,
+  deleteProjectStatusSevice,
+} from "../project-status.services";
+import { getDetail } from "services/api";
 import EditProjectStatus from "./edit-project-status";
 
-import TagStatus from "../../../components/tag-status";
-import Button from "../../../components/button";
-import Loader from "../../../components/loader";
-import ButtonBack from "../../../components/button-back";
+import TagStatus from "components/tag-status";
+import Button from "components/button";
+import Loader from "components/loader";
+import ButtonBack from "components/button-back";
 
 export default function DetailProjectStatus() {
   const { id } = useParams();
@@ -20,7 +23,7 @@ export default function DetailProjectStatus() {
 
   useEffect(() => {
     const data = getDetail(TABLE_NAME, id);
-    dispatch(getProjectStatusDetail(data));
+    dispatch(getProjectStatusDetailSevice(data));
     if (data) {
       setDetail(data);
     }
@@ -32,7 +35,7 @@ export default function DetailProjectStatus() {
 
   const handleDelete = () => {
     history.replace(`/${PATH_NAME}`);
-    dispatch(deleteProjectStatus(id));
+    dispatch(deleteProjectStatusSevice(id));
   };
 
   const handleEdit = () => {

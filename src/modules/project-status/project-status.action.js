@@ -1,88 +1,41 @@
 import * as CONSTANTS from "./project-status.constants";
 
 // get info table
-export const getAllProjectStatusSuccess = data => {
+export const getAllProjectStatus = data => {
   return {
-    type: CONSTANTS.GET_ALL_PROJECT_STATUS_SUCCESS,
+    type: CONSTANTS.GET_ALL_PROJECT_STATUS,
     payload: data,
   };
 };
 
-export const getAllProjectStatusError = error => {
+// get info detail
+export const getProjectStatusDetail = data => {
   return {
-    type: CONSTANTS.GET_ALL_PROJECT_STATUS_ERROR,
-    error: error,
-  };
-};
-
-//get info detail
-export const getProjectStatusDetailSuccess = data => {
-  return {
-    type: CONSTANTS.GET_PROJECT_STATUS_DETAIL_SUCCESS,
+    type: CONSTANTS.GET_PROJECT_STATUS_DETAIL,
     payload: data,
   };
 };
 
-export const getProjectStatusDetailError = error => {
+// create new Customer
+export const createProjectStatus = data => {
   return {
-    type: CONSTANTS.GET_PROJECT_STATUS_DETAIL_ERROR,
-    error: error,
-  };
-};
-
-// create new ProjectStatus
-export const createProjectStatusSuccess = data => {
-  return {
-    type: CONSTANTS.CREATE_PROJECT_STATUS_SUCCESS,
+    type: CONSTANTS.CREATE_PROJECT_STATUS,
     payload: data,
   };
 };
 
-export const createProjectStatusError = error => {
+// edit detail customer
+export const editProjectStatusDetail = data => {
   return {
-    type: CONSTANTS.CREATE_PROJECT_STATUS_ERROR,
-    error: error,
-  };
-};
-
-// edit detail ProjectStatus
-export const editProjectStatusDetailSuccess = data => {
-  return {
-    type: CONSTANTS.EDIT_PROJECT_STATUS_DETAIL_SUCCESS,
+    type: CONSTANTS.EDIT_PROJECT_STATUS_DETAIL,
     payload: data,
   };
 };
 
-export const editProjectStatusDetailError = error => {
+// deleta Customer
+export const deleteProjectStatus = ProjectStatusId => {
   return {
-    type: CONSTANTS.EDIT_PROJECT_STATUS_DETAIL_ERROR,
-    error: error,
-  };
-};
-
-// deleta ProjectStatus
-export const deleteProjectStatusSuccess = ProjectStatusId => {
-  return {
-    type: CONSTANTS.DELETE_PROJECT_STATUS_SUCCESS,
+    type: CONSTANTS.DELETE_PROJECT_STATUS,
     payload: ProjectStatusId,
-  };
-};
-
-export const deleteProjectStatusError = error => {
-  return {
-    type: CONSTANTS.DELETE_PROJECT_STATUS_SUCCESS,
-    payload: error,
-  };
-};
-
-export const moveToNextPage = () => {
-  return {
-    type: CONSTANTS.MOVE_TO_NEXT_PAGE,
-  };
-};
-
-export const moveToPreviousPage = () => {
-  return {
-    type: CONSTANTS.MOVE_TO_PREVIOUS_PAGE,
   };
 };

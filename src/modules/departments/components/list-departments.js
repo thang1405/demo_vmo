@@ -1,23 +1,25 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
-import { getTable } from "../../../services/api";
-import { getAllDepartment } from "../departments.services";
-import { moveToNextPage, moveToPreviousPage } from "../departments.action";
+import { getTable } from "services/api";
+import { getAllDepartmentSevice } from "../departments.services";
 import { TABLE_NAME, PATH_NAME, LIMIT_DEPARTMENT } from "../departments.constants";
-import Pagination from "../../../components/pagination";
+import Pagination from "components/pagination";
+import * as PATH from "constants/pathName";
 
-function TableDepartment() {
+function ListDepartment() {
   const listDepartment = useSelector(state => state.departments.data);
-  const { page, totalPage } = useSelector(state => state.departments);
+  const { totalPage, total } = useSelector(state => state.departments);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
 
   useEffect(() => {
     const data = getTable(TABLE_NAME);
-    dispatch(getAllDepartment(data));
-  }, [totalPage]);
+    dispatch(getAllDepartmentSevice(data));
+  }, [total]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -29,7 +31,10 @@ function TableDepartment() {
 
   return (
     <div className=" ">
-      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100">
+      <table
+        className=" text-sm w-full text-left
+       border-l border-r bg-white border-b border-gray-100"
+      >
         <thead className=" border border-gray-100 bg-white">
           <tr>
             <th className="p-2 px-4 border-r border-gray-100">Name</th>
@@ -50,8 +55,12 @@ function TableDepartment() {
         </tbody>
       </table>
       <Pagination
-        onNext={() => dispatch(moveToNextPage())}
-        onPrevious={() => dispatch(moveToPreviousPage())}
+        onNext={() => {
+          history.push(`${PATH.PATH_DEPARTMENT}?page=${page + 1}`);
+        }}
+        onPrevious={() => {
+          history.push(`${PATH.PATH_DEPARTMENT}?page=${page - 1}`);
+        }}
         page={page}
         totalPage={totalPage}
       />
@@ -59,4 +68,4 @@ function TableDepartment() {
   );
 }
 
-export default TableDepartment;
+export default ListDepartment;

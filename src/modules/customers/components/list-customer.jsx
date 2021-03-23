@@ -1,40 +1,46 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
-import { getTable } from "../../../services/api";
-import { moveToNextPage, moveToPreviousPage } from "../tech-stack.action";
-import { getAllTechStack } from "../tech-stack.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_TECH_STACK } from "../tech-stack.constants";
+import { getAllCustomerSevice } from "../customers.services";
 
+import * as PATH from "../../../constants/pathName";
+import { LIMIT_CUSTOMER } from "../customers.constants";
 import TagStatus from "../../../components/tag-status";
+
 import Pagination from "../../../components/pagination";
 
-function TableTechStack() {
-  const listTechStack = useSelector(state => state.techStacks.data);
-  const { page, totalPage } = useSelector(state => state.techStacks);
+function ListCustomer() {
+  const listCustomer = useSelector(state => state.customers.data);
+  const { totalPage, total } = useSelector(state => state.customers);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
 
   useEffect(() => {
-    const data = getTable(TABLE_NAME);
-    dispatch(getAllTechStack(data));
-  }, [totalPage]);
+    dispatch(getAllCustomerSevice());
+  }, [total]);
 
   const handleClick = item => {
-    history.push(`${PATH_NAME}/${item.id}`);
+    history.push(`${PATH.PATH_CUSTOMER}/${item.id}`);
   };
+
   const getList = () => {
-    return listTechStack.slice(LIMIT_TECH_STACK * (page - 1), LIMIT_TECH_STACK * page);
+    return listCustomer.slice(LIMIT_CUSTOMER * (page - 1), LIMIT_CUSTOMER * page);
   };
 
   return (
     <div className=" ">
-      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100">
+      <table
+        className=" text-sm w-full
+       text-left border-l border-r bg-white border-b border-gray-100"
+      >
         <thead className=" border border-gray-100 bg-white">
           <tr>
             <th className="p-2 px-4 border-r border-gray-100">Name</th>
             <th className="p-2 px-4 border-r border-gray-100">Description</th>
+            <th className="p-2 px-4 border-r border-gray-100">Priority</th>
             <th className="p-2 px-4 border-r border-gray-100">Status</th>
           </tr>
         </thead>
@@ -43,11 +49,13 @@ function TableTechStack() {
             <td className="p-1 px-4 "></td>
             <td className="p-1 px-4 "></td>
             <td className="p-1 px-4 "></td>
+            <td className="p-1 px-4 "></td>
           </tr>
           {getList().map((item, index) => (
             <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-50">
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
+              <td className="p-2 px-4 border-r border-b border-gray-100">{item.priority}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">
                 <TagStatus value={item.status} />
               </td>
@@ -56,8 +64,12 @@ function TableTechStack() {
         </tbody>
       </table>
       <Pagination
-        onNext={() => dispatch(moveToNextPage())}
-        onPrevious={() => dispatch(moveToPreviousPage())}
+        onNext={() => {
+          history.push(`${PATH.PATH_CUSTOMER}?page=${page + 1}`);
+        }}
+        onPrevious={() => {
+          history.push(`${PATH.PATH_CUSTOMER}?page=${page - 1}`);
+        }}
         page={page}
         totalPage={totalPage}
       />
@@ -65,4 +77,4 @@ function TableTechStack() {
   );
 }
 
-export default TableTechStack;
+export default ListCustomer;

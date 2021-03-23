@@ -1,4 +1,4 @@
-import { editApi, deleteApi } from "../utils/api";
+import { editApi, deleteApi } from "utils/api";
 
 export const getTable = table => {
   const data = localStorage.getItem(table);
@@ -11,7 +11,7 @@ export const setTable = (table, data) => {
 
 export const getDetail = (table, id) => {
   const data = JSON.parse(localStorage.getItem(table));
-  return data.find(item => item.id == id);
+  return data.find(item => item.id === id);
 };
 
 export const setDetail = (table, detail) => {
@@ -27,8 +27,8 @@ export const deleteById = (table, id) => {
 };
 
 export const checkToken = token => {
-  let data = localStorage.getItem("token");
-  return data && data == token ? true : false;
+  const data = localStorage.getItem("token");
+  return data && data === token;
 };
 
 export const setToken = token => {

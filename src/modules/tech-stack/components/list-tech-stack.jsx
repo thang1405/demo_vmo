@@ -1,37 +1,41 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getTable } from "../../../services/api";
+import { useHistory, useLocation } from "react-router-dom";
 
-import { moveToNextPage, moveToPreviousPage } from "../project-status.action";
-import { getAllProjectStatus } from "../project-status.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_PROJECT_STATUS } from "../project-status.constants";
+import { getTable } from "../../../services/api";
+import { getAllTechStackSevice } from "../tech-stack.services";
+import { TABLE_NAME, PATH_NAME, LIMIT_TECH_STACK } from "../tech-stack.constants";
+import * as PATH from "../../../constants/pathName";
 
 import TagStatus from "../../../components/tag-status";
 import Pagination from "../../../components/pagination";
 
-function TableProjectStatus() {
-  const listProjectStatus = useSelector(state => state.projectStatus.data);
-  const { page, totalPage } = useSelector(state => state.projectStatus);
+function ListTechStack() {
+  const listTechStack = useSelector(state => state.techStacks.data);
+  const { totalPage, total } = useSelector(state => state.techStacks);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
 
   useEffect(() => {
     const data = getTable(TABLE_NAME);
-    dispatch(getAllProjectStatus(data));
-  }, [totalPage]);
+    dispatch(getAllTechStackSevice(data));
+  }, [total]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
   };
-
   const getList = () => {
-    return listProjectStatus.slice(LIMIT_PROJECT_STATUS * (page - 1), LIMIT_PROJECT_STATUS * page);
+    return listTechStack.slice(LIMIT_TECH_STACK * (page - 1), LIMIT_TECH_STACK * page);
   };
 
   return (
-    <div className="">
-      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100">
+    <div className=" ">
+      <table
+        className=" text-sm w-full text-left border-l border-r
+      bg-white border-b border-gray-100"
+      >
         <thead className=" border border-gray-100 bg-white">
           <tr>
             <th className="p-2 px-4 border-r border-gray-100">Name</th>
@@ -46,7 +50,7 @@ function TableProjectStatus() {
             <td className="p-1 px-4 "></td>
           </tr>
           {getList().map((item, index) => (
-            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-100">
+            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-50">
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">
@@ -57,8 +61,12 @@ function TableProjectStatus() {
         </tbody>
       </table>
       <Pagination
-        onNext={() => dispatch(moveToNextPage())}
-        onPrevious={() => dispatch(moveToPreviousPage())}
+        onNext={() => {
+          history.push(`${PATH.PATH_TECH_STACK}?page=${page + 1}`);
+        }}
+        onPrevious={() => {
+          history.push(`${PATH.PATH_TECH_STACK}?page=${page - 1}`);
+        }}
         page={page}
         totalPage={totalPage}
       />
@@ -66,4 +74,4 @@ function TableProjectStatus() {
   );
 }
 
-export default TableProjectStatus;
+export default ListTechStack;

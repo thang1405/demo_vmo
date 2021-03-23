@@ -29,6 +29,7 @@ module.exports = {
       red: {
         ...colors.red,
         primary: "#f44336",
+        secondary: "#e53935",
         tag: "#9B3938",
       },
       yellow: colors.amber,

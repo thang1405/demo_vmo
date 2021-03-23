@@ -1,26 +1,26 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { getTable } from "../../../services/api";
-
-import { moveToNextPage, moveToPreviousPage } from "../projects.action";
-
-import { getAllProject } from "../projects.services";
+import { getAllProjectSevice } from "../projects.services";
 import { TABLE_NAME, PATH_NAME, LIMIT_PROJECT } from "../projects.constants";
+import * as PATH from "../../../constants/pathName";
 
 import Pagination from "../../../components/pagination";
 
-function TableProject() {
+function ListProject() {
   const listProject = useSelector(state => state.projects.data);
-  const { page, totalPage } = useSelector(state => state.projects);
+  const { totalPage, total } = useSelector(state => state.projects);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
 
   useEffect(() => {
     const data = getTable(TABLE_NAME);
-    dispatch(getAllProject(data));
-  }, [totalPage]);
+    dispatch(getAllProjectSevice(data));
+  }, [total]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -32,7 +32,10 @@ function TableProject() {
 
   return (
     <div className=" ">
-      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100">
+      <table
+        className=" text-sm w-full text-left border-l
+       border-r bg-white border-b border-gray-100"
+      >
         <thead className=" border border-gray-100 bg-white">
           <tr>
             <th className="p-2 px-4 border-r border-gray-100">Name</th>
@@ -53,8 +56,12 @@ function TableProject() {
         </tbody>
       </table>
       <Pagination
-        onNext={() => dispatch(moveToNextPage())}
-        onPrevious={() => dispatch(moveToPreviousPage())}
+        onNext={() => {
+          history.push(`${PATH.PATH_PROJECT}?page=${page + 1}`);
+        }}
+        onPrevious={() => {
+          history.push(`${PATH.PATH_PROJECT}?page=${page - 1}`);
+        }}
         page={page}
         totalPage={totalPage}
       />
@@ -62,4 +69,4 @@ function TableProject() {
   );
 }
 
-export default TableProject;
+export default ListProject;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { imgURL } from "../constants/image";
-import { logout } from "../modules/login/login.service";
+import { imgURL } from "constants/image";
+import { logoutSevice } from "modules/login/login.service";
 
 export default function Header() {
   const [show, setShow] = useState(false);
@@ -22,7 +22,10 @@ export default function Header() {
               <img className=" rounded-full h-10 w-10" src={imgURL} alt="" />
             </button>
             {show ? (
-              <div className="absolute bg-white rounded w-64 top-full right-0 m-1 border z-10 p-3 flex justify-between">
+              <div
+                className="absolute bg-white rounded w-64 top-full right-0 m-1
+               border z-10 p-3 flex justify-between"
+              >
                 <div className="flex my-auto mx-2">
                   <img className="  rounded-full h-11 w-11" src={imgURL} alt="" />
                   <div className="px-2">
@@ -34,7 +37,7 @@ export default function Header() {
                   <button
                     className=" text-white py-1 bg-indigo-700 px-3 rounded-full "
                     onClick={() => {
-                      dispatch(logout());
+                      dispatch(logoutSevice());
                     }}
                   >
                     Log out

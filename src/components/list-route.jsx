@@ -6,13 +6,13 @@ export default function ListRoute({ dataList, path }) {
 
   return dataList
     ? dataList.map(item => (
-        <div
-          key={item.id}
-          onClick={() => history.push(`${path}/${item.id}`)}
-          className=" mr-2 py-1 px-2 hover:bg-blue-200 rounded-md"
-        >
-          {item.name}
-        </div>
-      ))
+      <div
+        key={item.id}
+        onClick={() => history.push(`${path}/${item.id}`)}
+        className=" mr-2 py-1 px-2 hover:bg-blue-200 rounded-md"
+      >
+        {item.name}
+      </div>
+    ))
     : null;
 }

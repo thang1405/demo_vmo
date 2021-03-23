@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
-import { editStaffDetail } from "../staff.services";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
+import { editStaffDetailSevice } from "../staff.services";
 
-import MultiSelectTechStack from "../../../components/multi-select-tech-stack";
-import MultiSelectProject from "../../../components/multi-select-project";
-import Button from "../../../components/button";
-import ButtonBack from "../../../components/button-back";
+import MultiSelectTechStack from "components/multi-select-tech-stack";
+import MultiSelectProject from "components/multi-select-project";
+import Button from "components/button";
+import ButtonBack from "components/button-back";
 
 export default function EditStaff({ detail, onClose }) {
+  const dispatch = useDispatch();
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -42,33 +43,19 @@ export default function EditStaff({ detail, onClose }) {
   const handleChangeDateBirth = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDateBirth({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDateBirth({ value, errorMessage, isInputValid });
   };
-
-  const dispatch = useDispatch();
 
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangeTechStack = data => {
@@ -107,9 +94,9 @@ export default function EditStaff({ detail, onClose }) {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description];
+    const formData = [name, description];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         techStack: techStack.value,
@@ -117,11 +104,9 @@ export default function EditStaff({ detail, onClose }) {
         dateBirth: dateBirth.value,
         id: detail.id,
       };
-      dispatch(editStaffDetail(data));
+      dispatch(editStaffDetailSevice(data));
       clearInput();
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -145,9 +130,9 @@ export default function EditStaff({ detail, onClose }) {
             <div className="flex-1 lg:mr-3">
               <label className="block">Name:</label>
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline 
+                focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${name.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -159,9 +144,9 @@ export default function EditStaff({ detail, onClose }) {
             <div className="flex-1 lg:ml-3">
               <label className="block">Date of birth:</label>
               <input
-                className={`w-full p-2 border-2 text-base h-11 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  dateBirth.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 text-base h-11 my-1 
+                border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${dateBirth.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="date"
                 name="date"
                 value={dateBirth.value}
@@ -188,9 +173,9 @@ export default function EditStaff({ detail, onClose }) {
           </div>
           <label className="block">Description:</label>
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none
+             focus:border-gray-outlineFocus rounded-md 
+             ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}

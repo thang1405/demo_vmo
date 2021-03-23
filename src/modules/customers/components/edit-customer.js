@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
-import { editCustomerDetail } from "../customers.services";
-import Button from "../../../components/button";
-import ButtonBack from "../../../components/button-back";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
+import { editCustomerDetailSevice } from "../customers.services";
+import Button from "components/button";
+import ButtonBack from "components/button-back";
 
 export default function EditCustomer({ detail, onClose }) {
   const [name, setName] = useState({
@@ -32,41 +32,25 @@ export default function EditCustomer({ detail, onClose }) {
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangePriority = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setPriority({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setPriority({ value, errorMessage, isInputValid });
   };
 
   const handleChangeStatus = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setStatus({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setStatus({ value, errorMessage, isInputValid });
   };
 
   const checkForm = () => {
@@ -111,20 +95,18 @@ export default function EditCustomer({ detail, onClose }) {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description, priority, status];
+    const formData = [name, description, priority, status];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         priority: priority.value,
         status: status.value,
         id: detail.id,
       };
-      dispatch(editCustomerDetail(data));
+      dispatch(editCustomerDetailSevice(data));
       clearInput();
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -149,9 +131,9 @@ export default function EditCustomer({ detail, onClose }) {
             <div className="flex-1 mr-3">
               <label className="block">Name:</label>
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline 
+                focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${name.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -163,9 +145,9 @@ export default function EditCustomer({ detail, onClose }) {
             <div className="flex-1 ml-3">
               <label className="block">Status:</label>
               <select
-                className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  status.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={` w-full p-2 border-2 my-1 border-gray-outline 
+                focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${status.value.length ? " border-gray-outlineFocus" : ""}`}
                 name="status"
                 value={status.value}
                 onChange={handleChangeStatus}
@@ -179,9 +161,9 @@ export default function EditCustomer({ detail, onClose }) {
           </div>
           <label className="block">Description:</label>
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline 
+            focus:outline-none focus:border-gray-outlineFocus rounded-m
+            d description.value.length ? " border-gray-outlineFocus" : }`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -191,9 +173,9 @@ export default function EditCustomer({ detail, onClose }) {
 
           <label className="block">Priority:</label>
           <select
-            className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              priority.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={` w-full p-2 border-2 my-1 border-gray-outline 
+            focus:outline-none focus:border-gray-outlineFocus rounded-m
+            d priority.value.length ? " border-gray-outlineFocus" : }`}
             name="priority"
             value={priority.value}
             onChange={handleChangePriority}

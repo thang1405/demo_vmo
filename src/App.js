@@ -1,14 +1,14 @@
-import "./App.css";
-
+import "App.css";
+import React from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { routers } from "../src/router.config";
+import { routers } from "router.config";
 
-import LeftSideBar from "./components/left-side-bar";
-import Header from "./components/header";
-import Login from "./pages/login/Login";
-import Home from "./pages/home/Home";
-import AuthRoute from "./components/auth-route";
+import LeftSideBar from "components/left-side-bar";
+import Header from "components/header";
+import Login from "pages/login/Login";
+import Home from "pages/home/Home";
+import AuthRoute from "components/auth-route";
 
 function App() {
   const { login } = useSelector(state => state);

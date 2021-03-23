@@ -1,59 +1,44 @@
-import { setDetail, deleteById, getTable, setTable } from "../../services/api";
+import { setDetail, deleteById, getTable, setTable } from "services/api";
 import { TABLE_NAME } from "./departments.constants";
 import {
-  createDepartmentSuccess,
-  createDepartmentError,
-  getAllDepartmentError,
-  getAllDepartmentSuccess,
-  getDepartmentDetailError,
-  getDepartmentDetailSuccess,
-  editDepartmentDetailSuccess,
-  editDepartmentDetailError,
-  deleteDepartmentError,
-  deleteDepartmentSuccess,
+  createDepartment,
+  getAllDepartment,
+  getDepartmentDetail,
+  editDepartmentDetail,
+  deleteDepartment,
 } from "./departments.action";
 
-export const createDepartment = newData => dispatch => {
-  let data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
+export const createDepartmentSevice = newData => dispatch => {
+  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
   data.push(newData);
   setTable(TABLE_NAME, data);
   if (newData) {
-    return dispatch(createDepartmentSuccess(newData));
-  } else {
-    return dispatch(createDepartmentError("get table error"));
+    return dispatch(createDepartment(newData));
   }
 };
 
-export const getAllDepartment = data => dispatch => {
+export const getAllDepartmentSevice = data => dispatch => {
   if (data) {
-    return dispatch(getAllDepartmentSuccess(data));
-  } else {
-    return dispatch(getAllDepartmentError("get table error"));
+    return dispatch(getAllDepartment(data));
   }
 };
 
-export const getDepartmentDetail = data => dispatch => {
+export const getDepartmentDetailSevice = data => dispatch => {
   if (data) {
-    return dispatch(getDepartmentDetailSuccess(data));
-  } else {
-    return dispatch(getDepartmentDetailError("get info error"));
+    return dispatch(getDepartmentDetail(data));
   }
 };
 
-export const editDepartmentDetail = data => dispatch => {
+export const editDepartmentDetailSevice = data => dispatch => {
   if (data) {
     setDetail(TABLE_NAME, data);
-    return dispatch(editDepartmentDetailSuccess(data));
-  } else {
-    return dispatch(editDepartmentDetailError("edit detail error"));
+    return dispatch(editDepartmentDetail(data));
   }
 };
 
-export const deleteDepartment = id => dispatch => {
+export const deleteDepartmentSevice = id => dispatch => {
   if (id) {
     deleteById(TABLE_NAME, id);
-    return dispatch(deleteDepartmentSuccess(id));
-  } else {
-    return dispatch(deleteDepartmentError("delete department error"));
+    return dispatch(deleteDepartment(id));
   }
 };

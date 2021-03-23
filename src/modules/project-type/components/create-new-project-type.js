@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import Modal from "../../../components/modal";
-import { createProjectType } from "../project-type.services";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
-import { randomId } from "../../../utils/api";
-import CreateButton from "../../../components/create-button";
+import Modal from "components/modal";
+import { createProjectTypeSevice } from "../project-type.services";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
+import { randomId } from "utils/api";
+import CreateButton from "components/create-button";
 
 const CreateNewProjectType = () => {
   const [show, setShow] = useState(false);
@@ -31,31 +31,19 @@ const CreateNewProjectType = () => {
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangeStatus = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setStatus({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setStatus({ value, errorMessage, isInputValid });
   };
 
   const onClose = () => {
@@ -94,18 +82,16 @@ const CreateNewProjectType = () => {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description, status];
+    const formData = [name, description, status];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         status: status.value,
         id: randomId(),
       };
-      dispatch(createProjectType(data));
+      dispatch(createProjectTypeSevice(data));
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -118,9 +104,9 @@ const CreateNewProjectType = () => {
           <div className="flex lg:flex-row flex-col">
             <div className="flex-1 lg:mr-3">
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline 
+                focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${name.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -131,9 +117,9 @@ const CreateNewProjectType = () => {
             </div>
             <div className="flex-1 lg:ml-3">
               <select
-                className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  status.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={` w-full p-2 border-2 my-1 border-gray-outline 
+                focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${status.value.length ? " border-gray-outlineFocus" : ""}`}
                 name="status"
                 value={status.value}
                 onChange={handleChangeStatus}
@@ -147,9 +133,9 @@ const CreateNewProjectType = () => {
           </div>
 
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline 
+            focus:outline-none focus:border-gray-outlineFocus rounded-md 
+            ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -159,7 +145,8 @@ const CreateNewProjectType = () => {
 
           <div className="">
             <input
-              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl focus:outline-none"
+              className=" mt-4 px-8 py-2 bg-blue-primary
+               text-md-nl text-white rounded-xl focus:outline-none"
               type="submit"
               value="Create"
             />

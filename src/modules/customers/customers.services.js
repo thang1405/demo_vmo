@@ -1,61 +1,45 @@
-import { setDetail, getDetail, deleteById, getTable, setTable } from "../../services/api";
+import { setDetail, deleteById, getTable, setTable } from "services/api";
 import { TABLE_NAME } from "./customers.constants";
 import {
-  createCustomerSuccess,
-  createCustomerError,
-  getAllCustomerError,
-  getAllCustomerSuccess,
-  getCustomerDetailError,
-  getCustomerDetailSuccess,
-  editCustomerDetailSuccess,
-  editCustomerDetailError,
-  deleteCustomerError,
-  deleteCustomerSuccess,
+  createCustomer,
+  getAllCustomer,
+  getCustomerDetail,
+  editCustomerDetail,
+  deleteCustomer,
 } from "./customers.action";
 
-export const createCustomer = newData => dispatch => {
-  let data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
+export const createCustomerSevice = newData => dispatch => {
+  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
   data.push(newData);
   setTable(TABLE_NAME, data);
   if (newData) {
-    return dispatch(createCustomerSuccess(newData));
-  } else {
-    return dispatch(createCustomerError("get table error"));
+    return dispatch(createCustomer(newData));
   }
 };
 
-export const getAllCustomer = () => dispatch => {
+export const getAllCustomerSevice = () => dispatch => {
   const data = getTable(TABLE_NAME);
   if (data) {
-    return dispatch(getAllCustomerSuccess(data));
-  } else {
-    return dispatch(getAllCustomerError("get table error"));
+    return dispatch(getAllCustomer(data));
   }
 };
 
-export const getCustomerDetail = id => dispatch => {
-  const data = getDetail(TABLE_NAME, id);
+export const getCustomerDetailSevice = data => dispatch => {
   if (data) {
-    return dispatch(getCustomerDetailSuccess(data));
-  } else {
-    return dispatch(getCustomerDetailError("get info error"));
+    return dispatch(getCustomerDetail(data));
   }
 };
 
-export const editCustomerDetail = data => dispatch => {
+export const editCustomerDetailSevice = data => dispatch => {
   if (data) {
     setDetail(TABLE_NAME, data);
-    return dispatch(editCustomerDetailSuccess(data));
-  } else {
-    return dispatch(editCustomerDetailError("edit detail error"));
+    return dispatch(editCustomerDetail(data));
   }
 };
 
-export const deleteCustomer = id => dispatch => {
+export const deleteCustomerSevice = id => dispatch => {
   if (id) {
     deleteById(TABLE_NAME, id);
-    return dispatch(deleteCustomerSuccess(id));
-  } else {
-    return dispatch(deleteCustomerError("delete customer error"));
+    return dispatch(deleteCustomer(id));
   }
 };

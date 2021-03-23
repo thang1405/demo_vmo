@@ -1,5 +1,5 @@
 import React from "react";
-import DetailProjectType from "../../../modules/project-type/components/detail-project-type";
+import DetailProjectType from "modules/project-type/components/detail-project-type";
 
 function ProjectStatusDetail() {
   return (

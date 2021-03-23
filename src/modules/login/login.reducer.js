@@ -1,8 +1,6 @@
 import { produce } from "immer";
 import * as CONSTANTS from "./login.constants";
-import { checkToken } from "../../services/api";
-
-// console.log(checkToken(CONSTANTS.TOKEN), "hihih");
+import { checkToken } from "services/api";
 
 const initState = {
   isLogin: checkToken(CONSTANTS.TOKEN) || false,
@@ -12,16 +10,11 @@ const initState = {
 export const loginReducer = (state = initState, action) => {
   return produce(state, draft => {
     switch (action.type) {
-      // get table
-      case CONSTANTS.LOGIN_SUCCESS:
+      case CONSTANTS.LOGIN:
         draft.isLogin = true;
         break;
-      case CONSTANTS.LOGIN_FAILED:
-        break;
-      case CONSTANTS.LOGOUT_SUCCESS:
+      case CONSTANTS.LOGOUT:
         draft.isLogin = false;
-        break;
-      case CONSTANTS.LOGOUT_FAILED:
         break;
       default:
         return state;

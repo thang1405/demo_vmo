@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Modal from "../../../components/modal";
+import Modal from "components/modal";
 import { useDispatch } from "react-redux";
 
-import { createCustomer } from "../customers.services";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
-import { randomId } from "../../../utils/api";
-import CreateButton from "../../../components/create-button";
+import { createCustomerSevice } from "../customers.services";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
+import { randomId } from "utils/api";
+import CreateButton from "components/create-button";
 
 const CreateNewCustomer = () => {
   const [show, setShow] = useState(false);
@@ -36,41 +36,25 @@ const CreateNewCustomer = () => {
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangeStatus = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setStatus({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setStatus({ value, errorMessage, isInputValid });
   };
 
   const handleChangePriority = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setPriority({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setPriority({ value, errorMessage, isInputValid });
   };
 
   const onClose = () => {
@@ -116,19 +100,17 @@ const CreateNewCustomer = () => {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description, priority, status];
+    const formData = [name, description, priority, status];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         priority: priority.value,
         status: status.value,
         id: randomId(),
       };
-      dispatch(createCustomer(data));
+      dispatch(createCustomerSevice(data));
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -140,9 +122,9 @@ const CreateNewCustomer = () => {
           <div className="flex lg:flex-row flex-col">
             <div className="flex-1 lg:mr-3">
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
+                focus:border-gray-outlineFocus rounded-md 
+                ${name.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -153,9 +135,9 @@ const CreateNewCustomer = () => {
             </div>
             <div className="flex-1 lg:ml-3">
               <select
-                className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  status.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
+                focus:border-gray-outlineFocus rounded-md 
+                ${status.value.length ? " border-gray-outlineFocus" : ""}`}
                 name="status"
                 value={status.value}
                 onChange={handleChangeStatus}
@@ -169,9 +151,9 @@ const CreateNewCustomer = () => {
           </div>
 
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
+            focus:border-gray-outlineFocus rounded-md
+             $description.value.length ? " border-gray-outlineFocus" : }`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -179,9 +161,9 @@ const CreateNewCustomer = () => {
           />
           <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
           <select
-            className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              priority.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
+            focus:border-gray-outlineFocus rounded-md
+             $priority.value.length ? " border-gray-outlineFocus" : }`}
             name="priority"
             value={priority.value}
             onChange={handleChangePriority}
@@ -196,7 +178,8 @@ const CreateNewCustomer = () => {
 
           <div className="">
             <input
-              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl focus:outline-none"
+              className=" mt-4 px-8 py-2 bg-blue-primary
+               text-md-nl text-white rounded-xl focus:outline-none"
               type="submit"
               value="Create"
             />

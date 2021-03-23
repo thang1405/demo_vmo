@@ -1,88 +1,41 @@
 import * as CONSTANTS from "./tech-stack.constants";
 
 // get info table
-export const getAllTechStackSuccess = data => {
+export const getAllTechStack = data => {
   return {
-    type: CONSTANTS.GET_ALL_TECH_STACK_SUCCESS,
+    type: CONSTANTS.GET_ALL_TECH_STACK,
     payload: data,
   };
 };
 
-export const getAllTechStackError = error => {
+// get info detail
+export const getTechStackDetail = data => {
   return {
-    type: CONSTANTS.GET_ALL_TECH_STACK_ERROR,
-    error: error,
-  };
-};
-
-//get info detail
-export const getTechStackDetailSuccess = data => {
-  return {
-    type: CONSTANTS.GET_TECH_STACK_DETAIL_SUCCESS,
+    type: CONSTANTS.GET_TECH_STACK_DETAIL,
     payload: data,
-  };
-};
-
-export const getTechStackDetailError = error => {
-  return {
-    type: CONSTANTS.GET_TECH_STACK_DETAIL_ERROR,
-    error: error,
   };
 };
 
 // create new TechStack
-export const createTechStackSuccess = data => {
+export const createTechStack = data => {
   return {
-    type: CONSTANTS.CREATE_TECH_STACK_SUCCESS,
+    type: CONSTANTS.CREATE_TECH_STACK,
     payload: data,
-  };
-};
-
-export const createTechStackError = error => {
-  return {
-    type: CONSTANTS.CREATE_TECH_STACK_ERROR,
-    error: error,
   };
 };
 
 // edit detail TechStack
-export const editTechStackDetailSuccess = data => {
+export const editTechStackDetail = data => {
   return {
-    type: CONSTANTS.EDIT_TECH_STACK_DETAIL_SUCCESS,
+    type: CONSTANTS.EDIT_TECH_STACK_DETAIL,
     payload: data,
   };
 };
 
-export const editTechStackDetailError = error => {
-  return {
-    type: CONSTANTS.EDIT_TECH_STACK_DETAIL_ERROR,
-    error: error,
-  };
-};
-
 // deleta TechStack
-export const deleteTechStackSuccess = TechStackId => {
+export const deleteTechStack = id => {
   return {
-    type: CONSTANTS.DELETE_TECH_STACK_SUCCESS,
-    payload: TechStackId,
-  };
-};
-
-export const deleteTechStackError = error => {
-  return {
-    type: CONSTANTS.DELETE_TECH_STACK_SUCCESS,
-    payload: error,
-  };
-};
-
-export const moveToNextPage = () => {
-  return {
-    type: CONSTANTS.MOVE_TO_NEXT_PAGE,
-  };
-};
-
-export const moveToPreviousPage = () => {
-  return {
-    type: CONSTANTS.MOVE_TO_PREVIOUS_PAGE,
+    type: CONSTANTS.DELETE_TECH_STACK,
+    payload: id,
   };
 };

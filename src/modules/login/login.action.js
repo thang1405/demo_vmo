@@ -1,27 +1,15 @@
 import * as CONSTANTS from "./login.constants";
 
 // login
-export const loginSuccess = () => {
+export const login = () => {
   return {
-    type: CONSTANTS.LOGIN_SUCCESS,
-  };
-};
-export const loginFailed = error => {
-  return {
-    type: CONSTANTS.LOGIN_FAILED,
-    error: error,
+    type: CONSTANTS.LOGIN,
   };
 };
 
-//log out
-export const logoutSuccess = () => {
+// log out
+export const logout = () => {
   return {
-    type: CONSTANTS.LOGOUT_SUCCESS,
-  };
-};
-export const logoutFailed = error => {
-  return {
-    type: CONSTANTS.LOGOUT_FAILED,
-    error: error,
+    type: CONSTANTS.LOGOUT,
   };
 };

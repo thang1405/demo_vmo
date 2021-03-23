@@ -1,59 +1,45 @@
-import { setDetail, deleteById, getTable, setTable } from "../../services/api";
+import { setDetail, deleteById, getTable, setTable } from "services/api";
 import { TABLE_NAME } from "./projects.constants";
 import {
-  createProjectSuccess,
-  createProjectError,
-  getAllProjectError,
-  getAllProjectSuccess,
-  getProjectDetailError,
-  getProjectDetailSuccess,
-  editProjectDetailSuccess,
-  editProjectDetailError,
-  deleteProjectError,
-  deleteProjectSuccess,
+  createProject,
+  getAllProject,
+  getProjectDetail,
+  editProjectDetail,
+  deleteProject,
 } from "./projects.action";
 
-export const createProject = newData => dispatch => {
-  let data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
+export const createProjectSevice = newData => dispatch => {
+  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
   data.push(newData);
   setTable(TABLE_NAME, data);
   if (newData) {
-    return dispatch(createProjectSuccess(newData));
-  } else {
-    return dispatch(createProjectError("get table error"));
+    return dispatch(createProject(newData));
   }
 };
 
-export const getAllProject = data => dispatch => {
+export const getAllProjectSevice = () => dispatch => {
+  const data = getTable(TABLE_NAME);
   if (data) {
-    return dispatch(getAllProjectSuccess(data));
-  } else {
-    return dispatch(getAllProjectError("get table error"));
+    return dispatch(getAllProject(data));
   }
 };
 
-export const getProjectDetail = data => dispatch => {
+export const getProjectDetailSevice = data => dispatch => {
   if (data) {
-    return dispatch(getProjectDetailSuccess(data));
-  } else {
-    return dispatch(getProjectDetailError("get info error"));
+    return dispatch(getProjectDetail(data));
   }
 };
 
-export const editProjectDetail = data => dispatch => {
+export const editProjectDetailSevice = data => dispatch => {
   if (data) {
     setDetail(TABLE_NAME, data);
-    return dispatch(editProjectDetailSuccess(data));
-  } else {
-    return dispatch(editProjectDetailError("edit detail error"));
+    return dispatch(editProjectDetail(data));
   }
 };
 
-export const deleteProject = id => dispatch => {
+export const deleteProjectSevice = id => dispatch => {
   if (id) {
     deleteById(TABLE_NAME, id);
-    return dispatch(deleteProjectSuccess(id));
-  } else {
-    return dispatch(deleteProjectError("delete Project error"));
+    return dispatch(deleteProject(id));
   }
 };

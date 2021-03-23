@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { routerMenu } from "../constants/router";
+import { routerMenu } from "constants/router";
 
 const MenuItem = ({ titleName, onClick, isFocus, focusItem, icon }) => {
   const linkPath = routerMenu[titleName][0].path;

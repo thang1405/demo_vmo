@@ -11,7 +11,7 @@ export default function DropdownMenuBar({ title, focus }) {
           <li
             key={item.path}
             className={`${
-              item.value == focus
+              item.value === focus
                 ? " border-r-4 border-orange text-orange bg-orange bg-opacity-10 "
                 : "hover:bg-orange hover:bg-opacity-5 "
             } block uppercase text-gray-secondary py-2`}

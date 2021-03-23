@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 import { TABLE_NAME, PATH_NAME } from "../project-type.constants";
-import { getProjectTypeDetail, deleteProjectType } from "../project-type.services";
-import { getDetail } from "../../../services/api";
+import { getProjectTypeDetailSevice, deleteProjectTypeSevice } from "../project-type.services";
+import { getDetail } from "services/api";
 import EditProjectType from "./edit-project-type";
-import TagStatus from "../../../components/tag-status";
-import Loader from "../../../components/loader";
-import Button from "../../../components/button";
-import ButtonBack from "../../../components/button-back";
+import TagStatus from "components/tag-status";
+import Loader from "components/loader";
+import Button from "components/button";
+import ButtonBack from "components/button-back";
 
 export default function DetailProjectType() {
   const { id } = useParams();
@@ -20,7 +20,7 @@ export default function DetailProjectType() {
 
   useEffect(() => {
     const data = getDetail(TABLE_NAME, id);
-    dispatch(getProjectTypeDetail(data));
+    dispatch(getProjectTypeDetailSevice(data));
     setDetail(data);
   }, [edit]);
 
@@ -30,7 +30,7 @@ export default function DetailProjectType() {
 
   const handleDelete = () => {
     history.replace(`/${PATH_NAME}`);
-    dispatch(deleteProjectType(id));
+    dispatch(deleteProjectTypeSevice(id));
   };
 
   const handleEdit = () => {

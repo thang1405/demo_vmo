@@ -1,5 +1,5 @@
 import React from "react";
-import DetailTechStack from "../../../modules/tech-stack/components/detail-tech-stack";
+import DetailTechStack from "modules/tech-stack/components/detail-tech-stack";
 
 function TechStackDetail() {
   return (

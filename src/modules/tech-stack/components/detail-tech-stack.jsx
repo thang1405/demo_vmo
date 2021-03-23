@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { TABLE_NAME, PATH_NAME } from "../tech-stack.constants";
-import { getTechStackDetail, deleteTechStack } from "../tech-stack.services";
-import { getDetail } from "../../../services/api";
+import { getTechStackDetailSevice, deleteTechStackSevice } from "../tech-stack.services";
+import { getDetail } from "services/api";
 import EditTechStack from "./edit-tech-stack";
 
-import TagStatus from "../../../components/tag-status";
-import Button from "../../../components/button";
-import Loader from "../../../components/loader";
-import ButtonBack from "../../../components/button-back";
+import TagStatus from "components/tag-status";
+import Button from "components/button";
+import Loader from "components/loader";
+import ButtonBack from "components/button-back";
 
 export default function DetailTechStack() {
   const { id } = useParams();
@@ -20,7 +20,7 @@ export default function DetailTechStack() {
 
   useEffect(() => {
     const data = getDetail(TABLE_NAME, id);
-    dispatch(getTechStackDetail(data));
+    dispatch(getTechStackDetailSevice(data));
     if (data) {
       setDetail(data);
     }
@@ -32,7 +32,7 @@ export default function DetailTechStack() {
 
   const handleDelete = () => {
     history.replace(`/${PATH_NAME}`);
-    dispatch(deleteTechStack(id));
+    dispatch(deleteTechStackSevice(id));
   };
 
   const handleEdit = () => {

@@ -3,15 +3,15 @@ import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 import { TABLE_NAME, PATH_NAME } from "../staff.constants";
-import { deleteStaff } from "../staff.services";
-import { getDetail } from "../../../services/api";
+import { deleteStaffSevice } from "../staff.services";
+import { getDetail } from "services/api";
 import EditStaff from "./edit-staff";
-import Button from "../../../components/button";
-import Loader from "../../../components/loader";
-import ListRoute from "../../../components/list-route";
-import ButtonBack from "../../../components/button-back";
+import Button from "components/button";
+import Loader from "components/loader";
+import ListRoute from "components/list-route";
+import ButtonBack from "components/button-back";
 
-import * as PATHS from "../../../constants/pathName";
+import * as PATHS from "constants/pathName";
 
 export default function DetailStaff() {
   const { id } = useParams();
@@ -33,7 +33,7 @@ export default function DetailStaff() {
 
   const handleDelete = () => {
     history.replace(`/${PATH_NAME}`);
-    dispatch(deleteStaff(id));
+    dispatch(deleteStaffSevice(id));
   };
 
   const handleEdit = () => {

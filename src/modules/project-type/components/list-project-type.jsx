@@ -1,42 +1,47 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
-import { getAllCustomer } from "../customers.services";
-import { moveToNextPage, moveToPreviousPage } from "../customers.action";
-
+import { getTable } from "../../../services/api";
+import { getAllProjectTypeSevice } from "../project-type.services";
+import { TABLE_NAME, PATH_NAME, LIMIT_PROJECT_TYPE } from "../project-type.constants";
 import * as PATH from "../../../constants/pathName";
-import { LIMIT_CUSTOMER } from "../customers.constants";
-import TagStatus from "../../../components/tag-status";
 
+import TagStatus from "../../../components/tag-status";
 import Pagination from "../../../components/pagination";
 
-function TableCustomer() {
-  const listCustomer = useSelector(state => state.customers.data);
-  const { page, totalPage } = useSelector(state => state.customers);
+function ListProjectType() {
+  const listProjectType = useSelector(state => state.projectTypes.data);
+  const { totalPage, total } = useSelector(state => state.projectTypes);
+
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
 
   useEffect(() => {
-    dispatch(getAllCustomer());
-  }, [totalPage]);
+    const data = getTable(TABLE_NAME);
+    dispatch(getAllProjectTypeSevice(data));
+  }, [total]);
 
   const handleClick = item => {
-    history.push(`${PATH.PATH_CUSTOMER}/${item.id}`);
+    history.push(`${PATH_NAME}/${item.id}`);
   };
 
   const getList = () => {
-    return listCustomer.slice(LIMIT_CUSTOMER * (page - 1), LIMIT_CUSTOMER * page);
+    return listProjectType.slice(LIMIT_PROJECT_TYPE * (page - 1), LIMIT_PROJECT_TYPE * page);
   };
 
   return (
     <div className=" ">
-      <table className=" text-sm w-full text-left border-l border-r bg-white border-b border-gray-100">
+      <table
+        className=" text-sm w-full text-left
+       border-l border-r bg-white border-b border-gray-100"
+      >
         <thead className=" border border-gray-100 bg-white">
           <tr>
             <th className="p-2 px-4 border-r border-gray-100">Name</th>
             <th className="p-2 px-4 border-r border-gray-100">Description</th>
-            <th className="p-2 px-4 border-r border-gray-100">Priority</th>
             <th className="p-2 px-4 border-r border-gray-100">Status</th>
           </tr>
         </thead>
@@ -45,13 +50,11 @@ function TableCustomer() {
             <td className="p-1 px-4 "></td>
             <td className="p-1 px-4 "></td>
             <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
           </tr>
           {getList().map((item, index) => (
             <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-50">
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
-              <td className="p-2 px-4 border-r border-b border-gray-100">{item.priority}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">
                 <TagStatus value={item.status} />
               </td>
@@ -60,8 +63,12 @@ function TableCustomer() {
         </tbody>
       </table>
       <Pagination
-        onNext={() => dispatch(moveToNextPage())}
-        onPrevious={() => dispatch(moveToPreviousPage())}
+        onNext={() => {
+          history.push(`${PATH.PATH_PROJECT_TYPE}?page=${page + 1}`);
+        }}
+        onPrevious={() => {
+          history.push(`${PATH.PATH_PROJECT_TYPE}?page=${page - 1}`);
+        }}
         page={page}
         totalPage={totalPage}
       />
@@ -69,4 +76,4 @@ function TableCustomer() {
   );
 }
 
-export default TableCustomer;
+export default ListProjectType;

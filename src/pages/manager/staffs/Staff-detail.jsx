@@ -1,5 +1,5 @@
 import React from "react";
-import DetailStaff from "../../../modules/staff/components/detail-staff";
+import DetailStaff from "modules/staff/components/detail-staff";
 
 function StaffDetail() {
   return (

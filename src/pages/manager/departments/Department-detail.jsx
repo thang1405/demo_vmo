@@ -1,5 +1,5 @@
 import React from "react";
-import DetailDepartment from "../../../modules/departments/components/detail-department";
+import DetailDepartment from "modules/departments/components/detail-department";
 
 function DepartmentDetail() {
   return (

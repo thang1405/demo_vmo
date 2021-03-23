@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 import { TABLE_NAME, PATH_NAME } from "../departments.constants";
-import * as PATHS from "../../../constants/pathName";
-import { deleteDepartment } from "../departments.services";
-import { getDetail } from "../../../services/api";
+import * as PATHS from "constants/pathName";
+import { deleteDepartmentSevice } from "../departments.services";
+import { getDetail } from "services/api";
 import EditDepartment from "./edit-department";
-import Button from "../../../components/button";
-import Loader from "../../../components/loader";
-import ListRoute from "../../../components/list-route";
+import Button from "components/button";
+import Loader from "components/loader";
+import ListRoute from "components/list-route";
 
 export default function DetailDepartment() {
   const { id } = useParams();
@@ -31,7 +31,7 @@ export default function DetailDepartment() {
 
   const handleDelete = () => {
     history.replace(`/${PATH_NAME}`);
-    dispatch(deleteDepartment(id));
+    dispatch(deleteDepartmentSevice(id));
   };
 
   const handleEdit = () => {
@@ -48,7 +48,8 @@ export default function DetailDepartment() {
   return edit ? (
     <div className="rounded-xl ">
       <div
-        className="mb-3 bg-white flex h-10 w-10 justify-center items-center rounded-xl hover:text-orange shadow"
+        className="mb-3 bg-white flex h-10 w-10
+         justify-center items-center rounded-xl hover:text-orange shadow"
         onClick={handleBack}
       >
         <i className="fas fa-arrow-left "></i>

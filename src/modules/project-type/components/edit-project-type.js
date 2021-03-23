@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
-import { editProjectTypeDetail } from "../project-type.services";
-import Button from "../../../components/button";
-import ButtonBack from "../../../components/button-back";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
+import { editProjectTypeDetailSevice } from "../project-type.services";
+import Button from "components/button";
+import ButtonBack from "components/button-back";
 
 export default function EditProjectStatus({ detail, onClose }) {
   const [name, setName] = useState({
@@ -27,31 +27,19 @@ export default function EditProjectStatus({ detail, onClose }) {
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangeStatus = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setStatus({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setStatus({ value, errorMessage, isInputValid });
   };
 
   const checkForm = () => {
@@ -89,19 +77,17 @@ export default function EditProjectStatus({ detail, onClose }) {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description, status];
+    const formData = [name, description, status];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         status: status.value,
         id: detail.id,
       };
-      dispatch(editProjectTypeDetail(data));
+      dispatch(editProjectTypeDetailSevice(data));
       clearInput();
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -125,9 +111,10 @@ export default function EditProjectStatus({ detail, onClose }) {
             <div className="flex-1 mr-3">
               <label className="block">Name:</label>
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline 
+                
+                 focus:border-gray-outlineFocus rounded-md 
+                ${name.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -139,9 +126,9 @@ export default function EditProjectStatus({ detail, onClose }) {
             <div className="flex-1 ml-3">
               <label className="block">Status:</label>
               <select
-                className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  status.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={` w-full p-2 border-2 my-1 border-gray-outline 
+                focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${status.value.length ? " border-gray-outlineFocus" : ""}`}
                 name="status"
                 value={status.value}
                 onChange={handleChangeStatus}
@@ -155,9 +142,9 @@ export default function EditProjectStatus({ detail, onClose }) {
           </div>
           <label className="block">Description:</label>
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline 
+             focus:border-gray-outlineFocus rounded-md 
+             ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}

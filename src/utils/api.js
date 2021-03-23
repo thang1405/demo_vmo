@@ -1,6 +1,6 @@
 export const editApi = (array = [], data) => {
   return array.map(item => {
-    return item.id == data.id ? data : item;
+    return item.id === data.id ? data : item;
   });
 };
 
@@ -9,5 +9,5 @@ export const randomId = () => {
 };
 
 export const deleteApi = (array = [], id) => {
-  return array.filter(item => item.id != id);
+  return array.filter(item => item.id !== id);
 };

@@ -1,76 +1,42 @@
 import * as CONSTANTS from "./departments.constants";
 
 // get info table
-export const getAllDepartmentSuccess = data => {
+export const getAllDepartment = data => {
   return {
-    type: CONSTANTS.GET_ALL_DEPARTMENT_SUCCESS,
-    payload: data,
-  };
-};
-export const getAllDepartmentError = error => {
-  return {
-    type: CONSTANTS.GET_ALL_DEPARTMENT_ERROR,
-    error: error,
-  };
-};
-
-//get info detail
-export const getDepartmentDetailSuccess = data => {
-  return {
-    type: CONSTANTS.GET_DEPARTMENT_DETAIL_SUCCESS,
+    type: CONSTANTS.GET_ALL_DEPARTMENT,
     payload: data,
   };
 };
 
-export const getDepartmentDetailError = error => {
+// get info detail
+export const getDepartmentDetail = data => {
   return {
-    type: CONSTANTS.GET_DEPARTMENT_DETAIL_ERROR,
-    error: error,
+    type: CONSTANTS.GET_DEPARTMENT_DETAIL,
+    payload: data,
   };
 };
 
 // create new Customer
-export const createDepartmentSuccess = data => {
+export const createDepartment = data => {
   return {
-    type: CONSTANTS.CREATE_DEPARTMENT_SUCCESS,
+    type: CONSTANTS.CREATE_DEPARTMENT,
     payload: data,
-  };
-};
-
-export const createDepartmentError = error => {
-  return {
-    type: CONSTANTS.CREATE_DEPARTMENT_ERROR,
-    error: error,
   };
 };
 
 // edit detail customer
-export const editDepartmentDetailSuccess = data => {
+export const editDepartmentDetail = data => {
   return {
-    type: CONSTANTS.EDIT_DEPARTMENT_DETAIL_SUCCESS,
+    type: CONSTANTS.EDIT_DEPARTMENT_DETAIL,
     payload: data,
   };
 };
 
-export const editDepartmentDetailError = error => {
-  return {
-    type: CONSTANTS.EDIT_DEPARTMENT_DETAIL_ERROR,
-    error: error,
-  };
-};
-
 // deleta Customer
-export const deleteDepartmentSuccess = departmentId => {
+export const deleteDepartment = DepartmentId => {
   return {
-    type: CONSTANTS.DELETE_DEPARTMENT_SUCCESS,
-    payload: departmentId,
-  };
-};
-
-export const deleteDepartmentError = error => {
-  return {
-    type: CONSTANTS.DELETE_DEPARTMENT_SUCCESS,
-    payload: error,
+    type: CONSTANTS.DELETE_DEPARTMENT,
+    payload: DepartmentId,
   };
 };
 

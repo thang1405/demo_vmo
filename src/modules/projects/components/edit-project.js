@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
-import { editProjectDetail } from "../projects.services";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
+import { editProjectDetailSevice } from "../projects.services";
 
-import MultiSelectTechStack from "../../../components/multi-select-tech-stack";
-import MultiSelectStaff from "../../../components/multi-select-staff";
-import MultiSelectDepartment from "../../../components/multi-select-department";
-import MultiSelectProjectType from "../../../components/multi-select-project-type";
-import MultiSelectProjectStatus from "../../../components/multi-select-project-status";
-import Button from "../../../components/button";
-import ButtonBack from "../../../components/button-back";
+import MultiSelectTechStack from "components/multi-select-tech-stack";
+import MultiSelectStaff from "components/multi-select-staff";
+import MultiSelectDepartment from "components/multi-select-department";
+import MultiSelectProjectType from "components/multi-select-project-type";
+import MultiSelectProjectStatus from "components/multi-select-project-status";
+import Button from "components/button";
+import ButtonBack from "components/button-back";
 
 export default function EditProject({ detail, onClose }) {
   const [name, setName] = useState({
@@ -59,21 +59,13 @@ export default function EditProject({ detail, onClose }) {
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangeTechStack = data => {
@@ -123,9 +115,9 @@ export default function EditProject({ detail, onClose }) {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description];
+    const formData = [name, description];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         techStack: techStack.value,
@@ -135,11 +127,9 @@ export default function EditProject({ detail, onClose }) {
         department: department.value,
         id: detail.id,
       };
-      dispatch(editProjectDetail(data));
+      dispatch(editProjectDetailSevice(data));
       clearInput();
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -166,9 +156,9 @@ export default function EditProject({ detail, onClose }) {
             <div className="flex-1 lg:mr-3">
               <label className="block">Name:</label>
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline 
+                focus:outline-none focus:border-gray-outlineFocus rounded-md 
+                ${name.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -221,9 +211,9 @@ export default function EditProject({ detail, onClose }) {
           </div>
           <label className="block">Description:</label>
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline 
+            focus:outline-none focus:border-gray-outlineFocus rounded-md 
+            ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}

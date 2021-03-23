@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { login } from "../login.service";
+import { loginSevice } from "../login.service";
 import { TOKEN } from "../login.constants";
 
-import imgweb from "../../../assets/img/imgweb2.jpg";
+import imgweb from "assets/img/imgweb2.jpg";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -30,8 +30,9 @@ export default function LoginForm() {
             />
           </div>
           <button
-            className="px-4 py-3 bg-blue-secondary rounded-full text-white inline-block focus:outline-none my-5"
-            onClick={() => dispatch(login(TOKEN))}
+            className="px-4 py-3 bg-blue-secondary
+            rounded-full text-white inline-block focus:outline-none my-5"
+            onClick={() => dispatch(loginSevice(TOKEN))}
           >
             Login
           </button>

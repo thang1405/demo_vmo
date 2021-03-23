@@ -3,15 +3,15 @@ import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 import { TABLE_NAME, PATH_NAME } from "../projects.constants";
-import { deleteProject } from "../projects.services";
-import { getDetail } from "../../../services/api";
+import { deleteProjectSevice } from "../projects.services";
+import { getDetail } from "services/api";
 import EditProject from "./edit-project";
-import Button from "../../../components/button";
-import Loader from "../../../components/loader";
-import ButtonBack from "../../../components/button-back";
-import ListRoute from "../../../components/list-route";
+import Button from "components/button";
+import Loader from "components/loader";
+import ButtonBack from "components/button-back";
+import ListRoute from "components/list-route";
 
-import * as PATHS from "../../../constants/pathName";
+import * as PATHS from "constants/pathName";
 
 export default function DetailProject() {
   const { id } = useParams();
@@ -33,7 +33,7 @@ export default function DetailProject() {
 
   const handleDelete = () => {
     history.replace(`/${PATH_NAME}`);
-    dispatch(deleteProject(id));
+    dispatch(deleteProjectSevice(id));
   };
 
   const handleEdit = () => {

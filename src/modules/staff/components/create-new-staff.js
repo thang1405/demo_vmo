@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import Modal from "../../../components/modal";
-import MultiSelectTechStack from "../../../components/multi-select-tech-stack";
-import MultiSelectProject from "../../../components/multi-select-project";
+import Modal from "components/modal";
+import MultiSelectTechStack from "components/multi-select-tech-stack";
+import MultiSelectProject from "components/multi-select-project";
 
-import { createStaff } from "../staff.services";
-import { randomId } from "../../../utils/api";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
-import CreateButton from "../../../components/create-button";
+import { createStaffSevice } from "../staff.services";
+import { randomId } from "utils/api";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
+import CreateButton from "components/create-button";
 
 const CreateNewStaff = () => {
   const [show, setShow] = useState(false);
@@ -45,31 +45,19 @@ const CreateNewStaff = () => {
   const handleChangeDateBirth = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDateBirth({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDateBirth({ value, errorMessage, isInputValid });
   };
 
   const handleChangeName = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangeTechStack = data => {
@@ -111,9 +99,9 @@ const CreateNewStaff = () => {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description];
+    const formData = [name, description];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         techStack: techStack.value,
@@ -121,10 +109,8 @@ const CreateNewStaff = () => {
         dateBirth: dateBirth.value,
         id: randomId(),
       };
-      dispatch(createStaff(data));
+      dispatch(createStaffSevice(data));
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -136,9 +122,9 @@ const CreateNewStaff = () => {
           <div className="flex lg:flex-row flex-col">
             <div className="flex-1 lg:mr-3">
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
+                  focus:border-gray-outlineFocus rounded-md 
+                  ${name.value.length ? "border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -147,13 +133,14 @@ const CreateNewStaff = () => {
               />
               <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
             </div>
-            <div className="flex-1 lg:ml-3 ">
+            <div className=" w-1/2 lg:pl-3 ">
               <div className="flex flex-row items-center">
                 <div className="pr-3 ">Date of birth : </div>
                 <input
-                  className={`flex-1 p-2 border-2 my-1 h-11 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                    dateBirth.value.length ? " border-gray-outlineFocus" : ""
-                  }`}
+                  className={`flex-1 p-2 border-2 my-1 h-11
+                   border-gray-outline focus:outline-none 
+                   focus:border-gray-outlineFocus rounded-md 
+                   ${dateBirth.value.length ? " border-gray-outlineFocus" : ""}`}
                   type="date"
                   name="date"
                   placeholder="Date of Birth"
@@ -167,11 +154,11 @@ const CreateNewStaff = () => {
           </div>
 
           <div className="flex lg:flex-row flex-col">
-            <div className="flex-1 lg:mr-3">
+            <div className="w-1/2 lg:pr-3">
               <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
               <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
             </div>
-            <div className="flex-1 lg:ml-3">
+            <div className="w-1/2 lg:pr-3">
               <MultiSelectTechStack
                 valueData={techStack.value}
                 callBackData={handleChangeTechStack}
@@ -181,9 +168,9 @@ const CreateNewStaff = () => {
           </div>
 
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline 
+            focus:outline-none focus:border-gray-outlineFocus rounded-md 
+            ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -192,7 +179,8 @@ const CreateNewStaff = () => {
           <div className="text-red-500 text-sm h-5 px-3">{description.errorMessage}</div>
           <div className="">
             <input
-              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl focus:outline-none"
+              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl
+              text-white rounded-xl focus:outline-none"
               type="submit"
               value="Create"
             />

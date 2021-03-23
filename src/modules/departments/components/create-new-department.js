@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { createDepartment } from "../departments.services";
+import { createDepartmentSevice } from "../departments.services";
 
-import Modal from "../../../components/modal";
-import MultiSelectTechStack from "../../../components/multi-select-tech-stack";
-import MultiSelectProject from "../../../components/multi-select-project";
-import MultiSelectStaff from "../../../components/multi-select-staff";
-import CreateButton from "../../../components/create-button";
+import Modal from "components/modal";
+import MultiSelectTechStack from "components/multi-select-tech-stack";
+import MultiSelectProject from "components/multi-select-project";
+import MultiSelectStaff from "components/multi-select-staff";
+import CreateButton from "components/create-button";
 
-import { randomId } from "../../../utils/api";
-import { validateInput } from "../../../utils/validateInput";
-import { isValidSubmit } from "../../../utils/submitForm";
+import { randomId } from "utils/api";
+import { validateInput } from "utils/validateInput";
+import { isValidSubmit } from "utils/submitForm";
 
 const CreateNewDepartment = () => {
   const [show, setShow] = useState(false);
@@ -50,21 +50,13 @@ const CreateNewDepartment = () => {
   const handleChangeName = e => {
     const { value } = e.target;
     const { isInputValid, errorMessage } = validateInput("", value);
-    setName({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setName({ value, errorMessage, isInputValid });
   };
 
   const handleChangeDescription = e => {
     const { name, value } = e.target;
     const { isInputValid, errorMessage } = validateInput(name, value);
-    setDescription({
-      value: value,
-      errorMessage: errorMessage,
-      isInputValid: isInputValid,
-    });
+    setDescription({ value, errorMessage, isInputValid });
   };
 
   const handleChangeTechStack = data => {
@@ -111,9 +103,9 @@ const CreateNewDepartment = () => {
   const handleSubmit = e => {
     e.preventDefault();
     checkForm();
-    let formData = [name, description];
+    const formData = [name, description];
     if (isValidSubmit(formData)) {
-      let data = {
+      const data = {
         name: name.value,
         description: description.value,
         techStack: techStack.value,
@@ -121,10 +113,8 @@ const CreateNewDepartment = () => {
         staff: staff.value,
         id: randomId(),
       };
-      dispatch(createDepartment(data));
+      dispatch(createDepartmentSevice(data));
       onClose();
-    } else {
-      console.log("submit error");
     }
   };
 
@@ -134,11 +124,11 @@ const CreateNewDepartment = () => {
       <Modal title="Create Department" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
           <div className="flex lg:flex-row flex-col">
-            <div className="flex-1 lg:mr-3">
+            <div className="w-1/2 lg:pr-3">
               <input
-                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-                  name.value.length ? " border-gray-outlineFocus" : ""
-                }`}
+                className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none
+                 focus:border-gray-outlineFocus rounded-md 
+                 ${name.value.length ? " border-gray-outlineFocus" : ""}`}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -147,29 +137,29 @@ const CreateNewDepartment = () => {
               />
               <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
             </div>
-            <div className="flex-1 lg:ml-3">
+            <div className="w-1/2 lg:pl-3">
               <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
               <div className=" text-red-500">{staff.isInputValid ? "" : staff.errorMessage}</div>
               <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
             </div>
           </div>
           <div className="flex lg:flex-row flex-col">
-            <div className="flex-1 lg:mr-3">
+            <div className="w-1/2 lg:pr-3">
               <MultiSelectTechStack
                 valueData={techStack.value}
                 callBackData={handleChangeTechStack}
               />
               <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
             </div>
-            <div className="flex-1 lg:ml-3">
+            <div className="w-1/2 lg:pl-3">
               <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
               <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
             </div>
           </div>
           <textarea
-            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none focus:border-gray-outlineFocus rounded-md ${
-              description.value.length ? " border-gray-outlineFocus" : ""
-            }`}
+            className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none
+             focus:border-gray-outlineFocus rounded-md 
+             ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -179,7 +169,8 @@ const CreateNewDepartment = () => {
 
           <div className="">
             <input
-              className=" mt-4 px-8 py-2 bg-blue-primary text-md-nl text-white rounded-xl focus:outline-none"
+              className=" mt-4 px-8 py-2 bg-blue-primary
+               text-md-nl text-white rounded-xl focus:outline-none"
               type="submit"
               value="Create"
             />

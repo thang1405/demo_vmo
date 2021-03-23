@@ -1,5 +1,5 @@
 import React from "react";
-import DetailProject from "../../../modules/projects/components/detail-project";
+import DetailProject from "modules/projects/components/detail-project";
 
 function ProjectDetail() {
   return (
