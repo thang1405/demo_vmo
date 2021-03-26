@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+
+import { TABLE_NAME } from "../customers.constants";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editCustomerDetailSevice } from "../customers.services";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
+import { getDetail } from "services/api";
 
-export default function EditCustomer({ detail, onClose }) {
+export default function EditCustomer() {
+  const { id } = useParams();
+  const history = useHistory();
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -92,8 +98,7 @@ export default function EditCustomer({ detail, onClose }) {
     setStatus(initState);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     checkForm();
     const formData = [name, description, priority, status];
     if (isValidSubmit(formData)) {
@@ -102,15 +107,16 @@ export default function EditCustomer({ detail, onClose }) {
         description: description.value,
         priority: priority.value,
         status: status.value,
-        id: detail.id,
+        id,
       };
       dispatch(editCustomerDetailSevice(data));
       clearInput();
-      onClose();
+      handleBack();
     }
   };
 
   useEffect(() => {
+    const detail = getDetail(TABLE_NAME, id);
     if (detail) {
       setName({ ...name, value: detail.name });
       setDescription({ ...description, value: detail.description });
@@ -118,12 +124,14 @@ export default function EditCustomer({ detail, onClose }) {
       setStatus({ ...status, value: detail.status });
     }
   }, []);
-
+  const handleBack = () => {
+    history.goBack();
+  };
   return (
     <div className="rounded-xl">
-      <ButtonBack onClick={onClose} />
+      <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl">
-        <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
+        <div className=" uppercase text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
           Customer edit
         </div>
         <div className="p-5 px-8">
@@ -162,8 +170,8 @@ export default function EditCustomer({ detail, onClose }) {
           <label className="block">Description:</label>
           <textarea
             className={`w-full p-2 border-2 my-1 border-gray-outline 
-            focus:outline-none focus:border-gray-outlineFocus rounded-m
-            d description.value.length ? " border-gray-outlineFocus" : }`}
+            focus:outline-none focus:border-gray-outlineFocus rounded-md 
+            ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -174,8 +182,8 @@ export default function EditCustomer({ detail, onClose }) {
           <label className="block">Priority:</label>
           <select
             className={` w-full p-2 border-2 my-1 border-gray-outline 
-            focus:outline-none focus:border-gray-outlineFocus rounded-m
-            d priority.value.length ? " border-gray-outlineFocus" : }`}
+            focus:outline-none focus:border-gray-outlineFocus rounded-md 
+            ${priority.value.length ? " border-gray-outlineFocus" : ""}`}
             name="priority"
             value={priority.value}
             onChange={handleChangePriority}
@@ -190,7 +198,7 @@ export default function EditCustomer({ detail, onClose }) {
           <div className="flex justify-start py-4">
             <div className="flex flex-row float-right justify-end">
               <Button onClick={handleSubmit} name="Update" color="blue" />
-              <Button onClick={onClose} name="Cancel" color="red" />
+              <Button onClick={handleBack} name="Cancel" color="red" />
             </div>
           </div>
         </div>

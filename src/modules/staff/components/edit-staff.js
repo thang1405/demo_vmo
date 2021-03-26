@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+
+import { TABLE_NAME } from "../staff.constants";
+import { getDetail } from "services/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editStaffDetailSevice } from "../staff.services";
-
 import MultiSelectTechStack from "components/multi-select-tech-stack";
 import MultiSelectProject from "components/multi-select-project";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
 
-export default function EditStaff({ detail, onClose }) {
+export default function EditStaff() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { id } = useParams();
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -91,8 +96,7 @@ export default function EditStaff({ detail, onClose }) {
     setDescription(initState);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     checkForm();
     const formData = [name, description];
     if (isValidSubmit(formData)) {
@@ -102,15 +106,19 @@ export default function EditStaff({ detail, onClose }) {
         techStack: techStack.value,
         project: project.value,
         dateBirth: dateBirth.value,
-        id: detail.id,
+        id,
       };
       dispatch(editStaffDetailSevice(data));
       clearInput();
-      onClose();
+      handleBack();
     }
   };
 
+  const handleBack = () => {
+    history.goBack();
+  };
   useEffect(() => {
+    const detail = getDetail(TABLE_NAME, id);
     if (detail) {
       setName({ ...name, value: detail.name });
       setDescription({ ...description, value: detail.description });
@@ -122,7 +130,7 @@ export default function EditStaff({ detail, onClose }) {
 
   return (
     <div className="rounded-xl">
-      <ButtonBack onClick={onClose} />
+      <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">Staff edit</div>
         <div className="p-5 px-8">
@@ -187,7 +195,7 @@ export default function EditStaff({ detail, onClose }) {
           <div className="flex justify-start py-4">
             <div className="flex flex-row float-right justify-end">
               <Button onClick={handleSubmit} name="Update" color="blue" />
-              <Button onClick={onClose} name="Cancel" color="red" />
+              <Button onClick={handleBack} name="Cancel" color="red" />
             </div>
           </div>
         </div>

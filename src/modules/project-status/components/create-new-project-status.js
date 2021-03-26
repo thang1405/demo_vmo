@@ -7,10 +7,16 @@ import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { randomId } from "utils/api";
 import CreateButton from "components/create-button";
+import Toast from "components/toast";
 
 const CreateNewProjectStatus = () => {
   const [show, setShow] = useState(false);
-
+  const [notification, setNotification] = useState({
+    show: false,
+    title: "",
+    message: "",
+    type: "",
+  });
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -91,6 +97,12 @@ const CreateNewProjectStatus = () => {
         id: randomId(),
       };
       dispatch(createProjectStatusSevice(data));
+      setNotification({
+        show: true,
+        title: "Success",
+        message: `Create success ${name.value}`,
+        type: "success",
+      });
       onClose();
     }
   };
@@ -98,7 +110,7 @@ const CreateNewProjectStatus = () => {
   return (
     <div className="my-3 flex flex-row justify-end">
       <CreateButton onClick={() => setShow(true)} />
-
+      <Toast {...notification} onClose={() => setNotification({ ...notification, show: false })} />
       <Modal title="Create project status" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
           <div className="flex lg:flex-row flex-col">
@@ -133,8 +145,8 @@ const CreateNewProjectStatus = () => {
           </div>
           <textarea
             className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
-            focus:border-gray-outlineFocus rounded-m
-            d description.value.length ? " border-gray-outlineFocus" : }`}
+            focus:border-gray-outlineFocus rounded-md 
+             ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+
+import { TABLE_NAME } from "../projects.constants";
+import { getDetail } from "services/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editProjectDetailSevice } from "../projects.services";
@@ -12,7 +16,9 @@ import MultiSelectProjectStatus from "components/multi-select-project-status";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
 
-export default function EditProject({ detail, onClose }) {
+export default function EditProject() {
+  const { id } = useParams();
+  const history = useHistory();
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -112,8 +118,7 @@ export default function EditProject({ detail, onClose }) {
     setDescription(initState);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     checkForm();
     const formData = [name, description];
     if (isValidSubmit(formData)) {
@@ -125,15 +130,16 @@ export default function EditProject({ detail, onClose }) {
         projectStatus: projectStatus.value,
         projectType: projectType.value,
         department: department.value,
-        id: detail.id,
+        id,
       };
       dispatch(editProjectDetailSevice(data));
       clearInput();
-      onClose();
+      handleBack();
     }
   };
 
   useEffect(() => {
+    const detail = getDetail(TABLE_NAME, id);
     if (detail) {
       setName({ ...name, value: detail.name });
       setDescription({ ...description, value: detail.description });
@@ -144,9 +150,14 @@ export default function EditProject({ detail, onClose }) {
       setProjectType({ ...projectType, value: detail.projectType });
     }
   }, []);
+
+  const handleBack = () => {
+    history.goBack();
+  };
+
   return (
     <div className="rounded-xl">
-      <ButtonBack onClick={onClose} />
+      <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
           Project edit
@@ -225,7 +236,7 @@ export default function EditProject({ detail, onClose }) {
           <div className="flex justify-start py-4">
             <div className="flex flex-row float-right justify-end">
               <Button onClick={handleSubmit} name="Update" color="blue" />
-              <Button onClick={onClose} name="Cancel" color="red" />
+              <Button onClick={handleBack} name="Cancel" color="red" />
             </div>
           </div>
         </div>

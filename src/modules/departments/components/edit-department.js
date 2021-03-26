@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editDepartmentDetailSevice } from "../departments.services";
-
+import { TABLE_NAME } from "../departments.constants";
 import MultiSelectTechStack from "components/multi-select-tech-stack";
 import MultiSelectProject from "components/multi-select-project";
 import MultiSelectStaff from "components/multi-select-staff";
 import Button from "components/button";
+import { getDetail } from "services/api";
+import ButtonBack from "components/button-back";
 
-export default function EditDepartment({ detail, onClose }) {
+export default function EditDepartment() {
+  const { id } = useParams();
+  const history = useHistory();
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -90,8 +96,7 @@ export default function EditDepartment({ detail, onClose }) {
     setDescription(initState);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     checkForm();
     const formData = [name, description];
     if (isValidSubmit(formData)) {
@@ -101,15 +106,16 @@ export default function EditDepartment({ detail, onClose }) {
         techStack: techStack.value,
         project: project.value,
         staff: staff.value,
-        id: detail.id,
+        id,
       };
       dispatch(editDepartmentDetailSevice(data));
       clearInput();
-      onClose();
+      handleBack();
     }
   };
 
   useEffect(() => {
+    const detail = getDetail(TABLE_NAME, id);
     if (detail) {
       setName({ ...name, value: detail.name });
       setDescription({ ...description, value: detail.description });
@@ -119,14 +125,13 @@ export default function EditDepartment({ detail, onClose }) {
     }
   }, []);
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   return (
     <div className="rounded-xl">
-      <div
-        className="mb-3 bg-white flex h-10 w-10 justify-center items-center rounded-xl shadow"
-        onClick={onClose}
-      >
-        <i className="fas fa-arrow-left"></i>
-      </div>
+      <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
           Department edit
@@ -171,8 +176,8 @@ export default function EditDepartment({ detail, onClose }) {
           <label className="block">Description:</label>
           <textarea
             className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none
-             focus:border-gray-outlineFocus rounded-m
-             d description.value.length ? " border-gray-outlineFocus" : }`}
+             focus:border-gray-outlineFocus rounded-md 
+              ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -184,7 +189,7 @@ export default function EditDepartment({ detail, onClose }) {
           <div className="flex justify-start py-4">
             <div className="flex flex-row float-right justify-end">
               <Button onClick={handleSubmit} name="Update" color="blue" />
-              <Button onClick={onClose} name="Cancel" color="red" />
+              <Button onClick={handleBack} name="Cancel" color="red" />
             </div>
           </div>
         </div>

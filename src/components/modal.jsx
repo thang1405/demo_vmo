@@ -3,7 +3,7 @@ import React from "react";
 const Modal = props => {
   return (
     <div
-      className={`fixed inset-0 bg-black bg-opacity-50 flex
+      className={`fixed inset-0 bg-black-secondary bg-opacity-60 flex
        items-start justify-center opacity-0 transition-all pointer-events-none 
        ${props.show ? "opacity-100 pointer-events-auto" : ""}`}
       onClick={props.onClose}

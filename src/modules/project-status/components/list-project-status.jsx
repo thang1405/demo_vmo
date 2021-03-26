@@ -51,7 +51,11 @@ function ListProjectStatus() {
             <td className="p-1 px-4 "></td>
           </tr>
           {getList().map((item, index) => (
-            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-100">
+            <tr
+              key={index}
+              onClick={() => handleClick(item)}
+              className="hover:bg-gray-50 cursor-pointer"
+            >
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">

@@ -5,7 +5,7 @@ export default function TagStatus({ value }) {
     <div
       className={`${
         value === "active" ? " text-green-tag " : " text-red-600"
-      } rounded-xl inline-block p-1 px-2 uppercase text-sm bg-gray-bgTag font-medium`}
+      } mx-2 rounded-xl inline-block p-1 px-2 uppercase text-sm bg-gray-bgTag font-medium`}
     >
       {value}
     </div>

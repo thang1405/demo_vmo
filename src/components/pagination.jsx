@@ -5,7 +5,7 @@ export default function Pagination({ onNext, onPrevious, page, totalPage }) {
     <div className="flex p-2 justify-end">
       {page > 1 ? (
         <div
-          className={`text-xl rounded-full h-9 w-9
+          className={`text-xl rounded-full h-9 w-9 cursor-pointer
            justify-center flex items-center text-white m-1 hover:opacity-80 bg-indigo-500`}
           onClick={onPrevious}
         >
@@ -15,7 +15,7 @@ export default function Pagination({ onNext, onPrevious, page, totalPage }) {
       <div className=" items-center flex text-lg p-1">page {page}</div>
       {page < totalPage && totalPage > 1 ? (
         <div
-          className={`text-xl rounded-full h-9 w-9
+          className={`text-xl rounded-full h-9 w-9 cursor-pointer
          justify-center flex items-center text-white m-1 hover:opacity-80 bg-indigo-500`}
           onClick={onNext}
         >

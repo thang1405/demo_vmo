@@ -6,6 +6,7 @@ import { routers } from "router.config";
 
 import LeftSideBar from "components/left-side-bar";
 import Header from "components/header";
+
 import Login from "pages/login/Login";
 import Home from "pages/home/Home";
 import AuthRoute from "components/auth-route";
@@ -39,9 +40,9 @@ function App() {
         <Route
           render={({ location }) => {
             return (
-              <div className="flex flex-row bg-gray-primary">
+              <div className="flex flex-row bg-gray-primary min-h-screen">
                 <LeftSideBar />
-                <div className="flex-1 flex-col py-5 ml-28 lg:ml-80 h-screen">
+                <div className="flex-1 flex-col py-5 ml-28 lg:ml-80 ">
                   <Header />
                   <Switch location={location}>{RouterList()}</Switch>
                 </div>

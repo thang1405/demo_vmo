@@ -16,7 +16,11 @@ module.exports = {
       transparent: "transparent",
       current: "currentColor",
 
-      black: colors.black,
+      black: {
+        ...colors.black,
+        primary: "#2B2F33",
+        secondary: "#212529",
+      },
       white: colors.white,
       gray: {
         ...colors.coolGray,
@@ -100,6 +104,9 @@ module.exports = {
       ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
       pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       bounce: "bounce 1s infinite",
+      slideInLeft: "slideInLeft ease 0.3s",
+      fadeOut: "fadeOut linear 1s 3s forwards",
+      slideInLeftAndFadeOut: "slideInLeft ease 0.3s,fadeOut linear 1s 3s forwards",
     },
     backgroundColor: theme => theme("colors"),
     backgroundImage: {
@@ -442,6 +449,22 @@ module.exports = {
         "50%": {
           transform: "none",
           animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
+        },
+      },
+      slideInLeft: {
+        "0%": {
+          transform: "translateX(calc(100% + 12px))",
+        },
+        "100%": {
+          transform: "translateX(0)",
+        },
+      },
+      fadeOut: {
+        "0%": {
+          opacity: 1,
+        },
+        "100%": {
+          opacity: 0,
         },
       },
     },

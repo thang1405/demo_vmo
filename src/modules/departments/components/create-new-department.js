@@ -12,10 +12,16 @@ import CreateButton from "components/create-button";
 import { randomId } from "utils/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
+import Toast from "components/toast";
 
 const CreateNewDepartment = () => {
   const [show, setShow] = useState(false);
-
+  const [notification, setNotification] = useState({
+    show: false,
+    title: "",
+    message: "",
+    type: "",
+  });
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -114,6 +120,12 @@ const CreateNewDepartment = () => {
         id: randomId(),
       };
       dispatch(createDepartmentSevice(data));
+      setNotification({
+        show: true,
+        title: "Success",
+        message: `Create success ${name.value}`,
+        type: "success",
+      });
       onClose();
     }
   };
@@ -121,6 +133,7 @@ const CreateNewDepartment = () => {
   return (
     <div className="my-3 flex flex-row justify-end">
       <CreateButton onClick={() => setShow(true)} />
+      <Toast {...notification} onClose={() => setNotification({ ...notification, show: false })} />
       <Modal title="Create Department" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
           <div className="flex lg:flex-row flex-col">

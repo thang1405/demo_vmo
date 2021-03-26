@@ -6,7 +6,6 @@ import { TABLE_NAME, PATH_NAME } from "../departments.constants";
 import * as PATHS from "constants/pathName";
 import { deleteDepartmentSevice } from "../departments.services";
 import { getDetail } from "services/api";
-import EditDepartment from "./edit-department";
 import Button from "components/button";
 import Loader from "components/loader";
 import ListRoute from "components/list-route";
@@ -14,7 +13,6 @@ import ListRoute from "components/list-route";
 export default function DetailDepartment() {
   const { id } = useParams();
   const [detail, setDetail] = useState({});
-  const [edit, setEdit] = useState(true);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -23,11 +21,7 @@ export default function DetailDepartment() {
     if (data) {
       setDetail(data);
     }
-  }, [edit]);
-
-  const handleClose = () => {
-    setEdit(true);
-  };
+  }, []);
 
   const handleDelete = () => {
     history.replace(`/${PATH_NAME}`);
@@ -35,7 +29,7 @@ export default function DetailDepartment() {
   };
 
   const handleEdit = () => {
-    setEdit(false);
+    history.push(`/${PATH_NAME}/${id}/edit`);
   };
 
   const handleBack = () => {
@@ -45,7 +39,7 @@ export default function DetailDepartment() {
   if (!detail.name) {
     return <Loader />;
   }
-  return edit ? (
+  return (
     <div className="rounded-xl ">
       <div
         className="mb-3 bg-white flex h-10 w-10
@@ -59,17 +53,21 @@ export default function DetailDepartment() {
           <p className=" text-2xl font-medium p-5 px-8 uppercase">Department : {detail.name}</p>
 
           <div className="flex flex-row float-right justify-end  p-5">
-            <Button onClick={handleDelete} name="Delete" color="red" />
+            <Button onClick={handleDelete} name="Delete" color="red" isConfim={true} />
             <Button onClick={handleEdit} name="Edit" color="blue" />
           </div>
         </div>
         <div className="flex p-5 px-8">
-          <div className="flex-1">
-            <label className=" text-sm font-normal text-gray-600">Description:</label>
-            <div className=" text-lg">{detail.description}</div>
-            <label className=" text-sm font-normal text-gray-600 block">Staffs :</label>
-            <div className="py-1">
-              <ListRoute path={PATHS.PATH_STAFF} dataList={detail.staff} />
+          <div className=" w-1/2">
+            <div className="">
+              <label className=" text-sm font-normal text-gray-600">Description:</label>
+              <span className="px-2 text-lg">{detail.description}</span>
+            </div>
+            <div className="">
+              <label className=" text-sm font-normal text-gray-600 block">Staffs :</label>
+              <div className="py-1">
+                <ListRoute path={PATHS.PATH_STAFF} dataList={detail.staff} />
+              </div>
             </div>
           </div>
           <div className="flex-1">
@@ -85,7 +83,5 @@ export default function DetailDepartment() {
         </div>
       </div>
     </div>
-  ) : (
-    <EditDepartment detail={detail} onClose={handleClose} />
   );
 }

@@ -7,10 +7,16 @@ import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { randomId } from "utils/api";
 import CreateButton from "components/create-button";
+import Toast from "components/toast";
 
 const CreateNewCustomer = () => {
   const [show, setShow] = useState(false);
-
+  const [notification, setNotification] = useState({
+    show: false,
+    title: "",
+    message: "",
+    type: "",
+  });
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -110,6 +116,12 @@ const CreateNewCustomer = () => {
         id: randomId(),
       };
       dispatch(createCustomerSevice(data));
+      setNotification({
+        show: true,
+        title: "Success",
+        message: `Create success ${name.value}`,
+        type: "success",
+      });
       onClose();
     }
   };
@@ -117,6 +129,7 @@ const CreateNewCustomer = () => {
   return (
     <div className="my-3 flex flex-row justify-end">
       <CreateButton onClick={() => setShow(true)} />
+      <Toast {...notification} onClose={() => setNotification({ ...notification, show: false })} />
       <Modal title="Create Customer" onClose={() => onClose()} show={show}>
         <form onSubmit={handleSubmit}>
           <div className="flex lg:flex-row flex-col">
@@ -153,7 +166,7 @@ const CreateNewCustomer = () => {
           <textarea
             className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
             focus:border-gray-outlineFocus rounded-md
-             $description.value.length ? " border-gray-outlineFocus" : }`}
+             ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -163,7 +176,7 @@ const CreateNewCustomer = () => {
           <select
             className={` w-full p-2 border-2 my-1 border-gray-outline focus:outline-none 
             focus:border-gray-outlineFocus rounded-md
-             $priority.value.length ? " border-gray-outlineFocus" : }`}
+             ${priority.value.length ? " border-gray-outlineFocus" : ""}`}
             name="priority"
             value={priority.value}
             onChange={handleChangePriority}

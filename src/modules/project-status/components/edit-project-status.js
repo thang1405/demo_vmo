@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+
+import { TABLE_NAME } from "../project-status.constants";
+import { getDetail } from "services/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editProjectStatusDetailSevice } from "../project-status.services";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
 
-export default function EditProjectStatus({ detail, onClose }) {
+export default function EditProjectStatus() {
+  const { id } = useParams();
+  const history = useHistory();
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
@@ -74,8 +80,7 @@ export default function EditProjectStatus({ detail, onClose }) {
     setStatus(initState);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     checkForm();
     const formData = [name, description, status];
     if (isValidSubmit(formData)) {
@@ -83,15 +88,16 @@ export default function EditProjectStatus({ detail, onClose }) {
         name: name.value,
         description: description.value,
         status: status.value,
-        id: detail.id,
+        id,
       };
       dispatch(editProjectStatusDetailSevice(data));
       clearInput();
-      onClose();
+      handleBack();
     }
   };
 
   useEffect(() => {
+    const detail = getDetail(TABLE_NAME, id);
     if (detail) {
       setName({ ...name, value: detail.name });
       setDescription({ ...description, value: detail.description });
@@ -99,9 +105,12 @@ export default function EditProjectStatus({ detail, onClose }) {
     }
   }, []);
 
+  const handleBack = () => {
+    history.goBack();
+  };
   return (
     <div className="rounded-xl">
-      <ButtonBack onClick={onClose} />
+      <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
           Project status edit
@@ -142,8 +151,8 @@ export default function EditProjectStatus({ detail, onClose }) {
           <label className="block">Description:</label>
           <textarea
             className={`w-full p-2 border-2 my-1 border-gray-outline focus:outline-none
-             focus:border-gray-outlineFocus rounded-m
-             d description.value.length ? " border-gray-outlineFocus" : F}`}
+             focus:border-gray-outlineFocus rounded-md 
+             ${description.value.length ? " border-gray-outlineFocus" : ""}`}
             name="description"
             placeholder="Description"
             value={description.value}
@@ -155,7 +164,7 @@ export default function EditProjectStatus({ detail, onClose }) {
           <div className="flex justify-start py-4">
             <div className="flex flex-row float-right justify-end">
               <Button onClick={handleSubmit} name="Update" color="blue" />
-              <Button onClick={onClose} name="Cancel" color="red" />
+              <Button onClick={handleBack} name="Cancel" color="red" />
             </div>
           </div>
         </div>

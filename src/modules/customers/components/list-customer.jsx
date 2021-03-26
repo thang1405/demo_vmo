@@ -36,7 +36,7 @@ function ListCustomer() {
         className=" text-sm w-full
        text-left border-l border-r bg-white border-b border-gray-100"
       >
-        <thead className=" border border-gray-100 bg-white">
+        <thead className=" border border-gray-100 bg-white cursor-default">
           <tr>
             <th className="p-2 px-4 border-r border-gray-100">Name</th>
             <th className="p-2 px-4 border-r border-gray-100">Description</th>
@@ -52,7 +52,11 @@ function ListCustomer() {
             <td className="p-1 px-4 "></td>
           </tr>
           {getList().map((item, index) => (
-            <tr key={index} onClick={() => handleClick(item)} className=" hover:bg-gray-50">
+            <tr
+              key={index}
+              onClick={() => handleClick(item)}
+              className=" hover:bg-gray-50 cursor-pointer"
+            >
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
               <td className="p-2 px-4 border-r border-b border-gray-100">{item.priority}</td>
