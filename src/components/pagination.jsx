@@ -1,6 +1,9 @@
 import React from "react";
 
 export default function Pagination({ onNext, onPrevious, page, totalPage }) {
+  if (totalPage <= 1) {
+    return null;
+  }
   return (
     <div className="flex p-2 justify-end">
       {page > 1 ? (
@@ -12,7 +15,9 @@ export default function Pagination({ onNext, onPrevious, page, totalPage }) {
           <i className="fas fa-arrow-left"></i>
         </div>
       ) : null}
-      <div className=" items-center flex text-lg p-1">page {page}</div>
+      <div className=" items-center flex text-lg p-1">
+        page {page}/{totalPage}
+      </div>
       {page < totalPage && totalPage > 1 ? (
         <div
           className={`text-xl rounded-full h-9 w-9 cursor-pointer

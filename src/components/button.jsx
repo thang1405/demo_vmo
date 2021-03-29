@@ -13,6 +13,7 @@ export default function Button({ onClick, name, color, isConfim = false }) {
     }
     else {
       onClick();
+      setShow(false);
     }
   };
 
@@ -37,7 +38,7 @@ export default function Button({ onClick, name, color, isConfim = false }) {
               rounded-lg bg-blue-primary text-white"
               onClick={() => {
                 onClick();
-                setShow(true);
+                setShow(false);
               }}
             >
               confim

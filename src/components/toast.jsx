@@ -1,5 +1,5 @@
 import React from "react";
-const Toast = ({ title, message, type, show = true, onClose }) => {
+const Toast = ({ title, message, type, show = true, onClose, ducation = 3000 }) => {
   const icons = {
     success: "fa-check-circle",
     info: "fa-info-circle",
@@ -11,13 +11,11 @@ const Toast = ({ title, message, type, show = true, onClose }) => {
     error: "orange-primary",
   };
 
-  const timeClose = 4000;
-
   const autoRemove = () => {
     if (show) {
       setTimeout(function () {
         onClose();
-      }, timeClose);
+      }, ducation + 1000);
     }
   };
 

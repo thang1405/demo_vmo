@@ -9,6 +9,7 @@ import TagStatus from "components/tag-status";
 import Loader from "components/loader";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
+import Toast from "components/toast";
 
 export default function DetailProjectType() {
   const { id } = useParams();
@@ -16,14 +17,29 @@ export default function DetailProjectType() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [notification, setNotification] = useState({
+    show: false,
+    title: "",
+    message: "",
+    type: "",
+  });
+
   useEffect(() => {
     const data = getDetail(TABLE_NAME, id);
     setDetail(data);
   }, []);
 
   const handleDelete = () => {
-    history.replace(`/${PATH_NAME}`);
     dispatch(deleteProjectTypeSevice(id));
+    setNotification({
+      show: true,
+      title: "Success",
+      message: "Delete success, please wait",
+      type: "success",
+    });
+    setTimeout(() => {
+      history.replace(`/${PATH_NAME}`);
+    }, 3000);
   };
 
   const handleEdit = () => {
@@ -41,6 +57,7 @@ export default function DetailProjectType() {
   return (
     <div className="rounded-xl">
       <ButtonBack onClick={handleBack} />
+      <Toast {...notification} onClose={() => setNotification({ ...notification, show: false })} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" border-b border-gray-bgTag flex justify-between">
           <p className=" text-2xl font-medium p-5 px-8 uppercase">Project type : {detail.name}</p>

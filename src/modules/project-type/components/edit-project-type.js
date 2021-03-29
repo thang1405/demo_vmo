@@ -9,6 +9,7 @@ import { isValidSubmit } from "utils/submitForm";
 import { editProjectTypeDetailSevice } from "../project-type.services";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
+import Toast from "components/toast";
 
 export default function EditProjectStatus() {
   const { id } = useParams();
@@ -28,6 +29,13 @@ export default function EditProjectStatus() {
     value: "",
     errorMessage: "",
     isInputValid: true,
+  });
+
+  const [notification, setNotification] = useState({
+    show: false,
+    title: "",
+    message: "",
+    type: "",
   });
 
   const handleChangeName = e => {
@@ -69,17 +77,6 @@ export default function EditProjectStatus() {
     });
   };
 
-  const clearInput = () => {
-    const initState = {
-      value: "",
-      errorMessage: "",
-      isInputValid: true,
-    };
-    setName(initState);
-    setDescription(initState);
-    setStatus(initState);
-  };
-
   const handleSubmit = () => {
     checkForm();
     const formData = [name, description, status];
@@ -91,8 +88,15 @@ export default function EditProjectStatus() {
         id,
       };
       dispatch(editProjectTypeDetailSevice(data));
-      clearInput();
-      handleBack();
+      setNotification({
+        show: true,
+        title: "Success",
+        message: `Create success ${name.value}`,
+        type: "success",
+      });
+      setTimeout(() => {
+        handleBack();
+      }, 3000);
     }
   };
 
@@ -112,6 +116,7 @@ export default function EditProjectStatus() {
   return (
     <div className="rounded-xl">
       <ButtonBack onClick={handleBack} />
+      <Toast {...notification} onClose={() => setNotification({ ...notification, show: false })} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" text-2xl font-medium p-5 px-8 border-b border-gray-bgTag">
           Project type edit

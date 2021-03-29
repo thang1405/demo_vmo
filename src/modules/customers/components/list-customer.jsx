@@ -32,20 +32,17 @@ function ListCustomer() {
 
   return (
     <div className=" ">
-      <table
-        className=" text-sm w-full
-       text-left border-l border-r bg-white border-b border-gray-100"
-      >
-        <thead className=" border border-gray-100 bg-white cursor-default">
-          <tr>
-            <th className="p-2 px-4 border-r border-gray-100">Name</th>
-            <th className="p-2 px-4 border-r border-gray-100">Description</th>
-            <th className="p-2 px-4 border-r border-gray-100">Priority</th>
-            <th className="p-2 px-4 border-r border-gray-100">Status</th>
+      <table className=" text-sm w-full text-left bg-white ">
+        <thead>
+          <tr className=" border border-gray-200 bg-white shadow-md">
+            <th className="p-2 px-4 ">Name</th>
+            <th className="p-2 px-4 ">Description</th>
+            <th className="p-2 px-4 ">Priority</th>
+            <th className="p-2 px-4 ">Status</th>
           </tr>
         </thead>
-        <tbody>
-          <tr className=" border-b border-gray-100 bg-gray-primary">
+        <tbody className="shadow-md">
+          <tr className=" border-b border-gray-200 bg-gray-primary">
             <td className="p-1 px-4 "></td>
             <td className="p-1 px-4 "></td>
             <td className="p-1 px-4 "></td>
@@ -55,12 +52,13 @@ function ListCustomer() {
             <tr
               key={index}
               onClick={() => handleClick(item)}
-              className=" hover:bg-gray-50 cursor-pointer"
+              className="hover:bg-gray-50 cursor-pointer
+              border-l border-r border-gray-200 "
             >
-              <td className="p-2 px-4 border-r border-b border-gray-100">{item.name}</td>
-              <td className="p-2 px-4 border-r border-b border-gray-100">{item.description}</td>
-              <td className="p-2 px-4 border-r border-b border-gray-100">{item.priority}</td>
-              <td className="p-2 px-4 border-r border-b border-gray-100">
+              <td className="p-2 px-4 border-b ">{item.name}</td>
+              <td className="p-2 px-4 border-b ">{item.description}</td>
+              <td className="p-2 px-4 border-b ">{item.priority}</td>
+              <td className="p-2 px-4 border-b ">
                 <TagStatus value={item.status} />
               </td>
             </tr>
