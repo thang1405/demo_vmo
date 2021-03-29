@@ -9,15 +9,16 @@ import {
 } from "./departments.action";
 
 export const createDepartmentSevice = newData => dispatch => {
-  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
-  data.push(newData);
-  setTable(TABLE_NAME, data);
+  const data = getTable(TABLE_NAME) || [];
   if (newData) {
+    data.push(newData);
+    setTable(TABLE_NAME, data);
     return dispatch(createDepartment(newData));
   }
 };
 
-export const getAllDepartmentSevice = data => dispatch => {
+export const getAllDepartmentSevice = () => dispatch => {
+  const data = getTable(TABLE_NAME) || [];
   if (data) {
     return dispatch(getAllDepartment(data));
   }

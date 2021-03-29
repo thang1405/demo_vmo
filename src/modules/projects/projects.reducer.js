@@ -1,11 +1,9 @@
 import { produce } from "immer";
 import * as CONSTANTS from "./projects.constants";
-import { totalOfPage } from "utils/pagination";
 
 const initState = {
   data: [],
-  totalPage: 1,
-  total: 0,
+  loading: true,
 };
 
 export const projectReducer = (state = initState, action) => {
@@ -14,22 +12,11 @@ export const projectReducer = (state = initState, action) => {
       // get table
       case CONSTANTS.GET_ALL_PROJECT:
         draft.data = action.payload;
-        draft.total = action.payload.length;
-        draft.totalPage = totalOfPage(draft.total, CONSTANTS.LIMIT_PROJECT);
-        break;
-      // get info cell
-      case CONSTANTS.GET_PROJECT_DETAIL:
+        draft.loading = false;
         break;
       // create new
       case CONSTANTS.CREATE_PROJECT:
-        // draft.data.push(action.payload);
-        draft.total++;
-        draft.totalPage = totalOfPage(draft.total, CONSTANTS.LIMIT_PROJECT);
-        break;
-      // delete customer
-      case CONSTANTS.DELETE_PROJECT:
-        draft.total--;
-        draft.totalPage = totalOfPage(draft.total, CONSTANTS.LIMIT_PROJECT);
+        draft.loading = true;
         break;
       default:
         return state;

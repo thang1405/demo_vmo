@@ -2,24 +2,26 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { getTable } from "services/api";
 import { getAllDepartmentSevice } from "../departments.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_DEPARTMENT } from "../departments.constants";
-import Pagination from "components/pagination";
 import * as PATH from "constants/pathName";
+import { PATH_NAME, LIMIT_DEPARTMENT } from "../departments.constants";
+import Pagination from "components/pagination";
+import { totalOfPage } from "utils/pagination";
 
 function ListDepartment() {
   const listDepartment = useSelector(state => state.departments.data);
-  const { totalPage, total } = useSelector(state => state.departments);
+  const { loading } = useSelector(state => state.departments);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
   const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
+  const totalPage = totalOfPage(listDepartment.length, LIMIT_DEPARTMENT);
 
   useEffect(() => {
-    const data = getTable(TABLE_NAME);
-    dispatch(getAllDepartmentSevice(data));
-  }, [total]);
+    dispatch(getAllDepartmentSevice());
+  }, [loading]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -39,10 +41,12 @@ function ListDepartment() {
           </tr>
         </thead>
         <tbody className="shadow-md">
-          <tr className=" border-b border-gray-200 bg-gray-primary">
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-          </tr>
+          {listDepartment ? (
+            <tr className=" border-b border-gray-200 bg-gray-primary">
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+            </tr>
+          ) : null}
           {getList().map((item, index) => (
             <tr
               key={index}

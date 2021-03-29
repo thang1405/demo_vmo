@@ -50,7 +50,7 @@ export default function DetailDepartment() {
       </div>
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" border-b border-gray-bgTag flex justify-between">
-          <p className=" text-2xl font-medium p-5 px-8 uppercase">Department : {detail.name}</p>
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Department: {detail.name}</p>
 
           <div className="flex flex-row float-right justify-end  p-5">
             <Button onClick={handleDelete} name="Delete" color="red" isConfim={true} />
@@ -64,18 +64,18 @@ export default function DetailDepartment() {
               <span className="px-2 text-lg">{detail.description}</span>
             </div>
             <div className="">
-              <label className=" text-sm font-normal text-gray-600 block">Staffs :</label>
+              <label className=" text-sm font-normal text-gray-600 block">Staffs:</label>
               <div className="py-1">
                 <ListRoute path={PATHS.PATH_STAFF} dataList={detail.staff} />
               </div>
             </div>
           </div>
           <div className="flex-1">
-            <label className=" text-sm font-normal text-gray-600 block">Tech stacks :</label>
+            <label className=" text-sm font-normal text-gray-600 block">Tech stacks:</label>
             <div className="py-1">
               <ListRoute path={PATHS.PATH_TECH_STACK} dataList={detail.techStack} />
             </div>
-            <label className=" text-sm font-normal text-gray-600 block">Projects :</label>
+            <label className=" text-sm font-normal text-gray-600 block">Projects:</label>
             <div className="py-1">
               <ListRoute path={PATHS.PATH_PROJECT} dataList={detail.project} />
             </div>

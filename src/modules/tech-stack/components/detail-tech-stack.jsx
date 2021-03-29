@@ -42,7 +42,7 @@ export default function DetailTechStack() {
       <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" border-b border-gray-bgTag flex justify-between">
-          <p className=" text-2xl font-medium p-5 px-8 uppercase">Tech stack : {detail.name}</p>
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Tech stack: {detail.name}</p>
           <div className="flex flex-row float-right justify-end  p-5">
             <Button onClick={handleDelete} name="Delete" color="red" isConfim={true} />
             <Button onClick={handleEdit} name="Edit" color="blue" />
@@ -59,7 +59,7 @@ export default function DetailTechStack() {
           </div>
           <div className="w-1/2">
             <div className="">
-              <label className=" text-sm font-normal text-gray-600">Status :</label>
+              <label className=" text-sm font-normal text-gray-600">Status:</label>
               <TagStatus value={detail.status} />
             </div>
           </div>

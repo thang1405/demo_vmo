@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { createDepartmentSevice } from "../departments.services";
 
 import Modal from "components/modal";
-import MultiSelectTechStack from "components/multi-select-tech-stack";
-import MultiSelectProject from "components/multi-select-project";
-import MultiSelectStaff from "components/multi-select-staff";
 import CreateButton from "components/create-button";
+import SelectList from "components/select-list";
 
+import * as TABLE from "constants/table";
+import { getTable } from "services/api";
 import { randomId } from "utils/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
@@ -130,6 +130,11 @@ const CreateNewDepartment = () => {
     }
   };
 
+  const data = {
+    staffs: getTable(TABLE.TABLE_STAFF) || [],
+    techStacks: getTable(TABLE.TABLE_TECH_STACK) || [],
+    projects: getTable(TABLE.TABLE_PROJECT) || [],
+  };
   return (
     <div className="my-3 flex flex-row justify-end">
       <CreateButton onClick={() => setShow(true)} />
@@ -151,21 +156,33 @@ const CreateNewDepartment = () => {
               <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
             </div>
             <div className="w-1/2 lg:pl-3">
-              <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+              <SelectList
+                selectedData={staff.value}
+                callBackData={handleChangeStaff}
+                list={data.staffs}
+                title="Select staffs ..."
+              />
               <div className=" text-red-500">{staff.isInputValid ? "" : staff.errorMessage}</div>
               <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
             </div>
           </div>
           <div className="flex lg:flex-row flex-col">
             <div className="w-1/2 lg:pr-3">
-              <MultiSelectTechStack
-                valueData={techStack.value}
+              <SelectList
+                selectedData={techStack.value}
                 callBackData={handleChangeTechStack}
+                list={data.techStacks}
+                title="Select tech stacks ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
             </div>
             <div className="w-1/2 lg:pl-3">
-              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <SelectList
+                selectedData={project.value}
+                callBackData={handleChangeProject}
+                list={data.projects}
+                title="Select projects ..."
+              />
               <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
             </div>
           </div>
@@ -183,7 +200,7 @@ const CreateNewDepartment = () => {
           <div className="">
             <input
               className=" mt-4 px-8 py-2 bg-blue-primary
-               text-md-nl text-white rounded-xl focus:outline-none"
+               text-md-nl text-white rounded-xl focus:outline-none cursor-pointer"
               type="submit"
               value="Create"
             />

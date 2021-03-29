@@ -45,7 +45,7 @@ export default function DetailProject() {
       <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" border-b border-gray-bgTag flex justify-between">
-          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project : {detail.name}</p>
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project: {detail.name}</p>
 
           <div className="flex flex-row float-right justify-end  p-5">
             <Button onClick={handleDelete} name="Delete" color="red" isConfim={true} />
@@ -58,25 +58,25 @@ export default function DetailProject() {
               <label className=" text-sm font-normal text-gray-600">Description:</label>
               <span className=" px-2 text-lg">{detail.description}</span>
             </div>
-            <label className=" text-sm font-normal text-gray-600 block">Project status :</label>
+            <label className=" text-sm font-normal text-gray-600 block">Project status:</label>
             <div className="py-1">
               <ListRoute path={PATHS.PATH_PROJECT_STATUS} dataList={detail.projectStatus} />
             </div>
-            <label className=" text-sm font-normal text-gray-600 block">Project types :</label>
+            <label className=" text-sm font-normal text-gray-600 block">Project types:</label>
             <div className="py-1">
               <ListRoute path={PATHS.PATH_PROJECT_TYPE} dataList={detail.projectType} />
             </div>
-            <label className=" text-sm font-normal text-gray-600 block">Departments :</label>
+            <label className=" text-sm font-normal text-gray-600 block">Departments:</label>
             <div className="py-1">
               <ListRoute path={PATHS.PATH_DEPARTMENT} dataList={detail.department} />
             </div>
           </div>
           <div className="w-1/2">
-            <label className=" text-sm font-normal text-gray-600 block">Staffs :</label>
+            <label className=" text-sm font-normal text-gray-600 block">Staffs:</label>
             <div className="py-1">
               <ListRoute path={PATHS.PATH_STAFF} dataList={detail.staff} />
             </div>
-            <label className=" text-sm font-normal text-gray-600 block">Tech stacks :</label>
+            <label className=" text-sm font-normal text-gray-600 block">Tech stacks:</label>
             <div className="py-1">
               <ListRoute path={PATHS.PATH_TECH_STACK} dataList={detail.techStack} />
             </div>

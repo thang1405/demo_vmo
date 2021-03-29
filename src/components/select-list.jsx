@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const SelectList = ({ selectedData, callBackData, list }) => {
+const SelectList = ({ selectedData, callBackData, list, title }) => {
   const [show, setShow] = useState(false);
   const [select, setSelect] = useState({
     selected: [],
@@ -54,9 +54,11 @@ const SelectList = ({ selectedData, callBackData, list }) => {
       setSelect({ ...select, selected: newSelected });
       callBackData(newSelected);
     }
-    const newSelected = select.selected.filter(value => value.id !== item.id);
-    setSelect({ ...select, selected: newSelected });
-    callBackData(newSelected);
+    else {
+      const newSelected = select.selected.filter(value => value.id !== item.id);
+      setSelect({ ...select, selected: newSelected });
+      callBackData(newSelected);
+    }
   };
 
   const handleDelete = (event, current) => {
@@ -75,12 +77,19 @@ const SelectList = ({ selectedData, callBackData, list }) => {
       >
         {data.map((item, index) => (
           <li
-            className={`p-2 pl-3 border-b border-gray-300 ${
-              isSelected(item) ? "bg-indigo-200 border-blue-300 text-blue-600" : ""
+            className={`p-2 pl-3 border-b border-gray-300 cursor-pointer  ${
+              isSelected(item) ? " bg-indigo-50 text-blue-700" : ""
             }`}
             onClick={() => handleSelect(item)}
             key={index}
           >
+            <input
+              type="checkbox"
+              className="mr-2"
+              name={item.name}
+              checked={isSelected(item)}
+              onChange={() => handleSelect(item)}
+            />
             {item.name}
           </li>
         ))}
@@ -95,37 +104,39 @@ const SelectList = ({ selectedData, callBackData, list }) => {
   const { selected, data } = select;
 
   return (
-    <div className="w-full relative  my-1" ref={wrapperRef}>
+    <div className="w-full relative  my-1 " ref={wrapperRef}>
       <div
-        className={`border-2 flex-wrap flex py-0.5 ${
-          show ? "border-2 border-gray-outlineFocus rounded-md " : " border-gray-outline rounded"
-        } ${selected.length ? " border-gray-outlineFocus" : ""}`}
+        className={`border-2 py-0.5 h-11 flex
+          ${show ? "border-2 border-gray-outlineFocus rounded-md " : " border-gray-outline rounded"}
+          ${selected.length ? " border-gray-outlineFocus" : ""}`}
         onClick={handleShow}
       >
-        {selected.length ? (
-          selected.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="border text-md bg-indigo-200
-                 inline-block text-blue-600 mx-1 p-1.25 rounded-md"
-              >
-                {item.name}
-                <div className="px-1 inline-block " onClick={event => handleDelete(event, item)}>
-                  <i className="fas fa-times"></i>
+        <div className="overflow-hidden whitespace-nowrap flex flex-1 cursor-pointer">
+          {selected.length ? (
+            selected.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="border border-blue-300 text-md bg-indigo-50
+                  inline-block text-blue-700 mx-1 p-1.25 rounded-md"
+                >
+                  {item.name}
+                  <div className="px-1 inline-block " onClick={event => handleDelete(event, item)}>
+                    <i className="fas fa-times"></i>
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        ) : (
-          <div className="text-md-nl pl-2 p-1.5 text-gray-secondary rounded-md">
-            {"Select staffs ..."}
-          </div>
-        )}
+              );
+            })
+          ) : (
+            <div className="text-md-nl pl-2 p-1.5 text-gray-secondary rounded-md">{title}</div>
+          )}
+        </div>
+        <div className="flex items-center px-2">
+          {show ? <i className="fas fa-chevron-up"></i> : <i className="fas fa-chevron-down"></i>}
+        </div>
       </div>
       {show ? dropDownSelect(data) : null}
     </div>
   );
 };
-
 export default SelectList;

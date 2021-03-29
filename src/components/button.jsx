@@ -35,6 +35,13 @@ export default function Button({ onClick, name, color, isConfim = false }) {
           <div className="flex flex-row justify-between mt-2">
             <button
               className="px-3 py-2 text-sm-nl
+              bg-red-primary  rounded-lg text-white"
+              onClick={() => setShow(false)}
+            >
+              cancel
+            </button>
+            <button
+              className="px-3 py-2 text-sm-nl
               rounded-lg bg-blue-primary text-white"
               onClick={() => {
                 onClick();
@@ -42,13 +49,6 @@ export default function Button({ onClick, name, color, isConfim = false }) {
               }}
             >
               confim
-            </button>
-            <button
-              className="px-3 py-2 text-sm-nl
-              bg-red-primary  rounded-lg text-white"
-              onClick={() => setShow(false)}
-            >
-              cancel
             </button>
           </div>
         </div>

@@ -2,25 +2,26 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { getTable } from "../../../services/api";
 import * as PATH from "../../../constants/pathName";
 
 import { getAllStaffSevice } from "../staff.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_STAFF } from "../staff.constants";
+import { PATH_NAME, LIMIT_STAFF } from "../staff.constants";
 import Pagination from "../../../components/pagination";
+import { totalOfPage } from "utils/pagination";
 
 function TableStaff() {
   const listStaff = useSelector(state => state.staffs.data);
-  const { totalPage, total } = useSelector(state => state.staffs);
+  const { loading } = useSelector(state => state.staffs);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
   const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
+  const totalPage = totalOfPage(listStaff.length, LIMIT_STAFF);
 
   useEffect(() => {
-    const data = getTable(TABLE_NAME);
-    dispatch(getAllStaffSevice(data));
-  }, [total]);
+    dispatch(getAllStaffSevice());
+  }, [loading]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -40,10 +41,12 @@ function TableStaff() {
           </tr>
         </thead>
         <tbody className="shadow-md">
-          <tr className=" border-b border-gray-200 bg-gray-primary">
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-          </tr>
+          {listStaff.length ? (
+            <tr className=" border-b border-gray-200 bg-gray-primary">
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+            </tr>
+          ) : null}
           {getList().map((item, index) => (
             <tr
               key={index}

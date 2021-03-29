@@ -7,12 +7,10 @@ import { getDetail } from "services/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editProjectDetailSevice } from "../projects.services";
+import * as TABLE from "constants/table";
+import { getTable } from "services/api";
 
-import MultiSelectTechStack from "components/multi-select-tech-stack";
-import MultiSelectStaff from "components/multi-select-staff";
-import MultiSelectDepartment from "components/multi-select-department";
-import MultiSelectProjectType from "components/multi-select-project-type";
-import MultiSelectProjectStatus from "components/multi-select-project-status";
+import SelectList from "components/select-list";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
 
@@ -154,7 +152,13 @@ export default function EditProject() {
   const handleBack = () => {
     history.goBack();
   };
-
+  const data = {
+    staffs: getTable(TABLE.TABLE_STAFF) || [],
+    techStacks: getTable(TABLE.TABLE_TECH_STACK) || [],
+    departments: getTable(TABLE.TABLE_DEPARTMENT) || [],
+    projectTypes: getTable(TABLE.TABLE_PROJECT_TYPE) || [],
+    projectStatus: getTable(TABLE.TABLE_PROJECT_STATUS) || [],
+  };
   return (
     <div className="rounded-xl">
       <ButtonBack onClick={handleBack} />
@@ -180,9 +184,11 @@ export default function EditProject() {
             </div>
             <div className="flex-1 lg:ml-3">
               <label className="block">Status:</label>
-              <MultiSelectProjectStatus
-                valueData={projectStatus.value}
+              <SelectList
+                selectedData={projectStatus.value}
                 callBackData={handleChangeProjectStatus}
+                list={data.projectStatus}
+                title="Select project status ..."
               />
             </div>
           </div>
@@ -190,32 +196,43 @@ export default function EditProject() {
           <div className="flex lg:flex-row flex-col">
             <div className="flex-1 lg:mr-3">
               <label className="block">Tech stacks:</label>
-              <MultiSelectTechStack
-                valueData={techStack.value}
+              <SelectList
+                selectedData={techStack.value}
                 callBackData={handleChangeTechStack}
+                list={data.techStacks}
+                title="Select tech stacks ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
             </div>
             <div className="flex-1 lg:ml-3">
               <label className="block">Staffs:</label>
-              <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+              <SelectList
+                selectedData={staff.value}
+                callBackData={handleChangeStaff}
+                list={data.staffs}
+                title="Select staffs ..."
+              />
               <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
             </div>
           </div>
           <div className="flex lg:flex-row flex-col">
             <div className="flex-1 lg:mr-3">
               <label className="block">Departments:</label>
-              <MultiSelectDepartment
-                valueData={department.value}
+              <SelectList
+                selectedData={department.value}
                 callBackData={handleChangeDepartment}
+                list={data.departments}
+                title="Select departments ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{department.errorMessage}</div>
             </div>
             <div className="flex-1 lg:ml-3">
               <label className="block">Project types:</label>
-              <MultiSelectProjectType
-                valueData={projectType.value}
+              <SelectList
+                selectedData={projectType.value}
                 callBackData={handleChangeProjectType}
+                list={data.projectTypes}
+                title="Select project types ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{projectType.errorMessage}</div>
             </div>

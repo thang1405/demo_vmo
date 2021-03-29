@@ -6,12 +6,12 @@ import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editDepartmentDetailSevice } from "../departments.services";
 import { TABLE_NAME } from "../departments.constants";
-import MultiSelectTechStack from "components/multi-select-tech-stack";
-import MultiSelectProject from "components/multi-select-project";
-import MultiSelectStaff from "components/multi-select-staff";
+import SelectList from "components/select-list";
+
 import Button from "components/button";
-import { getDetail } from "services/api";
+import { getDetail, getTable } from "services/api";
 import ButtonBack from "components/button-back";
+import * as TABLE from "constants/table";
 
 export default function EditDepartment() {
   const { id } = useParams();
@@ -128,7 +128,11 @@ export default function EditDepartment() {
   const handleBack = () => {
     history.goBack();
   };
-
+  const data = {
+    staffs: getTable(TABLE.TABLE_STAFF) || [],
+    techStacks: getTable(TABLE.TABLE_TECH_STACK) || [],
+    projects: getTable(TABLE.TABLE_PROJECT) || [],
+  };
   return (
     <div className="rounded-xl">
       <ButtonBack onClick={handleBack} />
@@ -154,22 +158,34 @@ export default function EditDepartment() {
             </div>
             <div className="flex-1 lg:ml-3">
               <label className="block">Staffs:</label>
-              <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+              <SelectList
+                selectedData={staff.value}
+                callBackData={handleChangeStaff}
+                list={data.staffs}
+                title="Select staffs ..."
+              />
               <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
             </div>
           </div>
           <div className="flex lg:flex-row flex-col">
             <div className="flex-1 lg:mr-3">
               <label className="block">Tech stacks:</label>
-              <MultiSelectTechStack
-                valueData={techStack.value}
+              <SelectList
+                selectedData={techStack.value}
                 callBackData={handleChangeTechStack}
+                list={data.techStacks}
+                title="Select tech stacks ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
             </div>
             <div className="flex-1 lg:ml-3">
               <label className="block">Projects:</label>
-              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <SelectList
+                selectedData={project.value}
+                callBackData={handleChangeProject}
+                list={data.projects}
+                title="Select projects ..."
+              />
               <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
             </div>
           </div>

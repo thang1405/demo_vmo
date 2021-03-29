@@ -9,10 +9,10 @@ import {
 } from "./project-type.action";
 
 export const createProjectTypeSevice = newData => dispatch => {
-  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
-  data.push(newData);
-  setTable(TABLE_NAME, data);
+  const data = getTable(TABLE_NAME) || [];
   if (newData) {
+    data.push(newData);
+    setTable(TABLE_NAME, data);
     return dispatch(createProjectType(newData));
   }
 };

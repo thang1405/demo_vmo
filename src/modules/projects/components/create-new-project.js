@@ -4,13 +4,11 @@ import { useDispatch } from "react-redux";
 import { createProjectSevice } from "../projects.services";
 
 import Modal from "components/modal";
-import MultiSelectTechStack from "components/multi-select-tech-stack";
-import MultiSelectStaff from "components/multi-select-staff";
-import MultiSelectDepartment from "components/multi-select-department";
-import MultiSelectProjectType from "components/multi-select-project-type";
-import MultiSelectProjectStatus from "components/multi-select-project-status";
 import CreateButton from "components/create-button";
+import SelectList from "components/select-list";
 
+import * as TABLE from "constants/table";
+import { getTable } from "services/api";
 import { randomId } from "utils/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
@@ -156,6 +154,13 @@ const CreateNewProject = () => {
     }
   };
 
+  const data = {
+    staffs: getTable(TABLE.TABLE_STAFF) || [],
+    techStacks: getTable(TABLE.TABLE_TECH_STACK) || [],
+    departments: getTable(TABLE.TABLE_DEPARTMENT) || [],
+    projectTypes: getTable(TABLE.TABLE_PROJECT_TYPE) || [],
+    projectStatus: getTable(TABLE.TABLE_PROJECT_STATUS) || [],
+  };
   return (
     <div className="my-3 flex flex-row justify-end">
       <CreateButton onClick={() => setShow(true)} />
@@ -177,38 +182,51 @@ const CreateNewProject = () => {
               <div className="text-red-500 text-sm h-5 px-3">{name.errorMessage}</div>
             </div>
             <div className="w-1/2 lg:pl-3">
-              <MultiSelectProjectStatus
-                valueData={projectStatus.value}
+              <SelectList
+                selectedData={projectStatus.value}
                 callBackData={handleChangeProjectStatus}
+                list={data.projectStatus}
+                title="Select project status ..."
               />
             </div>
           </div>
 
           <div className="flex lg:flex-row flex-col">
             <div className="w-1/2 lg:pr-3">
-              <MultiSelectTechStack
-                valueData={techStack.value}
+              <SelectList
+                selectedData={techStack.value}
                 callBackData={handleChangeTechStack}
+                list={data.techStacks}
+                title="Select tech stacks ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
             </div>
             <div className="w-1/2 lg:pl-3">
-              <MultiSelectStaff valueData={staff.value} callBackData={handleChangeStaff} />
+              <SelectList
+                selectedData={staff.value}
+                callBackData={handleChangeStaff}
+                list={data.staffs}
+                title="Select staffs ..."
+              />
               <div className="text-red-500 text-sm h-5 px-3">{staff.errorMessage}</div>
             </div>
           </div>
           <div className="flex lg:flex-row flex-col">
             <div className="w-1/2 lg:pr-3">
-              <MultiSelectDepartment
-                valueData={department.value}
+              <SelectList
+                selectedData={department.value}
                 callBackData={handleChangeDepartment}
+                list={data.departments}
+                title="Select departments ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{department.errorMessage}</div>
             </div>
             <div className="w-1/2 lg:pl-3">
-              <MultiSelectProjectType
-                valueData={projectType.value}
+              <SelectList
+                selectedData={projectType.value}
                 callBackData={handleChangeProjectType}
+                list={data.projectTypes}
+                title="Select project types ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{projectType.errorMessage}</div>
             </div>

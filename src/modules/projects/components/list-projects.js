@@ -2,25 +2,26 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { getTable } from "../../../services/api";
 import { getAllProjectSevice } from "../projects.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_PROJECT } from "../projects.constants";
+import { PATH_NAME, LIMIT_PROJECT } from "../projects.constants";
 import * as PATH from "../../../constants/pathName";
+import { totalOfPage } from "utils/pagination";
 
 import Pagination from "../../../components/pagination";
 
 function ListProject() {
   const listProject = useSelector(state => state.projects.data);
-  const { totalPage, total } = useSelector(state => state.projects);
+  const { loading } = useSelector(state => state.projects);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
   const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
+  const totalPage = totalOfPage(listProject.length, LIMIT_PROJECT);
 
   useEffect(() => {
-    const data = getTable(TABLE_NAME);
-    dispatch(getAllProjectSevice(data));
-  }, [total]);
+    dispatch(getAllProjectSevice());
+  }, [loading]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -40,10 +41,12 @@ function ListProject() {
           </tr>
         </thead>
         <tbody className="shadow-md">
-          <tr className=" border-b border-gray-200 bg-gray-primary">
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-          </tr>
+          {listProject.length ? (
+            <tr className=" border-b border-gray-200 bg-gray-primary">
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+            </tr>
+          ) : null}
           {getList().map((item, index) => (
             <tr
               key={index}

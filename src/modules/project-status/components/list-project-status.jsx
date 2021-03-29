@@ -1,27 +1,28 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getTable } from "services/api";
 
 import { getAllProjectStatusSevice } from "../project-status.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_PROJECT_STATUS } from "../project-status.constants";
+import { PATH_NAME, LIMIT_PROJECT_STATUS } from "../project-status.constants";
 import * as PATH from "constants/pathName";
+import { totalOfPage } from "utils/pagination";
 
 import TagStatus from "components/tag-status";
 import Pagination from "components/pagination";
 
 function ListProjectStatus() {
   const listProjectStatus = useSelector(state => state.projectStatus.data);
-  const { totalPage, total } = useSelector(state => state.projectStatus);
+  const { loading } = useSelector(state => state.projectStatus);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
   const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
+  const totalPage = totalOfPage(listProjectStatus.length, LIMIT_PROJECT_STATUS);
 
   useEffect(() => {
-    const data = getTable(TABLE_NAME);
-    dispatch(getAllProjectStatusSevice(data));
-  }, [total]);
+    dispatch(getAllProjectStatusSevice());
+  }, [loading]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -42,11 +43,13 @@ function ListProjectStatus() {
           </tr>
         </thead>
         <tbody className="shadow-md">
-          <tr className=" border-b border-gray-200 bg-gray-primary">
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-          </tr>
+          {listProjectStatus.length ? (
+            <tr className=" border-b border-gray-200 bg-gray-primary">
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+            </tr>
+          ) : null}
           {getList().map((item, index) => (
             <tr
               key={index}

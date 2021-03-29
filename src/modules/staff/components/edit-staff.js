@@ -7,8 +7,10 @@ import { getDetail } from "services/api";
 import { validateInput } from "utils/validateInput";
 import { isValidSubmit } from "utils/submitForm";
 import { editStaffDetailSevice } from "../staff.services";
-import MultiSelectTechStack from "components/multi-select-tech-stack";
-import MultiSelectProject from "components/multi-select-project";
+import SelectList from "components/select-list";
+
+import * as TABLE from "constants/table";
+import { getTable } from "services/api";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
 
@@ -117,6 +119,7 @@ export default function EditStaff() {
   const handleBack = () => {
     history.goBack();
   };
+
   useEffect(() => {
     const detail = getDetail(TABLE_NAME, id);
     if (detail) {
@@ -128,6 +131,10 @@ export default function EditStaff() {
     }
   }, []);
 
+  const data = {
+    techStacks: getTable(TABLE.TABLE_TECH_STACK) || [],
+    projects: getTable(TABLE.TABLE_PROJECT) || [],
+  };
   return (
     <div className="rounded-xl">
       <ButtonBack onClick={handleBack} />
@@ -167,15 +174,22 @@ export default function EditStaff() {
           <div className="flex lg:flex-row flex-col">
             <div className="flex-1 lg:mr-3">
               <label className="block">Tech stacks:</label>
-              <MultiSelectTechStack
-                valueData={techStack.value}
+              <SelectList
+                selectedData={techStack.value}
                 callBackData={handleChangeTechStack}
+                list={data.techStacks}
+                title="Select tech stacks ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
             </div>
             <div className="flex-1 lg:ml-3">
               <label className="block">Projects:</label>
-              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <SelectList
+                selectedData={project.value}
+                callBackData={handleChangeProject}
+                list={data.projects}
+                title="Select projects ..."
+              />
               <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
             </div>
           </div>

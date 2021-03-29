@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import Modal from "components/modal";
-import MultiSelectTechStack from "components/multi-select-tech-stack";
-import MultiSelectProject from "components/multi-select-project";
+import SelectList from "components/select-list";
 
+import * as TABLE from "constants/table";
+import { getTable } from "services/api";
 import { createStaffSevice } from "../staff.services";
 import { randomId } from "utils/api";
 import { validateInput } from "utils/validateInput";
@@ -126,7 +127,10 @@ const CreateNewStaff = () => {
       onClose();
     }
   };
-
+  const data = {
+    techStacks: getTable(TABLE.TABLE_TECH_STACK) || [],
+    projects: getTable(TABLE.TABLE_PROJECT) || [],
+  };
   return (
     <div className="my-3 flex flex-row justify-end">
       <CreateButton onClick={() => setShow(true)} />
@@ -149,7 +153,7 @@ const CreateNewStaff = () => {
             </div>
             <div className=" w-1/2 lg:pl-3 ">
               <div className="flex flex-row items-center">
-                <div className="pr-3 ">Date of birth : </div>
+                <div className="pr-3 ">Date of birth: </div>
                 <input
                   className={`flex-1 p-2 border-2 my-1 h-11
                    border-gray-outline focus:outline-none 
@@ -169,13 +173,20 @@ const CreateNewStaff = () => {
 
           <div className="flex lg:flex-row flex-col">
             <div className="w-1/2 lg:pr-3">
-              <MultiSelectProject valueData={project.value} callBackData={handleChangeProject} />
+              <SelectList
+                selectedData={project.value}
+                callBackData={handleChangeProject}
+                list={data.projects}
+                title="Select projects ..."
+              />
               <div className="text-red-500 text-sm h-5 px-3">{project.errorMessage}</div>
             </div>
             <div className="w-1/2 lg:pr-3">
-              <MultiSelectTechStack
-                valueData={techStack.value}
+              <SelectList
+                selectedData={techStack.value}
                 callBackData={handleChangeTechStack}
+                list={data.techStacks}
+                title="Select tech stacks ..."
               />
               <div className="text-red-500 text-sm h-5 px-3">{techStack.errorMessage}</div>
             </div>

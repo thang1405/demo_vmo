@@ -9,19 +9,17 @@ import {
 } from "./customers.action";
 
 export const createCustomerSevice = newData => dispatch => {
-  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
-  data.push(newData);
-  setTable(TABLE_NAME, data);
+  const data = getTable(TABLE_NAME) || [];
   if (newData) {
+    data.push(newData);
+    setTable(TABLE_NAME, data);
     return dispatch(createCustomer(newData));
   }
 };
 
 export const getAllCustomerSevice = () => dispatch => {
-  const data = getTable(TABLE_NAME);
-  if (data) {
-    return dispatch(getAllCustomer(data));
-  }
+  const data = getTable(TABLE_NAME) || [];
+  return dispatch(getAllCustomer(data));
 };
 
 export const getCustomerDetailSevice = data => dispatch => {

@@ -45,7 +45,7 @@ export default function DetailProjectStatus() {
       <ButtonBack onClick={handleBack} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" border-b border-gray-bgTag flex justify-between">
-          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project status : {detail.name}</p>
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project status: {detail.name}</p>
 
           <div className="flex flex-row float-right justify-end  p-5">
             <Button onClick={handleDelete} name="Delete" color="red" isConfim={true} />
@@ -61,7 +61,7 @@ export default function DetailProjectStatus() {
           </div>
           <div className=" w-1/2">
             <div className="">
-              <label className=" text-sm font-normal text-gray-600 ">Status :</label>
+              <label className=" text-sm font-normal text-gray-600 ">Status:</label>
               <TagStatus value={detail.status} />
             </div>
           </div>

@@ -2,27 +2,28 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { getTable } from "../../../services/api";
 import { getAllProjectTypeSevice } from "../project-type.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_PROJECT_TYPE } from "../project-type.constants";
-import * as PATH from "../../../constants/pathName";
+import { PATH_NAME, LIMIT_PROJECT_TYPE } from "../project-type.constants";
+import * as PATH from "constants/pathName";
+import { totalOfPage } from "utils/pagination";
 
-import TagStatus from "../../../components/tag-status";
-import Pagination from "../../../components/pagination";
+import TagStatus from "components/tag-status";
+import Pagination from "components/pagination";
 
 function ListProjectType() {
   const listProjectType = useSelector(state => state.projectTypes.data);
-  const { totalPage, total } = useSelector(state => state.projectTypes);
+  const { loading } = useSelector(state => state.projectTypes);
 
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
   const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
+  const totalPage = totalOfPage(listProjectType.length, LIMIT_PROJECT_TYPE);
 
   useEffect(() => {
-    const data = getTable(TABLE_NAME);
-    dispatch(getAllProjectTypeSevice(data));
-  }, [total]);
+    dispatch(getAllProjectTypeSevice());
+  }, [loading]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -43,11 +44,13 @@ function ListProjectType() {
           </tr>
         </thead>
         <tbody className="shadow-md">
-          <tr className=" border-b border-gray-200 bg-gray-primary">
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-          </tr>
+          {listProjectType.length ? (
+            <tr className=" border-b border-gray-200 bg-gray-primary">
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+            </tr>
+          ) : null}
           {getList().map((item, index) => (
             <tr
               key={index}

@@ -9,19 +9,17 @@ import {
 } from "./tech-stack.action";
 
 export const createTechStackSevice = newData => dispatch => {
-  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
-  data.push(newData);
-  setTable(TABLE_NAME, data);
+  const data = getTable(TABLE_NAME) || [];
   if (newData) {
+    data.push(newData);
+    setTable(TABLE_NAME, data);
     return dispatch(createTechStack(newData));
   }
 };
 
 export const getAllTechStackSevice = () => dispatch => {
-  const data = getTable(TABLE_NAME);
-  if (data) {
-    return dispatch(getAllTechStack(data));
-  }
+  const data = getTable(TABLE_NAME) || [];
+  return dispatch(getAllTechStack(data));
 };
 
 export const getTechStackDetailSevice = data => dispatch => {

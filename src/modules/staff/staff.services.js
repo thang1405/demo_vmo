@@ -9,18 +9,17 @@ import {
 } from "./staff.action";
 
 export const createStaffSevice = newData => dispatch => {
-  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
-  data.push(newData);
-  setTable(TABLE_NAME, data);
+  const data = getTable(TABLE_NAME) || [];
   if (newData) {
+    data.push(newData);
+    setTable(TABLE_NAME, data);
     return dispatch(createStaff(newData));
   }
 };
 
-export const getAllStaffSevice = data => dispatch => {
-  if (data) {
-    return dispatch(getAllStaff(data));
-  }
+export const getAllStaffSevice = () => dispatch => {
+  const data = getTable(TABLE_NAME) || [];
+  return dispatch(getAllStaff(data));
 };
 
 export const getStaffDetailSevice = data => dispatch => {

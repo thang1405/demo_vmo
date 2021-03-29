@@ -2,26 +2,27 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { getTable } from "../../../services/api";
 import { getAllTechStackSevice } from "../tech-stack.services";
-import { TABLE_NAME, PATH_NAME, LIMIT_TECH_STACK } from "../tech-stack.constants";
+import { PATH_NAME, LIMIT_TECH_STACK } from "../tech-stack.constants";
 import * as PATH from "../../../constants/pathName";
 
 import TagStatus from "../../../components/tag-status";
 import Pagination from "../../../components/pagination";
+import { totalOfPage } from "utils/pagination";
 
 function ListTechStack() {
   const listTechStack = useSelector(state => state.techStacks.data);
-  const { totalPage, total } = useSelector(state => state.techStacks);
+  const { loading } = useSelector(state => state.techStacks);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
   const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
+  const totalPage = totalOfPage(listTechStack.length, LIMIT_TECH_STACK);
 
   useEffect(() => {
-    const data = getTable(TABLE_NAME);
-    dispatch(getAllTechStackSevice(data));
-  }, [total]);
+    dispatch(getAllTechStackSevice());
+  }, [loading]);
 
   const handleClick = item => {
     history.push(`${PATH_NAME}/${item.id}`);
@@ -41,11 +42,13 @@ function ListTechStack() {
           </tr>
         </thead>
         <tbody className="shadow-md">
-          <tr className=" border-b border-gray-200 bg-gray-primary">
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-          </tr>
+          {listTechStack.length ? (
+            <tr className=" border-b border-gray-200 bg-gray-primary">
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+            </tr>
+          ) : null}
           {getList().map((item, index) => (
             <tr
               key={index}

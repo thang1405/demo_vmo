@@ -9,20 +9,12 @@ import TagStatus from "components/tag-status";
 import Loader from "components/loader";
 import Button from "components/button";
 import ButtonBack from "components/button-back";
-import Toast from "components/toast";
 
 export default function DetailProjectType() {
   const { id } = useParams();
   const [detail, setDetail] = useState({});
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const [notification, setNotification] = useState({
-    show: false,
-    title: "",
-    message: "",
-    type: "",
-  });
 
   useEffect(() => {
     const data = getDetail(TABLE_NAME, id);
@@ -31,15 +23,7 @@ export default function DetailProjectType() {
 
   const handleDelete = () => {
     dispatch(deleteProjectTypeSevice(id));
-    setNotification({
-      show: true,
-      title: "Success",
-      message: "Delete success, please wait",
-      type: "success",
-    });
-    setTimeout(() => {
-      history.replace(`/${PATH_NAME}`);
-    }, 3000);
+    history.replace(`/${PATH_NAME}`);
   };
 
   const handleEdit = () => {
@@ -57,10 +41,9 @@ export default function DetailProjectType() {
   return (
     <div className="rounded-xl">
       <ButtonBack onClick={handleBack} />
-      <Toast {...notification} onClose={() => setNotification({ ...notification, show: false })} />
       <div className="bg-white flex flex-col rounded-xl shadow">
         <div className=" border-b border-gray-bgTag flex justify-between">
-          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project type : {detail.name}</p>
+          <p className=" text-2xl font-medium p-5 px-8 uppercase">Project type: {detail.name}</p>
           <div className="flex flex-row float-right justify-end p-5">
             <Button onClick={handleDelete} name="Delete" color="red" isConfim={true} />
             <Button onClick={handleEdit} name="Edit" color="blue" />
@@ -77,7 +60,7 @@ export default function DetailProjectType() {
           </div>
           <div className="w-1/2">
             <div className="">
-              <label className=" text-sm font-normal text-gray-600">Status :</label>
+              <label className=" text-sm font-normal text-gray-600">Status:</label>
               <TagStatus value={detail.status} />
             </div>
           </div>

@@ -9,7 +9,7 @@ import {
 } from "./projects.action";
 
 export const createProjectSevice = newData => dispatch => {
-  const data = getTable(TABLE_NAME) ? getTable(TABLE_NAME) : [];
+  const data = getTable(TABLE_NAME) || [];
   data.push(newData);
   setTable(TABLE_NAME, data);
   if (newData) {
@@ -18,10 +18,8 @@ export const createProjectSevice = newData => dispatch => {
 };
 
 export const getAllProjectSevice = () => dispatch => {
-  const data = getTable(TABLE_NAME);
-  if (data) {
-    return dispatch(getAllProject(data));
-  }
+  const data = getTable(TABLE_NAME) || [];
+  return dispatch(getAllProject(data));
 };
 
 export const getProjectDetailSevice = data => dispatch => {

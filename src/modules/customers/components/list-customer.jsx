@@ -4,24 +4,27 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import { getAllCustomerSevice } from "../customers.services";
 
-import * as PATH from "../../../constants/pathName";
+import * as PATH from "constants/pathName";
 import { LIMIT_CUSTOMER } from "../customers.constants";
-import TagStatus from "../../../components/tag-status";
+import { totalOfPage } from "utils/pagination";
 
-import Pagination from "../../../components/pagination";
+import TagStatus from "components/tag-status";
+import Pagination from "components/pagination";
 
 function ListCustomer() {
   const listCustomer = useSelector(state => state.customers.data);
-  const { totalPage, total } = useSelector(state => state.customers);
+  const { loading } = useSelector(state => state.customers);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
   const page = JSON.parse(new URLSearchParams(location.search).get("page")) || 1;
+  const totalPage = totalOfPage(listCustomer.length, LIMIT_CUSTOMER);
 
   useEffect(() => {
     dispatch(getAllCustomerSevice());
-  }, [total]);
-
+  }, [loading]);
   const handleClick = item => {
     history.push(`${PATH.PATH_CUSTOMER}/${item.id}`);
   };
@@ -42,12 +45,14 @@ function ListCustomer() {
           </tr>
         </thead>
         <tbody className="shadow-md">
-          <tr className=" border-b border-gray-200 bg-gray-primary">
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-            <td className="p-1 px-4 "></td>
-          </tr>
+          {listCustomer.length ? (
+            <tr className=" border-b border-gray-200 bg-gray-primary">
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+              <td className="p-1 px-4 "></td>
+            </tr>
+          ) : null}
           {getList().map((item, index) => (
             <tr
               key={index}
