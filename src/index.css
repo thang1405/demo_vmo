@@ -1,7 +1,9 @@
-button:focus{
-  outline: none;
+.scroll_hidden::-webkit-scrollbar {
+  display: none;
 }
 
-input[type=submit]:focus{
-  outline: none;
-}
+/* Hide scrollbar for IE, Edge and Firefox */
+.scroll_hidden {
+-ms-overflow-style: none;  
+scrollbar-width: none;  
+}  

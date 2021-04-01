@@ -1,0 +1,18 @@
+export const GET_ALL_DEPARTMENT = "GET_ALL_DEPARTMENT";
+
+export const GET_DEPARTMENT_DETAIL = "GET_DEPARTMENT_DETAIL";
+
+export const CREATE_DEPARTMENT = "CREATE_DEPARTMENT";
+
+export const DELETE_DEPARTMENT = "DELETE_DEPARTMENT";
+
+export const EDIT_DEPARTMENT_DETAIL = "EDIT_DEPARTMENT_DETAIL";
+
+export const MOVE_TO_NEXT_PAGE = "MOVE_TO_NEXT_PAGE";
+export const MOVE_TO_PREVIOUS_PAGE = "MOVE_TO_PREVIOUS_PAGE";
+
+export const LIMIT_DEPARTMENT = 5;
+
+export const TABLE_NAME = "departments";
+
+export const PATH_NAME = "department";

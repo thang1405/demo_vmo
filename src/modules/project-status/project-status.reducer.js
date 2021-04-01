@@ -1,32 +1,22 @@
 import { produce } from "immer";
 import * as CONSTANTS from "./project-status.constants";
-import { setData } from "../../services/set-info";
+
 const initState = {
-  page: 1,
   data: [],
-  limit: CONSTANTS.LIMIT_PROJECT_STATUS,
+  loading: true,
 };
 
 export const projectStatusReducer = (state = initState, action) => {
   return produce(state, draft => {
     switch (action.type) {
-      case CONSTANTS.GET_INFO_ALL_PROJECT_STATUS_SUCCESS:
+      // get table
+      case CONSTANTS.GET_ALL_PROJECT_STATUS:
         draft.data = action.payload;
+        draft.loading = false;
         break;
-      case CONSTANTS.GET_INFO_PROJECT_STATUS_SUCCESS:
-        break;
-      case CONSTANTS.GET_INFO_PROJECT_STATUS_ERROR:
-        break;
-      case CONSTANTS.CREATE_PROJECT_STATUS_SUCCESS:
-        draft.data.push(action.payload);
-        setData(CONSTANTS.TABLE_NAME, draft.data);
-        break;
-      case CONSTANTS.CREATE_PROJECT_STATUS_ERROR:
-        console.log(action.error);
-        break;
-      case CONSTANTS.DELETE_PROJECT_STATUS_SUCCESS:
-        break;
-      case CONSTANTS.DELETE_PROJECT_STATUS_ERROR:
+      // create new
+      case CONSTANTS.CREATE_PROJECT_STATUS:
+        draft.loading = true;
         break;
       default:
         return state;

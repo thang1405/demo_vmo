@@ -1,60 +1,41 @@
 import * as CONSTANTS from "./customers.constants";
 
 // get info table
-export const getInfoAllCustomerSuccess = data => {
+export const getAllCustomer = data => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_CUSTOMER_SUCCESS,
+    type: CONSTANTS.GET_ALL_CUSTOMER,
     payload: data,
   };
 };
 
-export const getInfoAllCustomerError = error => {
+// get info detail
+export const getCustomerDetail = data => {
   return {
-    type: CONSTANTS.GET_INFO_ALL_CUSTOMER_ERROR,
-    error: error,
-  };
-};
-
-//get info detail
-export const getInfoCustomerSuccess = data => {
-  return {
-    type: CONSTANTS.GET_INFO_CUSTOMER_SUCCESS,
+    type: CONSTANTS.GET_CUSTOMER_DETAIL,
     payload: data,
-  };
-};
-
-export const getInfoCustomerError = error => {
-  return {
-    type: CONSTANTS.GET_INFO_CUSTOMER_ERROR,
-    error: error,
   };
 };
 
 // create new Customer
-export const createCustomerSuccess = data => {
+export const createCustomer = data => {
   return {
-    type: CONSTANTS.CREATE_CUSTOMER_SUCCESS,
+    type: CONSTANTS.CREATE_CUSTOMER,
     payload: data,
   };
 };
 
-export const createCustomerError = error => {
+// edit detail customer
+export const editCustomerDetail = data => {
   return {
-    type: CONSTANTS.CREATE_CUSTOMER_ERROR,
-    error: error,
-  };
-};
-// deleta Customer
-export const deleteCustomerSuccess = customerId => {
-  return {
-    type: CONSTANTS.DELETE_CUSTOMER_SUCCESS,
-    payload: customerId,
+    type: CONSTANTS.EDIT_CUSTOMER_DETAIL,
+    payload: data,
   };
 };
 
-export const deleteCustomerError = error => {
+// deleta Customer
+export const deleteCustomer = id => {
   return {
-    type: CONSTANTS.DELETE_CUSTOMER_SUCCESS,
-    payload: error,
+    type: CONSTANTS.DELETE_CUSTOMER,
+    payload: id,
   };
 };
